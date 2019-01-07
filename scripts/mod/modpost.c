@@ -27,6 +27,7 @@
 #include <xalloc.h>
 #include "modpost.h"
 #include "../../include/linux/license.h"
+#include "../../include/generated/uapi/linux/version.h"
 
 static bool module_enabled;
 /* Are we using CONFIG_MODVERSIONS? */
@@ -1983,6 +1984,12 @@ static void write_buf(struct buffer *b, const char *fname)
 	}
 }
 
+static void add_rhelversion(struct buffer *b, struct module *mod)
+{
+	buf_printf(b, "MODULE_INFO(rhelversion, \"%d.%d\");\n", RHEL_MAJOR,
+		   RHEL_MINOR);
+}
+
 static void write_if_changed(struct buffer *b, const char *fname)
 {
 	char *tmp;
@@ -2052,6 +2059,7 @@ static void write_mod_c_file(struct module *mod)
 	}
 
 	add_srcversion(&buf, mod);
+	add_rhelversion(&buf, mod);
 
 	ret = snprintf(fname, sizeof(fname), "%s.mod.c", mod->name);
 	if (ret >= sizeof(fname)) {
