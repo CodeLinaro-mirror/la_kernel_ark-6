@@ -130,6 +130,10 @@ Summary: The Linux kernel
 %global include_fedora %%SPECINCLUDE_FEDORA_FILES%%
 # Include RHEL files
 %global include_rhel %%SPECINCLUDE_RHEL_FILES%%
+# Include RT files
+%global include_rt %%SPECINCLUDE_RT_FILES%%
+# Include AUTO files
+%global include_auto %%SPECINCLUDE_AUTO_FILES%%
 # Provide Patchlist.changelog file
 %global patchlist_changelog %%SPECPATCHLIST_CHANGELOG%%
 # Set released_kernel to 1 when the upstream source tarball contains a
@@ -210,6 +214,10 @@ Summary: The Linux kernel
 %define with_paeonly   %{?_with_paeonly:      1} %{?!_with_paeonly:      0}
 # Only build the debug kernel (--with dbgonly):
 %define with_dbgonly   %{?_with_dbgonly:      1} %{?!_with_dbgonly:      0}
+# Only build the realtime kernel (--with rtonly):
+%define with_rtonly    %{?_with_rtonly:       1} %{?!_with_rtonly:       0}
+# Only build the automotive kernel (--with automotiveonly):
+%define with_automotiveonly    %{?_with_automotiveonly:       1} %{?!_with_automotiveonly:       0}
 # Control whether we perform a compat. check against published ABI.
 %define with_kabichk   %{?_without_kabichk:   0} %{?!_without_kabichk:   1}
 # Temporarily disable kabi checks until RC.
@@ -252,8 +260,16 @@ Summary: The Linux kernel
 # Want to build a vanilla kernel build without any non-upstream patches?
 %define with_vanilla %{?_with_vanilla: 1} %{?!_with_vanilla: 0}
 
+# special purpose variants
+
+# RHEL real-time kernel (PREEMPT_RT)
+%define with_realtime %{?_without_realtime: 0} %{?!_without_realtime: 1}
+
+# Automotive kernel
+%define with_automotive %{?_without_automotive: 0} %{?!_without_automotive: 1}
+
 %ifarch x86_64
-%define with_efiuki %{?_without_efiuki: 0} %{?!_without_efiuki: 1}
+%define with_efiuki 0
 %else
 %define with_efiuki 0
 %endif
@@ -272,6 +288,9 @@ Summary: The Linux kernel
 %define with_bpftool 0
 # selftests turns on bpftool
 %define with_selftests 0
+# No realtime or automotive fedora variants
+%define with_realtime 0
+%define with_automotive 0
 %endif
 
 %if %{with_verbose}
@@ -353,10 +372,18 @@ Summary: The Linux kernel
 %define with_pae 0
 %endif
 
+# RT kernel is only built on x86_64 and aarch64
+%ifnarch x86_64 aarch64
+%define with_realtime 0
+%define with_automotive 0
+%endif
+
 # if requested, only build base kernel
 %if %{with_baseonly}
 %define with_pae 0
 %define with_debug 0
+%define with_realtime 0
+%define with_automotive 0
 %define with_vdso_install 0
 %define with_perf 0
 %define with_tools 0
@@ -372,11 +399,15 @@ Summary: The Linux kernel
 %if %{with_paeonly}
 %define with_up 0
 %define with_debug 0
+%define with_realtime 0
+%define with_automotive 0
 %endif
 
 # if requested, only build debug kernel
 %if %{with_dbgonly}
 %define with_up 0
+%define with_realtime 0
+%define with_automotive 0
 %define with_vdso_install 0
 %define with_perf 0
 %define with_tools 0
@@ -386,6 +417,44 @@ Summary: The Linux kernel
 %define with_cross 0
 %define with_cross_headers 0
 %define with_ipaclones 0
+%endif
+
+# if requested, only build realtime kernel
+%if %{with_rtonly}
+%define with_realtime 1
+%define with_automotive 0
+%define with_up 0
+%define with_pae 0
+%define with_debug 0
+%define with_vdso_install 0
+%define with_perf 0
+%define with_tools 0
+%define with_bpftool 0
+%define with_kernel_abi_stablelists 0
+%define with_selftests 0
+%define with_cross 0
+%define with_cross_headers 0
+%define with_ipaclones 0
+%define with_headers 0
+%endif
+
+# if requested, only build automotive kernel
+%if %{with_rtonly}
+%define with_automotive 1
+%define with_realtime 0
+%define with_up 0
+%define with_pae 0
+%define with_debug 0
+%define with_vdso_install 0
+%define with_perf 0
+%define with_tools 0
+%define with_bpftool 0
+%define with_kernel_abi_stablelists 0
+%define with_selftests 0
+%define with_cross 0
+%define with_cross_headers 0
+%define with_ipaclones 0
+%define with_headers 0
 %endif
 
 # turn off kABI DUP check and DWARF-based check if kABI check is disabled
@@ -425,6 +494,8 @@ Summary: The Linux kernel
 # don't build noarch kernels or headers (duh)
 %ifarch noarch
 %define with_up 0
+%define with_realtime 0
+%define with_automotive 0
 %define with_headers 0
 %define with_cross_headers 0
 %define with_tools 0
@@ -526,7 +597,11 @@ Summary: The Linux kernel
 %if 0%{?fedora}
 %define nobuildarches i386
 %else
+%if %{with_realtime} || %{with_automotive}
+%define nobuildarches i386 i686 %{arm} ppc64le s390x
+%else
 %define nobuildarches i386 i686 %{arm}
+%endif
 %endif
 
 %ifarch %nobuildarches
@@ -535,6 +610,8 @@ Summary: The Linux kernel
 %define with_debug 0
 %define with_pae 0
 %define with_zfcpdump 0
+%define with_realtime 0
+%define with_automotive 0
 
 %define with_debuginfo 0
 %define with_perf 0
@@ -864,6 +941,18 @@ Source72: filter-s390x.sh.fedora
 Source73: filter-modules.sh.fedora
 %endif
 
+# realtime-specific files
+Source474: %{name}-aarch64-rt-rhel.config
+Source475: %{name}-aarch64-rt_debug-rhel.config
+Source476: %{name}-x86_64-rt-rhel.config
+Source477: %{name}-x86_64-rt_debug-rhel.config
+
+# automotive specific files
+Source491: %{name}-aarch64-auto-rhel.config
+Source492: %{name}-aarch64-auto_debug-rhel.config
+Source493: %{name}-x86_64-auto-rhel.config
+Source494: %{name}-x86_64-auto_debug-rhel.config
+
 Source75: partial-kgcov-snip.config
 Source80: generate_all_configs.sh
 Source81: process_configs.sh
@@ -874,6 +963,8 @@ Source84: mod-internal.list
 Source85: mod-partner.list
 
 Source86: dracut-virt.conf
+
+Source87: flavors
 
 Source100: rheldup3.x509
 Source101: rhelkpatch1.x509
@@ -892,6 +983,9 @@ Source213: Module.kabi_dup_x86_64
 
 Source300: kernel-abi-stablelists-%{kabiversion}.tar.bz2
 Source301: kernel-kabi-dw-%{kabiversion}.tar.bz2
+
+# RT specific virt module
+Source400: mod-kvm.list
 
 # Sources for kernel-tools
 Source2002: kvm_stat.logrotate
@@ -1375,10 +1469,31 @@ summary: kernel meta-package for the %{1} kernel\
 Requires: kernel-%{1}-core-uname-r = %{KVERREL}+%{1}\
 Requires: kernel-%{1}-modules-uname-r = %{KVERREL}+%{1}\
 Requires: kernel-%{1}-modules-core-uname-r = %{KVERREL}+%{1}\
+%if "%{1}" == "rt" || "%{1}" == "rt_debug"\
+Requires: realtime-setup\
+%endif\
 Provides: installonlypkg(kernel)\
 %description %{1}\
 The meta-package for the %{1} kernel\
 %{nil}
+
+%if %{with_realtime}
+#
+# this macro creates a kernel-rt-<subpackage>-kvm package
+# %%kernel_kvm_package <subpackage>
+#
+%define kernel_kvm_package() \
+%package %{?1:%{1}-}kvm\
+Summary: KVM modules for package kernel%{?1:-%{1}}\
+Group: System Environment/Kernel\
+Requires: kernel%{?1:-%{1}} = %{version}-%{release}\
+Provides: installonlypkg(kernel-module)\
+Provides: kernel%{?1:-%{1}}-kvm-%{_target_cpu} = %{version}-%{release}\
+AutoReq: no\
+%description -n kernel%{?1:-%{1}}-kvm\
+This package provides KVM modules for package kernel%{?1:-%{1}}.\
+%{nil}
+%endif
 
 #
 # This macro creates a kernel-<subpackage> and its -devel and -debuginfo too.
@@ -1410,6 +1525,9 @@ Requires: kernel-%{?1:%{1}-}-modules-core-uname-r = %{KVERREL}%{?1:+%{1}}\
 %endif\
 %{expand:%%kernel_debuginfo_package %{?1:%{1}}}\
 %endif\
+%if "%{1}" == "rt" || "%{1}" == "rt_debug"\
+%{expand:%%kernel_kvm_package %{?1:%{1}}} %{!?{-n}:%{1}}%{?{-n}:%{-n*}}}\
+%endif \
 %if %{with_efiuki}\
 %package %{?1:%{1}-}uki-virt\
 Summary: %{variant_summary} unified kernel image for virtual machines\
@@ -1446,6 +1564,22 @@ This package provides kernel modules for the %{?2:%{2} }kernel package for Red H
 
 # Now, each variant package.
 
+%if %{with_realtime}
+%define variant_summary The Linux kernel compiled with PREEMPT_RT
+%kernel_variant_package rt
+%description rt-core
+This package includes a version of the Linux kernel compiled with the
+PREEMPT_RT real-time preemption support
+%endif
+
+%if %{with_automotive}
+%define variant_summary The Linux kernel compiled with automotive configs
+%kernel_variant_package auto
+%description auto-core
+This package includes a version of the Linux kernel compiled with the
+both PREEMPT_RT and automotive configurations
+%endif
+
 %if %{with_pae}
 %define variant_summary The Linux kernel compiled for Cortex-A15
 %kernel_variant_package lpae
@@ -1479,6 +1613,35 @@ This variant of the kernel has numerous debugging options enabled.
 It should only be installed when trying to gather additional information
 on kernel bugs, as some of these options impact performance noticably.
 
+%if %{with_debug} && %{with_realtime}
+%define variant_summary The Linux PREEMPT_RT kernel compiled with extra debugging enabled
+%kernel_variant_package rt_debug
+%description rt_debug-core
+The kernel package contains the Linux kernel (vmlinuz), the core of any
+Linux operating system.  The kernel handles the basic functions
+of the operating system:  memory allocation, process allocation, device
+input and output, etc.
+
+This variant of the kernel has numerous debugging options enabled.
+It should only be installed when trying to gather additional information
+on kernel bugs, as some of these options impact performance noticably.
+%endif
+
+%if %{with_debug} && %{with_automotive}
+%define variant_summary The Linux Automotive kernel compiled with extra debugging enabled
+%kernel_variant_package auto_debug
+%description auto_debug-core
+The kernel package contains the Linux kernel (vmlinuz), the core of any
+Linux operating system.  The kernel handles the basic functions
+of the operating system:  memory allocation, process allocation, device
+input and output, etc.
+
+This variant of the kernel has numerous debugging options enabled.
+It should only be installed when trying to gather additional information
+on kernel bugs, as some of these options impact performance noticably.
+%endif
+
+%if %{with_up}
 # And finally the main -core package
 
 %define variant_summary The Linux kernel
@@ -1488,6 +1651,7 @@ The kernel package contains the Linux kernel (vmlinuz), the core of any
 Linux operating system.  The kernel handles the basic functions
 of the operating system: memory allocation, process allocation, device
 input and output, etc.
+%endif
 
 %if %{with_efiuki}
 %description debug-uki-virt
@@ -1572,6 +1736,12 @@ ApplyOptionalPatch linux-kernel-test.patch
 # END OF PATCH APPLICATIONS
 
 # Any further pre-build tree manipulations happen here.
+
+%if %{with_realtime} || %{with_automotive}
+# remove the localversion-rt file if it exists since
+# it messes with the uname output
+rm -f localversion-rt
+%endif
 
 chmod +x scripts/checkpatch.pl
 mv COPYING COPYING-%{specrpmversion}-%{release}
@@ -1772,6 +1942,8 @@ BuildKernel() {
     DoVDSO=$3
     Variant=$4
     InstallName=${5:-vmlinuz}
+
+    echo "BuildKernel: MakeTarget=$1, KernelImage=$2, DoVDSO=$3, Variant=$4, InstallName=$5"
 
     DoModules=1
     if [ "$Variant" = "zfcpdump" ]; then
@@ -2229,6 +2401,10 @@ BuildKernel() {
     # Identify modules in the kernel-modules-partner package
     %{SOURCE20} $RPM_BUILD_ROOT lib/modules/$KernelVer %{SOURCE85} partner
 %endif
+    if [[ "$Variant" == "rt" || "$Variant" == "rt_debug" ]]; then
+    # Identify modules in the kernel-rt-kvm package
+        %{SOURCE20} $RPM_BUILD_ROOT lib/modules/$KernelVer %{SOURCE400} kvm
+    fi
 
     #
     # Generate the kernel-core and kernel-modules files lists
@@ -2250,6 +2426,10 @@ BuildKernel() {
     # don't include anything going into kernel-modules-partner in the file lists
     xargs rm -rf < mod-partner.list
 %endif
+    if [[ "$Variant" == "rt" || "$Variant" == "rt_debug" ]]; then
+    	# don't include anything going into kernel-rt-kvm in the file lists
+	xargs rm -rf < mod-kvm.list
+    fi
 
     if [ $DoModules -eq 1 ]; then
 	# Find all the module files and filter them out into the core and
@@ -2343,6 +2523,9 @@ BuildKernel() {
     sed -e 's/^lib*/%dir \/lib/' %{?zipsed} $RPM_BUILD_ROOT/module-dirs.list > ../kernel${Variant:+-${Variant}}-modules-core.list
     sed -e 's/^lib*/\/lib/' %{?zipsed} $RPM_BUILD_ROOT/modules.list >> ../kernel${Variant:+-${Variant}}-modules-core.list
     sed -e 's/^lib*/\/lib/' %{?zipsed} $RPM_BUILD_ROOT/mod-extra.list >> ../kernel${Variant:+-${Variant}}-modules-extra.list
+    if [[ "$Variant" == "rt" || "$Variant" == "rt_debug" ]]; then
+    	sed -e 's/^lib*/\/lib/' %{?zipsed} $RPM_BUILD_ROOT/mod-kvm.list >> ../kernel${Variant:+-${Variant}}-kvm.list
+    fi
 
     # Cleanup
     rm -f $RPM_BUILD_ROOT/k-d.list
@@ -2353,6 +2536,9 @@ BuildKernel() {
 %if 0%{!?fedora:1}
     rm -f $RPM_BUILD_ROOT/mod-partner.list
 %endif
+    if [[ "$Variant" == "rt" || "$Variant" == "rt_debug" ]]; then
+    	rm -f $RPM_BUILD_ROOT/mod-kvm.list
+    fi
 
 %if %{signmodules}
     if [ $DoModules -eq 1 ]; then
@@ -2430,10 +2616,22 @@ mkdir -p $RPM_BUILD_ROOT/boot
 mkdir -p $RPM_BUILD_ROOT%{_libexecdir}
 
 cd linux-%{KVERREL}
+echo "Starting calls to BuildKernel. with_debug == %{with_debug}, primary_target == %{primary_target}"
 
 
 %if %{with_debug}
+%if %{with_realtime}
+echo "building rt_debug"
+BuildKernel %make_target %kernel_image %{_use_vdso} rt_debug
+%endif
+%if %{with_automotive}
+echo "building auto_debug"
+BuildKernel %make_target %kernel_image %{_use_vdso} auto_debug
+%endif
+%if %{with_up}
+echo "building main debug package"
 BuildKernel %make_target %kernel_image %{_use_vdso} debug
+%endif
 %endif
 
 %if %{with_zfcpdump}
@@ -2448,8 +2646,16 @@ BuildKernel %make_target %kernel_image %{use_vdso} lpae
 BuildKernel %make_target %kernel_image %{_use_vdso}
 %endif
 
-%ifnarch noarch i686
-%if !%{with_debug} && !%{with_zfcpdump} && !%{with_pae} && !%{with_up}
+%if %{with_realtime}
+BuildKernel %make_target %kernel_image %{_use_vdso} rt
+%endif
+
+%if %{with_automotive}
+BuildKernel %make_target %kernel_image %{_use_vdso} auto
+%endif
+
+%ifnarch noarch i686 %{nobuildarches}
+%if !%{with_debug} && !%{with_zfcpdump} && !%{with_pae} && !%{with_up} && !%{with_realtime} && !%{with_automotive}
 # If only building the user space tools, then initialize the build environment
 # and some variables so that the various userspace tools can be built.
 InitBuildVars
@@ -2597,7 +2803,14 @@ find Documentation -type d | xargs chmod u+w
        %{modsign_cmd} certs/signing_key.pem.sign+lpae certs/signing_key.x509.sign+lpae $RPM_BUILD_ROOT/lib/modules/%{KVERREL}+lpae/ \
     fi \
     if [ "%{with_debug}" -ne "0" ]; then \
-      %{modsign_cmd} certs/signing_key.pem.sign+debug certs/signing_key.x509.sign+debug $RPM_BUILD_ROOT/lib/modules/%{KVERREL}+debug/ \
+      if [ "%{with_realtime}" -ne "0" ]; then \
+        %{modsign_cmd} certs/signing_key.pem.sign+rt_debug certs/signing_key.x509.sign+rt_debug $RPM_BUILD_ROOT/lib/modules/%{KVERREL}+rt_debug/ \
+      else if [ "%{with_automotive}" -ne "0" ]; then \
+        %{modsign_cmd} certs/signing_key.pem.sign+auto_debug certs/signing_key.x509.sign+auto_debug $RPM_BUILD_ROOT/lib/modules/%{KVERREL}+auto_debug/ \
+      else \
+        %{modsign_cmd} certs/signing_key.pem.sign+debug certs/signing_key.x509.sign+debug $RPM_BUILD_ROOT/lib/modules/%{KVERREL}+debug/ \
+      fi \
+      fi \
     fi \
     if [ "%{with_up}" -ne "0" ]; then \
       %{modsign_cmd} certs/signing_key.pem.sign certs/signing_key.x509.sign $RPM_BUILD_ROOT/lib/modules/%{KVERREL}/ \
@@ -2618,7 +2831,7 @@ find Documentation -type d | xargs chmod u+w
 
 %if %{with_debuginfo}
 
-%ifnarch noarch
+%ifnarch noarch %{nobuildarches}
 %global __debug_package 1
 %files -f debugfiles.list debuginfo-common-%{_target_cpu}
 %endif
@@ -2980,6 +3193,21 @@ fi\
 /sbin/depmod -a %{KVERREL}%{?1:+%{1}}\
 %{nil}
 
+%if %{with_realtime}
+#
+# This macro defines a %%post script for a kernel*-kvm package.
+# It also defines a %%postun script that does the same thing.
+#	%%kernel_kvm_post [<subpackage>]
+#
+%define kernel_kvm_post() \
+%{expand:%%post %{?1:%{1}-}kvm}\
+/sbin/depmod -a %{KVERREL}%{?1:+%{1}}\
+%{nil}\
+%{expand:%%postun %{?1:%{1}-}kvm}\
+/sbin/depmod -a %{KVERREL}%{?1:+%{1}}\
+%{nil}
+%endif
+
 #
 # This macro defines a %%post script for a kernel*-modules package.
 # It also defines a %%postun script that does the same thing.
@@ -3097,8 +3325,10 @@ fi\
 %kernel_uki_virt_scripts
 %endif
 
+%if %{with_up}
 %kernel_variant_preun
 %kernel_variant_post -r kernel-smp
+%endif
 
 %if %{with_pae}
 %kernel_variant_preun lpae
@@ -3118,10 +3348,32 @@ fi\
 %kernel_variant_post -v zfcpdump
 %endif
 
+%if %{with_realtime}
+%kernel_variant_preun rt
+%kernel_variant_post -v rt -r (kernel|kernel-smp)
+%kernel_kvm_post rt
+%if %{with_debug}
+%kernel_variant_preun rt_debug
+%kernel_variant_post -v rt_debug
+%kernel_kvm_post rt_debug
+%endif
+%endif
+
+%if %{with_automotive}
+%kernel_variant_preun auto
+%kernel_variant_post -v auto -r (kernel|kernel-smp)
+%if %{with_debug}
+%kernel_variant_preun auto_debug
+%kernel_variant_post -v auto_debug
+%endif
+%endif
+
+%ifnarch noarch %{nobuildarches}
 if [ -x /sbin/ldconfig ]
 then
     /sbin/ldconfig -X || exit $?
 fi
+%endif
 
 ###
 ### file lists
@@ -3346,6 +3598,9 @@ fi
 %{expand:%%files %{?3:%{3}-}modules-partner}\
 /lib/modules/%{KVERREL}%{?3:+%{3}}/partner\
 %endif\
+%if "%{3}" == "rt" || "%{3}" == "rt_debug"\
+%{expand:%%files -f %{name}-%{?3:%{3}-}kvm.list %{?3:%{3}-}kvm}\
+%endif\
 %if %{with_debuginfo}\
 %ifnarch noarch\
 %{expand:%%files -f debuginfo%{?3}.list %{?3:%{3}-}debuginfo}\
@@ -3368,6 +3623,14 @@ fi
 %{nil}
 
 %kernel_variant_files %{_use_vdso} %{with_up}
+%if %{with_debug}
+%if %{with_realtime}
+%kernel_variant_files %{_use_vdso} %{with_debug} rt_debug
+%endif
+%if %{with_automotive}
+%kernel_variant_files %{_use_vdso} %{with_debug} auto_debug
+%endif
+%if %{with_up}
 %kernel_variant_files %{_use_vdso} %{with_debug} debug
 %if %{with_debug_meta}
 %files debug
@@ -3378,8 +3641,12 @@ fi
 %files debug-modules-core
 %files debug-modules-extra
 %endif
+%endif
+%endif
 %kernel_variant_files %{use_vdso} %{with_pae} lpae
 %kernel_variant_files %{_use_vdso} %{with_zfcpdump} zfcpdump
+%kernel_variant_files %{_use_vdso} %{with_realtime} rt
+%kernel_variant_files %{_use_vdso} %{with_automotive} auto
 
 %define kernel_variant_ipaclones(k:) \
 %if %{1}\
