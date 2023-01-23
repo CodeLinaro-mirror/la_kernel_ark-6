@@ -73,7 +73,7 @@ checkoptions()
 			if (NR==FNR) {
 				configs[b[1]]="is not set";
 			} else {
-				if (configs[b[1]] != "" && configs[b[1]] != "is not set")
+				if (configs[b[1]] != "is not set")
 					 print "Found # "b[1] " is not set, before generation, had " b[1] " " configs[b[1]] " after generation";
 			}
 		}
@@ -83,7 +83,7 @@ checkoptions()
 			if (NR==FNR) {
 				configs[a[1]]=a[2];
 			} else {
-				if (configs[a[1]] != "" && configs[a[1]] != a[2])
+				if (configs[a[1]] != a[2])
 					 print "Found "a[1]"="a[2]" before generation, had " a[1]"="configs[a[1]]" after generation";
 			}
 		}
