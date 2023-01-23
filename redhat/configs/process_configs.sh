@@ -74,7 +74,7 @@ checkoptions()
 				configs[b[1]]="is not set";
 			} else {
 				if (configs[b[1]] != "" && configs[b[1]] != "is not set")
-					 print "Found # "b[1] " is not set, after generation, had " b[1] " " configs[b[1]] " in Source tree";
+					 print "Found # "b[1] " is not set, before generation, had " b[1] " " configs[b[1]] " after generation";
 			}
 		}
 
@@ -84,10 +84,10 @@ checkoptions()
 				configs[a[1]]=a[2];
 			} else {
 				if (configs[a[1]] != "" && configs[a[1]] != a[2])
-					 print "Found "a[1]"="a[2]" after generation, had " a[1]"="configs[a[1]]" in Source tree";
+					 print "Found "a[1]"="a[2]" before generation, had " a[1]"="configs[a[1]]" after generation";
 			}
 		}
-	' "$1" "$2" > .mismatches"${count}"
+	' "$2" "$1" > .mismatches"${count}"
 
 	checkoptions_error=false
 	if test -s .mismatches"${count}"
