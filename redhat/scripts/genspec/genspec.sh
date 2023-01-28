@@ -4,12 +4,6 @@
 UPSTREAM=$(git rev-parse -q --verify origin/"${UPSTREAM_BRANCH}" || \
 	   git rev-parse -q --verify "${UPSTREAM_BRANCH}")
 
-# As debug kernels have gotten a bit slower over time, the forced debug
-# builds are going unused. We are no longer forcing debug builds only. 
-# Keep the option around for one off scratch builds though.
-# Two kernels are built, one with debug configuration and one without.
-SPECDEBUG_BUILDS_ENABLED=1
-
 if [ -n "$DISTLOCALVERSION" ]; then
 	SPECBUILDID=$(printf "%%define buildid %s" "$DISTLOCALVERSION")
 else
@@ -56,7 +50,6 @@ test -f "$SOURCES/$SPECFILE" &&
 	s/%%SPECBUILD%%/$SPECBUILD/
 	s/%%SPECRELEASE%%/$SPECRELEASE/
 	s/%%SPECRELEASED_KERNEL%%/$SPECRELEASED_KERNEL/
-	s/%%SPECDEBUG_BUILDS_ENABLED%%/$SPECDEBUG_BUILDS_ENABLED/
 	s/%%SPECINCLUDE_FEDORA_FILES%%/$SPECINCLUDE_FEDORA_FILES/
 	s/%%SPECINCLUDE_RHEL_FILES%%/$SPECINCLUDE_RHEL_FILES/
 	s/%%SPECPATCHLIST_CHANGELOG%%/$SPECPATCHLIST_CHANGELOG/
