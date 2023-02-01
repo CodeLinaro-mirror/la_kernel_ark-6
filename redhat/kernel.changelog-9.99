@@ -1,3 +1,12 @@
+* Wed Feb 01 2023 Augusto Caringi <acaringi@redhat.com> [6.1.9-0]
+- Add BugsFixed file with bz entries to be included in updates. (Justin M. Forbes)
+- x86/mm: Randomize per-cpu entry area (Peter Zijlstra)
+- Update self-test data to not expect debugbuildsenabled 0 (Justin M. Forbes)
+- Turn off forced debug builds (Justin M. Forbes)
+- Turn on debug builds for aarch64 Fedora (Justin M. Forbes)
+- Linux v6.1.9
+Resolves: 
+
 * Tue Jan 24 2023 Augusto Caringi <acaringi@redhat.com> [6.1.8-0]
 - Linux v6.1.8
 Resolves: 
