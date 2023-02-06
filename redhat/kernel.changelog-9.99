@@ -1,3 +1,7 @@
+* Mon Feb 06 2023 Augusto Caringi <acaringi@redhat.com> [6.1.10-0]
+- Linux v6.1.10
+Resolves: 
+
 * Wed Feb 01 2023 Augusto Caringi <acaringi@redhat.com> [6.1.9-0]
 - Add BugsFixed file with bz entries to be included in updates. (Justin M. Forbes)
 - x86/mm: Randomize per-cpu entry area (Peter Zijlstra)
