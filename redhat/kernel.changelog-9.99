@@ -1,3 +1,8 @@
+* Sat Mar 11 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.1.18-0]
+- Revert "wifi: cfg80211: Fix use after free for wext" (Justin M. Forbes)
+- Linux v6.1.18
+Resolves: 
+
 * Fri Mar 10 2023 Augusto Caringi <acaringi@redhat.com> [6.1.16-0]
 - Add new config option for 6.2.3 (Justin M. Forbes)
 - Linux v6.1.16
