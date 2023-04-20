@@ -24,9 +24,9 @@ x86_64=generic:generic-x86
 x86_64-debug=generic:generic-x86:debug:debug-x86
 x86_64-kgcov=generic:generic-x86:kgcov
 x86_64-rt=generic:generic-x86:rt-generic:rt-generic-x86
-x86_64-auto=generic:generic-x86:auto-generic:auto-generic-x86
+x86_64-automotive=generic:generic-x86:automotive-generic:automotive-generic-x86
 x86_64-rt_debug=generic:generic-x86:debug:debug-x86:rt-generic:rt-generic-x86:rt-debug:rt-debug-x86
-x86_64-auto_debug=generic:generic-x86:debug:debug-x86:auto-generic:auto-generic-x86:auto-debug:auto-debug-x86
+x86_64-automotive_debug=generic:generic-x86:debug:debug-x86:automotive-generic:automotive-generic-x86:automotive-debug:automotive-debug-x86
 
 # ppc64le
 ppc64le=generic:generic-powerpc
@@ -44,6 +44,6 @@ aarch64=generic:generic-arm:generic-arm-aarch64
 aarch64-debug=generic:generic-arm:generic-arm-aarch64:debug:debug-arm:debug-arm-aarch64
 aarch64-kgcov=generic:generic-arm:generic-arm-aarch64:kgcov
 aarch64-rt=generic:generic-arm:generic-arm-aarch64:rt-generic:rt-generic-arm:rt-generic-arm-aarch64
-aarch64-auto=generic:generic-arm:generic-arm-aarch64:auto-generic:auto-generic-arm:auto-generic-arm-aarch64
+aarch64-automotive=generic:generic-arm:generic-arm-aarch64:automotive-generic:automotive-generic-arm:automotive-generic-arm-aarch64
 aarch64-rt_debug=generic:generic-arm:generic-arm-aarch64:debug:debug-arm:debug-arm-aarch64:rt-generic:rt-generic-arm:rt-generic-arm-aarch64:rt-debug:rt-debug-arm:rt-debug-arm-aarch64
-aarch64-auto_debug=generic:generic-arm:generic-arm-aarch64:debug:debug-arm:debug-arm-aarch64:auto-generic:auto-generic-arm:auto-generic-arm-aarch64:auto-debug:auto-debug-arm:auto-debug-arm-aarch64
+aarch64-automotive_debug=generic:generic-arm:generic-arm-aarch64:debug:debug-arm:debug-arm-aarch64:automotive-generic:automotive-generic-arm:automotive-generic-arm-aarch64:automotive-debug:automotive-debug-arm:automotive-debug-arm-aarch64

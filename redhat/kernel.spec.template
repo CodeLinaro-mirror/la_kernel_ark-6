@@ -132,8 +132,8 @@ Summary: The Linux kernel
 %global include_rhel %%SPECINCLUDE_RHEL_FILES%%
 # Include RT files
 %global include_rt %%SPECINCLUDE_RT_FILES%%
-# Include AUTO files
-%global include_auto %%SPECINCLUDE_AUTO_FILES%%
+# Include AUTOMOTIVE files
+%global include_automotive %%SPECINCLUDE_AUTOMOTIVE_FILES%%
 # Provide Patchlist.changelog file
 %global patchlist_changelog %%SPECPATCHLIST_CHANGELOG%%
 # Set released_kernel to 1 when the upstream source tarball contains a
@@ -948,10 +948,10 @@ Source476: %{name}-x86_64-rt-rhel.config
 Source477: %{name}-x86_64-rt_debug-rhel.config
 
 # automotive specific files
-Source491: %{name}-aarch64-auto-rhel.config
-Source492: %{name}-aarch64-auto_debug-rhel.config
-Source493: %{name}-x86_64-auto-rhel.config
-Source494: %{name}-x86_64-auto_debug-rhel.config
+Source491: %{name}-aarch64-automotive-rhel.config
+Source492: %{name}-aarch64-automotive_debug-rhel.config
+Source493: %{name}-x86_64-automotive-rhel.config
+Source494: %{name}-x86_64-automotive_debug-rhel.config
 
 Source75: partial-kgcov-snip.config
 Source80: generate_all_configs.sh
@@ -1574,8 +1574,8 @@ PREEMPT_RT real-time preemption support
 
 %if %{with_automotive}
 %define variant_summary The Linux kernel compiled with automotive configs
-%kernel_variant_package auto
-%description auto-core
+%kernel_variant_package automotive
+%description automotive-core
 This package includes a version of the Linux kernel compiled with the
 both PREEMPT_RT and automotive configurations
 %endif
@@ -1629,8 +1629,8 @@ on kernel bugs, as some of these options impact performance noticably.
 
 %if %{with_debug} && %{with_automotive}
 %define variant_summary The Linux Automotive kernel compiled with extra debugging enabled
-%kernel_variant_package auto_debug
-%description auto_debug-core
+%kernel_variant_package automotive_debug
+%description automotive_debug-core
 The kernel package contains the Linux kernel (vmlinuz), the core of any
 Linux operating system.  The kernel handles the basic functions
 of the operating system:  memory allocation, process allocation, device
@@ -2625,8 +2625,8 @@ echo "building rt_debug"
 BuildKernel %make_target %kernel_image %{_use_vdso} rt_debug
 %endif
 %if %{with_automotive}
-echo "building auto_debug"
-BuildKernel %make_target %kernel_image %{_use_vdso} auto_debug
+echo "building automotive_debug"
+BuildKernel %make_target %kernel_image %{_use_vdso} automotive_debug
 %endif
 %if %{with_up}
 echo "building main debug package"
@@ -2651,7 +2651,7 @@ BuildKernel %make_target %kernel_image %{_use_vdso} rt
 %endif
 
 %if %{with_automotive}
-BuildKernel %make_target %kernel_image %{_use_vdso} auto
+BuildKernel %make_target %kernel_image %{_use_vdso} automotive
 %endif
 
 %ifnarch noarch i686 %{nobuildarches}
@@ -2806,7 +2806,7 @@ find Documentation -type d | xargs chmod u+w
       if [ "%{with_realtime}" -ne "0" ]; then \
         %{modsign_cmd} certs/signing_key.pem.sign+rt_debug certs/signing_key.x509.sign+rt_debug $RPM_BUILD_ROOT/lib/modules/%{KVERREL}+rt_debug/ \
       else if [ "%{with_automotive}" -ne "0" ]; then \
-        %{modsign_cmd} certs/signing_key.pem.sign+auto_debug certs/signing_key.x509.sign+auto_debug $RPM_BUILD_ROOT/lib/modules/%{KVERREL}+auto_debug/ \
+        %{modsign_cmd} certs/signing_key.pem.sign+automotive_debug certs/signing_key.x509.sign+automotive_debug $RPM_BUILD_ROOT/lib/modules/%{KVERREL}+automotive_debug/ \
       else \
         %{modsign_cmd} certs/signing_key.pem.sign+debug certs/signing_key.x509.sign+debug $RPM_BUILD_ROOT/lib/modules/%{KVERREL}+debug/ \
       fi \
@@ -3360,11 +3360,11 @@ fi\
 %endif
 
 %if %{with_automotive}
-%kernel_variant_preun auto
-%kernel_variant_post -v auto -r (kernel|kernel-smp)
+%kernel_variant_preun automotive
+%kernel_variant_post -v automotive -r (kernel|kernel-smp)
 %if %{with_debug}
-%kernel_variant_preun auto_debug
-%kernel_variant_post -v auto_debug
+%kernel_variant_preun automotive_debug
+%kernel_variant_post -v automotive_debug
 %endif
 %endif
 
@@ -3628,7 +3628,7 @@ fi
 %kernel_variant_files %{_use_vdso} %{with_debug} rt_debug
 %endif
 %if %{with_automotive}
-%kernel_variant_files %{_use_vdso} %{with_debug} auto_debug
+%kernel_variant_files %{_use_vdso} %{with_debug} automotive_debug
 %endif
 %if %{with_up}
 %kernel_variant_files %{_use_vdso} %{with_debug} debug
@@ -3646,7 +3646,7 @@ fi
 %kernel_variant_files %{use_vdso} %{with_pae} lpae
 %kernel_variant_files %{_use_vdso} %{with_zfcpdump} zfcpdump
 %kernel_variant_files %{_use_vdso} %{with_realtime} rt
-%kernel_variant_files %{_use_vdso} %{with_automotive} auto
+%kernel_variant_files %{_use_vdso} %{with_automotive} automotive
 
 %define kernel_variant_ipaclones(k:) \
 %if %{1}\
