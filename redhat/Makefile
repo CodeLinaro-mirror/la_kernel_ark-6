@@ -106,14 +106,14 @@ LOCVERFILE:=../localversion
 # create an empty localversion file if you don't want a local buildid
 ifneq ($(wildcard $(LOCVERFILE)),)
   DISTLOCALVERSION:=$(shell cat $(LOCVERFILE))
-  ifeq (,$(findstring s,$(MAKEFLAGS)))
+  ifeq (,$(findstring s,$(firstword -$(MAKEFLAGS))))
     $(info DISTLOCALVERSION is "$(DISTLOCALVERSION)". Update '$(shell dirname $(REDHAT))/localversion' to change.)
   endif
 else
   ifeq ($(DISTLOCALVERSION),)
     DISTLOCALVERSION:=.test
   endif
-  ifeq (,$(findstring s,$(MAKEFLAGS)))
+  ifeq (,$(findstring s,$(firstword -$(MAKEFLAGS))))
     $(info DISTLOCALVERSION is "$(DISTLOCALVERSION)".)
   endif
 endif
