@@ -1,3 +1,18 @@
+* Sun Apr 30 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.1-0]
+- Set up variables and scripts for Fedora stable (Justin M. Forbes)
+- remove invalid rhel io_uring config (Justin M. Forbes)
+- Turn E1000 back on (Justin M. Forbes)
+- Reset RHEL_RELEASE for the 6.4 cycle (Justin M. Forbes)
+- Fix up the RHEL configs for xtables and ipset (Justin M. Forbes)
+- ark: enable wifi on aarch64 (Íñigo Huguet)
+- fedora: wifi: hermes: disable 802.11b driver (Peter Robinson)
+- fedora: wifi: libertas: use the LIBERTAS_THINFIRM driver (Peter Robinson)
+- fedora: wifi: disable Zydas vendor (Peter Robinson)
+- redhat: fix python ValueError in error path of merge.py (Clark Williams)
+- fedora: arm: minor updates (Peter Robinson)
+- Linux v6.3.1
+Resolves: 
+
 * Mon Apr 24 2023 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.3.0-62]
 - Linux v6.3.0
 Resolves: 
