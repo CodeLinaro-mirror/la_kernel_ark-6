@@ -1,3 +1,8 @@
+* Wed May 17 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.3-0]
+- [PATCH] ALSA: hda/realtek: Add quirk for ThinkPad P1 Gen 6 (Mark Pearson) [2203317]
+- Linux v6.3.3
+Resolves: rhbz#2203317
+
 * Thu May 11 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.2-0]
 - redhat: configs: generic: x86: Disable CONFIG_VIDEO_OV2740 for x86 platform (Kate Hsuan)
 - Add BugsFixed for 6.3 (Justin M. Forbes)
