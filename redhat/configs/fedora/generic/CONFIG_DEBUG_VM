@@ -1,1 +1,1 @@
-# CONFIG_DEBUG_VM is not set
+CONFIG_DEBUG_VM=y
