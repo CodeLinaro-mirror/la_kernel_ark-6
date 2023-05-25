@@ -1,3 +1,12 @@
+* Thu May 25 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.4-0]
+- Revert "Turn off DEBUG_VM for non debug Fedora kernels" (Justin M. Forbes)
+- Turn off DEBUG_VM for non debug Fedora kernels (Justin M. Forbes)
+- Fix up some Fedora config items (Justin M. Forbes)
+- enable efifb for Nvidia (Justin M. Forbes)
+- Turn on NFT_CONNLIMIT for Fedora (Justin M. Forbes)
+- Linux v6.3.4
+Resolves: 
+
 * Wed May 17 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.3-0]
 - [PATCH] ALSA: hda/realtek: Add quirk for ThinkPad P1 Gen 6 (Mark Pearson) [2203317]
 - Linux v6.3.3
