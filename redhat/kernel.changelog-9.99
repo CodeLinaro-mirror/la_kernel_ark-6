@@ -1,3 +1,9 @@
+* Sat May 27 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.4-1]
+- Bump rhelver for build with xfs fix (Justin M. Forbes)
+- xfs: fix livelock in delayed allocation at ENOSPC (Dave Chinner)
+- Turn off some debug options found to impact performance (Justin M. Forbes)
+Resolves: 
+
 * Thu May 25 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.4-0]
 - Revert "Turn off DEBUG_VM for non debug Fedora kernels" (Justin M. Forbes)
 - Turn off DEBUG_VM for non debug Fedora kernels (Justin M. Forbes)
