@@ -1,3 +1,8 @@
+* Tue May 30 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.5-0]
+- Drop rhelver for 6.3.5 (Justin M. Forbes)
+- Linux v6.3.5
+Resolves: 
+
 * Sat May 27 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.4-1]
 - Bump rhelver for build with xfs fix (Justin M. Forbes)
 - xfs: fix livelock in delayed allocation at ENOSPC (Dave Chinner)
