@@ -1,3 +1,9 @@
+* Mon Jun 05 2023 Augusto Caringi <acaringi@redhat.com> [6.3.6-0]
+- Add the nvidia bug to BugsFixed (Justin M. Forbes)
+- drivers/firmware: skip simpledrm if nvidia-drm.modeset=1 is set (Javier Martinez Canillas)
+- Linux v6.3.6
+Resolves: 
+
 * Tue May 30 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.5-0]
 - Drop rhelver for 6.3.5 (Justin M. Forbes)
 - Linux v6.3.5
