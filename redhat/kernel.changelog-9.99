@@ -1,3 +1,9 @@
+* Fri Jun 09 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.7-0]
+- redhat/configs: Enable CONFIG_SC_GPUCC_8280XP for fedora (Andrew Halaney)
+- redhat/configs: Enable CONFIG_QCOM_IPCC for fedora (Andrew Halaney)
+- Linux v6.3.7
+Resolves: 
+
 * Mon Jun 05 2023 Augusto Caringi <acaringi@redhat.com> [6.3.6-0]
 - Add the nvidia bug to BugsFixed (Justin M. Forbes)
 - drivers/firmware: skip simpledrm if nvidia-drm.modeset=1 is set (Javier Martinez Canillas)
