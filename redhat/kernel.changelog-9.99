@@ -1,3 +1,9 @@
+* Wed Jun 14 2023 Augusto Caringi <acaringi@redhat.com> [6.3.8-0]
+- usb: typec: ucsi: Fix command cancellation (Heikki Krogerus)
+- Add a CVE to BugsFixed (Justin M. Forbes)
+- Linux v6.3.8
+Resolves: 
+
 * Fri Jun 09 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.3.7-0]
 - redhat/configs: Enable CONFIG_SC_GPUCC_8280XP for fedora (Andrew Halaney)
 - redhat/configs: Enable CONFIG_QCOM_IPCC for fedora (Andrew Halaney)
