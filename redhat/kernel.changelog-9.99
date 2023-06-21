@@ -1,3 +1,11 @@
+* Wed Jun 21 2023 Augusto Caringi <acaringi@redhat.com> [6.3.9-0]
+- Turn on CONFIG_RMNET for Fedora (Justin M. Forbes)
+- redhat/config: common: Enable CONFIG_GPIO_SIM for software development (Kate Hsuan)
+- Add the MT7922 Bluetooth bug to BugsFixed (Augusto Caringi)
+- Bluetooth: Add VID/PID 0489/e0e4 for MediaTek MT7922 (Meng Tang)
+- Linux v6.3.9
+Resolves: 
+
 * Wed Jun 14 2023 Augusto Caringi <acaringi@redhat.com> [6.3.8-0]
 - usb: typec: ucsi: Fix command cancellation (Heikki Krogerus)
 - Add a CVE to BugsFixed (Justin M. Forbes)
