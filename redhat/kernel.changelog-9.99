@@ -1,3 +1,9 @@
+* Wed Sep 06 2023 Augusto Caringi <acaringi@redhat.com> [6.4.15-0]
+- Add TPM bug to BugsFixed (Justin M. Forbes)
+- tpm: Enable hwrng only for Pluton on AMD CPUs (Jarkko Sakkinen)
+- Linux v6.4.15
+Resolves: 
+
 * Sat Sep 02 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.4.14-0]
 - Add bug fixed by 6.4.14 (Justin M. Forbes)
 - erofs: ensure that the post-EOF tails are all zeroed (Gao Xiang)
