@@ -16,6 +16,7 @@
 #include <linux/mmu_notifier.h>
 #include <asm/cputype.h>
 #include <asm/mmu.h>
+#include <asm/tlbbatch.h>
 
 /*
  * Raw TLBI operations.
