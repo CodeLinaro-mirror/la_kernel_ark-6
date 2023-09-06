@@ -38,6 +38,9 @@ workflow:
   only-os-build-schedule: &only-os-build-schedule
     if: $CI_COMMIT_BRANCH != "os-build" || $CI_PIPELINE_SOURCE != "schedule"
     when: never
+  only-test-os-build-schedule: &only-test-os-build-schedule
+    if: $CI_COMMIT_BRANCH != "test-os-build" || $CI_PIPELINE_SOURCE != "schedule"
+    when: never
   only-ark-latest-head: &only-ark-latest-head
     if: $CI_COMMIT_BRANCH != "ark-latest" || $CI_PIPELINE_SOURCE !~ /push|web/
     when: never
@@ -270,6 +273,19 @@ rawhide_release:
   rules:
     - *only-os-build-schedule
     - if: $RAWHIDE_RELEASE == "true"
+
+test_scheduled_job:
+  extends: .scheduled_setup
+  script:
+    - git checkout --track origin/ark-latest && git describe
+    - git checkout --track origin/ark-infra && git describe
+    # make sure we are on correct code base before running script
+    - git checkout test-os-build  && git describe
+    - sh -x redhat/scripts/ci/ark-create-release.sh
+  retry: 2
+  rules:
+    - *only-test-os-build-schedule
+    - if: $RAWHIDE_RELEASE == "testing"
 
 test_makefile:
   image: quay.io/fedora/fedora:rawhide
