@@ -1,3 +1,11 @@
+* Wed Sep 13 2023 Augusto Caringi <acaringi@redhat.com> [6.4.16-0]
+- Config change required for build (CONFIG_VIDEO_CAMERA_SENSOR) (Augusto Caringi)
+- Add nvme bug to BugsFixed for 6.4.16 (Justin M. Forbes)
+- Revert "misc: rtsx: judge ASPM Mode to set PETXCFG Reg" (Justin M. Forbes)
+- Fix RHeL config for 6.4.16 (Justin M. Forbes)
+- Linux v6.4.16
+Resolves: 
+
 * Wed Sep 06 2023 Augusto Caringi <acaringi@redhat.com> [6.4.15-0]
 - Add TPM bug to BugsFixed (Justin M. Forbes)
 - tpm: Enable hwrng only for Pluton on AMD CPUs (Jarkko Sakkinen)
