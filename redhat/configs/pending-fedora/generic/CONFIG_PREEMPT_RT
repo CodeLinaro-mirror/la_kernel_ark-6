@@ -1,0 +1,14 @@
+# Symbol: PREEMPT_RT [=n]
+# Type  : bool
+# Defined at kernel/Kconfig.preempt:76
+#   Prompt: Fully Preemptible Kernel (Real-Time)
+#   Depends on: <choice> && EXPERT [=y] && ARCH_SUPPORTS_RT [=y]
+#   Location:
+#     -> General setup
+#       -> Preemption Model (<choice> [=y])
+#         -> Fully Preemptible Kernel (Real-Time) (PREEMPT_RT [=n])
+# Selects: PREEMPTION [=y]
+# 
+# 
+# 
+# CONFIG_PREEMPT_RT is not set
