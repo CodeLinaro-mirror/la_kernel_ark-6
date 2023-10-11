@@ -1,3 +1,8 @@
+* Tue Oct 10 2023 Augusto Caringi <acaringi@redhat.com> [6.5.7-0]
+- common: aarch64: enable CONFIG_ARM64_ERRATUM_2966298 (Augusto Caringi)
+- Linux v6.5.7
+Resolves: 
+
 * Fri Oct 06 2023 Augusto Caringi <acaringi@redhat.com> [6.5.6-0]
 - power: supply: core: Use blocking_notifier_call_chain to avoid RCU complaint (Kai-Heng Feng)
 - Revert "Add linux-next specific files for 20231004" (Justin M. Forbes)
