@@ -1,3 +1,7 @@
+* Fri Oct 20 2023 Augusto Caringi <acaringi@redhat.com> [6.5.8-0]
+- Linux v6.5.8
+Resolves: 
+
 * Tue Oct 10 2023 Augusto Caringi <acaringi@redhat.com> [6.5.7-0]
 - common: aarch64: enable CONFIG_ARM64_ERRATUM_2966298 (Augusto Caringi)
 - Linux v6.5.7
