@@ -1,3 +1,7 @@
+* Thu Nov 02 2023 Justin M. Forbes <jforbes@fedoraproject.org> [6.5.10-0]
+- Linux v6.5.10
+Resolves: 
+
 * Wed Oct 25 2023 Augusto Caringi <acaringi@redhat.com> [6.5.9-0]
 - Updated Fedora configs (Justin M. Forbes)
 - Add UFSHCD bug to BugsFixed (Justin M. Forbes)
