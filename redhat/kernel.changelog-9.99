@@ -1,3 +1,8 @@
+* Thu Nov 23 2023 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.7.0-0.rc2.9b6de136b5f0.24]
+- Turn on USB_DWC3 for Fedora (rhbz 2250955) (Justin M. Forbes)
+- Linux v6.7.0-0.rc2.9b6de136b5f0
+Resolves: 
+
 * Wed Nov 22 2023 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.7.0-0.rc2.c2d5304e6c64.23]
 - redhat/configs: Move IOMMUFD to common (Alex Williamson)
 - redhat: Really remove cpupower files (Prarit Bhargava)
