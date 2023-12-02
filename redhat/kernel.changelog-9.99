@@ -1,3 +1,10 @@
+* Sat Dec 02 2023 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.7.0-0.rc3.815fb87b7530.33]
+- redhat: disable iptables-legacy compatibility layer (Florian Westphal)
+- redhat: disable dccp conntrack support (Florian Westphal)
+- configs: enable netfilter_netlink_hook in fedora too (Florian Westphal)
+- Linux v6.7.0-0.rc3.815fb87b7530
+Resolves: 
+
 * Fri Dec 01 2023 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.7.0-0.rc3.994d5c58e50e.32]
 - ext4: Mark mounting fs-verity filesystems as tech-preview (Alexander Larsson)
 - erofs: Add tech preview markers at mount (Alexander Larsson)
