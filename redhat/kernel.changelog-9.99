@@ -1,3 +1,7 @@
+* Sun Dec 03 2023 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.7.0-0.rc3.968f35f4ab1c.34]
+- Linux v6.7.0-0.rc3.968f35f4ab1c
+Resolves: 
+
 * Sat Dec 02 2023 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.7.0-0.rc3.815fb87b7530.33]
 - redhat: disable iptables-legacy compatibility layer (Florian Westphal)
 - redhat: disable dccp conntrack support (Florian Westphal)
