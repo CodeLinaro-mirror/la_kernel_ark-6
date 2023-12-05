@@ -1,3 +1,8 @@
+* Tue Dec 05 2023 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.7.0-0.rc4.bee0e7762ad2.36]
+- Add some initial Fedora stable branch script to redhat/scripts/fedora/ (Justin M. Forbes)
+- Linux v6.7.0-0.rc4.bee0e7762ad2
+Resolves: 
+
 * Mon Dec 04 2023 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.7.0-0.rc4.35]
 - Linux v6.7.0-0.rc4
 Resolves: 
