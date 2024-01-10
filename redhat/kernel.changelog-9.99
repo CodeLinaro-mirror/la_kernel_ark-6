@@ -1,3 +1,7 @@
+* Wed Jan 10 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc0.9f8413c4a66f.2]
+- Trim changelog after rebase (Justin M. Forbes)
+Resolves: 
+
 * Tue Jan 09 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc0.9f8413c4a66f.1]
 - Reset RHEL_RELEASE for 6.8 series (Justin M. Forbes)
 - common: cleanup MX3_IPU (Peter Robinson)
