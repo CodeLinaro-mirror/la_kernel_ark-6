@@ -1437,6 +1437,7 @@ static inline int security_locked_down(enum lockdown_reason what)
 static inline int security_lock_kernel_down(const char *where, enum lockdown_reason level)
 {
 	return 0;
+}
 static inline int lsm_fill_user_ctx(struct lsm_ctx __user *uctx,
 				    size_t *uctx_len, void *val, size_t val_len,
 				    u64 id, u64 flags)
