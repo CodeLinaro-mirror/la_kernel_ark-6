@@ -2753,12 +2753,6 @@ chmod +x tools/perf/check-headers.sh
 %{perf_make} DESTDIR=$RPM_BUILD_ROOT all
 %endif
 
-%if %{with_libperf}
-%global libperf_make \
-  %{__make} %{?make_opts} EXTRA_CFLAGS="${RPM_OPT_FLAGS}" LDFLAGS="%{__global_ldflags}" %{?cross_opts} -C tools/lib/perf V=1
-%{libperf_make} DESTDIR=$RPM_BUILD_ROOT
-%endif
-
 %global tools_make \
   CFLAGS="${RPM_OPT_FLAGS}" LDFLAGS="%{__global_ldflags}" %{make} %{?make_opts}
 
@@ -3041,7 +3035,10 @@ rm -rf %{buildroot}%{_libdir}/traceevent
 %endif
 
 %if %{with_libperf}
-%{libperf_make} DESTDIR=%{buildroot} prefix=%{_prefix} libdir=%{_libdir} install install_headers
+pushd tools/lib/perf
+%{tools_make} DESTDIR=%{buildroot} prefix=%{_prefix} libdir=%{_libdir} install install_headers
+rm -rf %{buildroot}%{_libdir}/libperf.a
+popd
 %endif
 
 %if %{with_tools}
