@@ -1,3 +1,9 @@
+* Fri Jan 26 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc1.ecb1b8288dc7.15]
+- redhat: configs: fedora: Enable sii902x bridge chip driver (Erico Nunes)
+- Enable CONFIG_TCP_CONG_ILLINOIS for RHEL (Davide Caratti)
+- Linux v6.8.0-0.rc1.ecb1b8288dc7
+Resolves: 
+
 * Thu Jan 25 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc1.6098d87eaf31.14]
 - redhat/Makefile: fix setup-source and document its caveat (Ondrej Mosnacek)
 - redhat/Makefile: fix race condition when making the KABI tarball (Ondrej Mosnacek)
