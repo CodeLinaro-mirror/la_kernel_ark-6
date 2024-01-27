@@ -1,3 +1,8 @@
+* Sat Jan 27 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc1.3a5879d495b2.16]
+- Revert "Merge branch 'fix-kabi-build-race' into 'os-build'" (Justin M. Forbes)
+- Linux v6.8.0-0.rc1.3a5879d495b2
+Resolves: 
+
 * Fri Jan 26 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc1.ecb1b8288dc7.15]
 - redhat: configs: fedora: Enable sii902x bridge chip driver (Erico Nunes)
 - Enable CONFIG_TCP_CONG_ILLINOIS for RHEL (Davide Caratti)
