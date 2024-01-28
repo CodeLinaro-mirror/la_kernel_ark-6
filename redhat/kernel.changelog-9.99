@@ -1,3 +1,7 @@
+* Sun Jan 28 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc1.8a696a29c690.17]
+- Linux v6.8.0-0.rc1.8a696a29c690
+Resolves: 
+
 * Sat Jan 27 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc1.3a5879d495b2.16]
 - Revert "Merge branch 'fix-kabi-build-race' into 'os-build'" (Justin M. Forbes)
 - Linux v6.8.0-0.rc1.3a5879d495b2
