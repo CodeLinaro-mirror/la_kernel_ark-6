@@ -1,3 +1,7 @@
+* Sun Feb 04 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc2.3f24fcdacd40.24]
+- Linux v6.8.0-0.rc2.3f24fcdacd40
+Resolves: 
+
 * Sat Feb 03 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc2.56897d51886f.23]
 - Add scaffolding to build the kernel-headers package for Fedora (Justin M. Forbes)
 - redhat/spec: use distro CFLAGS when building bootstrap bpftool (Artem Savkov)
