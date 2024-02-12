@@ -1,7 +1,16 @@
-* Mon Feb 12 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc4.34]
+* Mon Feb 12 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc4.716f4aaa7b48.35]
 - tools/rv: Fix Makefile compiler options for clang (Daniel Bristot de Oliveira)
 - tools/rtla: Fix Makefile compiler options for clang (Daniel Bristot de Oliveira)
 Resolves: 
+
+* Mon Feb 12 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc4.716f4aaa7b48.34]
+- spec: Set EXTRA_CXXFLAGS for perf demangle-cxx.o (Josh Stone) [2233269]
+- Flip values for FSCACHE and NETFS_SUPPORT to avoid mismatch (Justin M. Forbes)
+- Turn on SECURITY_DMESG_RESTRICT (Justin M. Forbes)
+- redhat: forward-port genlog.py updates from c9s (Jan Stancek)
+- arch/x86: mark x86_64-v1 and x86_64-v2 processors as deprecated (Prarit Bhargava)
+- Linux v6.8.0-0.rc4.716f4aaa7b48
+Resolves: rhbz#2233269
 
 * Mon Feb 12 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc4.33]
 - fedora: Enable more Renesas RZ platform drivers (Peter Robinson)
