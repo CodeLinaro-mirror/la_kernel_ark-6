@@ -1,3 +1,11 @@
+* Mon Feb 12 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc4.33]
+- fedora: Enable more Renesas RZ platform drivers (Peter Robinson)
+- fedora: a few aarch64 drivers and cleanups (Peter Robinson)
+- fedora: cavium nitrox cnn55xx (Peter Robinson)
+- Fix dist-get-buildreqs breakage around perl(ExtUtils::Embed) (Don Zickus)
+- Linux v6.8.0-0.rc4
+Resolves: 
+
 * Sun Feb 11 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc3.7521f258ea30.32]
 - Linux v6.8.0-0.rc3.7521f258ea30
 Resolves: 
