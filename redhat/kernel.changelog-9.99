@@ -1,3 +1,8 @@
+* Tue Feb 13 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc4.c664e16bb1ba.35]
+- redhat/configs: rhel wireless requests (Jose Ignacio Tornos Martinez)
+- Linux v6.8.0-0.rc4.c664e16bb1ba
+Resolves: 
+
 * Mon Feb 12 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc4.716f4aaa7b48.34]
 - spec: Set EXTRA_CXXFLAGS for perf demangle-cxx.o (Josh Stone) [2233269]
 - Flip values for FSCACHE and NETFS_SUPPORT to avoid mismatch (Justin M. Forbes)
