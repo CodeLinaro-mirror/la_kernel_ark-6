@@ -1,3 +1,7 @@
+* Sun Feb 18 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc4.c02197fc9076.40]
+- Linux v6.8.0-0.rc4.c02197fc9076
+Resolves: 
+
 * Sat Feb 17 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc4.c1ca10ceffbb.39]
 - Add xe to drm module filters (Justin M. Forbes)
 - Turn off the DRM_XE_KUNIT_TEST for Fedora (Justin M. Forbes)
