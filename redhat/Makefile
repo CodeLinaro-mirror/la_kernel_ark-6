@@ -331,9 +331,9 @@ endif
 TARFILE:=linux-$(SPECTARFILE_RELEASE).tar.xz
 TARBALL:=$(REDHAT)/$(TARFILE)
 
-KABI_TARBALL:=$(SOURCES)/kernel-abi-stablelists-$(SPECKABIVERSION).tar.xz
+KABI_TARBALL:=$(REDHAT)/kernel-abi-stablelists-$(SPECKABIVERSION).tar.xz
 KABIDW := $(REDHAT)/kabi-dwarf
-KABIDW_TARBALL:=$(SOURCES)/kernel-kabi-dw-$(SPECKABIVERSION).tar.xz
+KABIDW_TARBALL:=$(REDHAT)/kernel-kabi-dw-$(SPECKABIVERSION).tar.xz
 
 # Taken from tools/lib/bpf/Makefile
 SPECBPFTOOLVERSION:=$(shell \
@@ -574,10 +574,11 @@ dist-clean-configs:
 	@cd $(REDHAT)/configs; rm -f kernel-*.config kernel-*.config.orig kernel-*.config.tmp partial-*-snip.config
 
 dist-clean-sources:
+# Do not cleanup when creating self-test data
+ifndef RHSELFTESTDATA
 	@rm -f $(RPM)/SPECS/*
-	@for i in $(SOURCES)/*; do \
-		rm -f $$i; \
-	done;
+	@rm -f $(SOURCES)/*
+endif
 
 dist-clean-rpmdirs:
 	@for i in $(RPM)/{BUILD,SRPMS,RPMS,SPECS}/*; do \
@@ -586,6 +587,8 @@ dist-clean-rpmdirs:
 
 dist-clean: dist-clean-sources dist-clean-configs dist-clean-rpmdirs
 	@rm -f $(REDHAT)/linux-*.tar.xz
+	@rm -f $(REDHAT)/kernel-abi-stablelists-*.tar.xz
+	@rm -f $(REDHAT)/kernel-kabi-dw-*.tar.xz
 
 dist-stub-key:
 	@echo "Copying pre-generated keys";
@@ -601,7 +604,7 @@ $(TARBALL):
 	@scripts/create-tarball.sh
 
 .PHONY: $(KABI_TARBALL)
-$(KABI_TARBALL):
+$(KABI_TARBALL): dist-kabi
 	@(cd kabi && tar -cJf $(KABI_TARBALL) kabi-rhel$(RHEL_MAJOR)* kabi-current)
 
 .PHONY: $(KABIDW_TARBALL)
@@ -636,7 +639,11 @@ dist-get-buildreqs: setup-source
 		echo "PASS: All build dependencies found."; \
 	fi
 
-_setup-source: dist-git-version-check
+# IMPORTANT: All targets whose recipes read/modify files under $(SOURCES)
+# MUST depend on setup-source (at least indirectly). Otherwise such
+# recipes may be ordered before/in parallel with dist-clean-sources
+# (prerequisite of setup-source), which would then delete their results.
+setup-source: dist-clean-sources dist-git-version-check
 	@if [ ! -e $(REDHAT)/$(SPECFILE).template ]; then \
 		echo "Creating $(REDHAT)/$(SPECFILE).template as a copy of $(REDHAT)/kernel.spec.template"; \
 		cp $(REDHAT)/kernel.spec.template $(REDHAT)/$(SPECFILE).template; \
@@ -658,8 +665,6 @@ _setup-source: dist-git-version-check
 	@$(REDHAT)/scripts/genspec/genspec.sh
 	@cp $(SOURCES)/$(SPECFILE) $(SOURCES)/../SPECS/
 
-setup-source: dist-clean-sources _setup-source
-
 generate-testpatch-tmp:
 	@$(GIT) diff --no-renames HEAD ":(exclude,top).get_maintainer.conf" \
 		":(exclude,top).gitattributes" \
@@ -668,8 +673,9 @@ generate-testpatch-tmp:
 		":(exclude,top)Makefile.rhelver" \
 		":(exclude,top)redhat" > $(TESTPATCH).tmp
 
-sources-rh: $(TARBALL) generate-testpatch-tmp setup-source dist-configs-check
-	@cp -l $(TARBALL) $(SOURCES)/ || cp $(TARBALL) $(SOURCES)/
+sources-rh: $(TARBALL) $(KABI_TARBALL) $(KABIDW_TARBALL) generate-testpatch-tmp setup-source dist-configs-check
+	@cp -l $(TARBALL) $(KABI_TARBALL) $(KABIDW_TARBALL) $(SOURCES)/ || \
+		cp $(TARBALL) $(KABI_TARBALL) $(KABIDW_TARBALL) $(SOURCES)/
 	@touch $(TESTPATCH)
 	@diff $(TESTPATCH).tmp $(TESTPATCH) > /dev/null || \
 		echo "WARNING: There are uncommitted changes in your tree or the changes are not in sync with linux-kernel-test.patch.  Either commit the changes or run 'make dist-test-patch'"
@@ -712,11 +718,6 @@ sources-rh: $(TARBALL) generate-testpatch-tmp setup-source dist-configs-check
 		cp kabi/Module.kabi_$$KABIARCH $(SOURCES)/; \
 		cp kabi/Module.kabi_dup_$$KABIARCH $(SOURCES)/; \
 	done
-	@(cd kabi && tar -cJf $(KABI_TARBALL) kabi-rhel$(RHEL_MAJOR)* kabi-current)
-	@if [ ! -d $(KABIDW)/base ]; then \
-		mkdir -p $(KABIDW)/base; \
-	fi
-	@(cd kabi-dwarf && tar -cJf $(KABIDW_TARBALL) base run_kabi-dw.sh)
 
 dist-sources: dist-kabi dist-kabi-dup sources-rh
 
@@ -831,11 +832,6 @@ _dist-brew _dist-koji: _dist-%: dist-vr-check dist-srpm
 
 _distg-brew _distg-koji: _distg-%: dist-vr-check
 	$* $(BUILD_PROFILE) build $(BUILD_FLAGS) --scratch $(BUILD_TARGET) "$(RHGITURL)?redhat/koji#$(RHGITCOMMIT)"
-
-.PHONY: $(REDHAT)/rpm/SOURCES/$(SPECFILE)
-$(REDHAT)/rpm/SOURCES/$(SPECFILE):
-	@echo "dist-sources"
-	@$(MAKE) dist-sources
 
 dist-git-test: export RH_DIST_GIT_TEST="1"
 dist-git-test: dist-git
