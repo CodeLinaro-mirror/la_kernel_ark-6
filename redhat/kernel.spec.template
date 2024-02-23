@@ -3574,7 +3574,10 @@ fi\
 %{_docdir}/libperf/html/libperf-counting.html
 %{_docdir}/libperf/html/libperf-sampling.html
 
+%if %{with_debuginfo}
 %files -f libperf-debuginfo.list -n libperf-debuginfo
+%endif
+
 # with_libperf
 %endif
 
