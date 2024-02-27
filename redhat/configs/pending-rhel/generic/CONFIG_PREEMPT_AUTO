@@ -1,0 +1,15 @@
+# Symbol: PREEMPT_AUTO [=n]
+# Type  : bool
+# Defined at kernel/Kconfig.preempt:77
+#   Prompt: Automagic preemption mode with runtime tweaking support
+#   Depends on: <choice> && HAVE_PREEMPT_AUTO [=y]
+#   Location:
+#     -> General setup
+#       -> Preemption Model (<choice> [=y])
+#         -> Automagic preemption mode with runtime tweaking support (PREEMPT_AUTO [=n])
+# Selects: PREEMPT_BUILD_AUTO [=n]
+# 
+# 
+# 
+# Commit: 06fed2be822e (sched: define TIF_ALLOW_RESCHED)
+# CONFIG_PREEMPT_AUTO is not set
