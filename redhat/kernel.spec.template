@@ -207,7 +207,13 @@ Summary: The Linux kernel
 # kernel-64k (aarch64 kernel with 64K page_size)
 %define with_arm64_64k %{?_without_arm64_64k: 0} %{?!_without_arm64_64k: 1}
 # kernel-rt (x86_64 and aarch64 only PREEMPT_RT enabled kernel)
+%if 0%{?fedora}
+# Fedora is disabled by default
 %define with_realtime  %{?_with_realtime:     1} %{?!_with_realtime:     0}
+%else
+# ELN is enabled by default
+%define with_realtime  %{?_without_realtime:  0} %{?!_without_realtime:  1}
+%endif
 
 # Supported variants
 #            with_base with_debug    with_gcov
@@ -1787,7 +1793,7 @@ chmod +x scripts/checkpatch.pl
 mv COPYING COPYING-%{specrpmversion}-%{release}
 
 # on linux-next prevent scripts/setlocalversion from mucking with our version numbers
-rm -f localversion-next
+rm -f localversion-*
 
 # Mangle /usr/bin/python shebangs to /usr/bin/python3
 # Mangle all Python shebangs to be Python 3 explicitly
