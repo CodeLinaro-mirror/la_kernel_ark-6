@@ -1,3 +1,7 @@
+* Fri Mar 01 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc6.87adedeba51a.52]
+- Linux v6.8.0-0.rc6.87adedeba51a
+Resolves: 
+
 * Thu Feb 29 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc6.805d849d7c3c.51]
 - gitlab-ci: fix merge tree URL for gating pipelines (Michael Hofmann)
 - Revert "net: bump CONFIG_MAX_SKB_FRAGS to 45" (Marcelo Ricardo Leitner)
