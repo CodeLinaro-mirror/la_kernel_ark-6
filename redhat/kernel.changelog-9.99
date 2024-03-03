@@ -1,3 +1,8 @@
+* Sun Mar 03 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc6.04b8076df253.54]
+- redhat/configs: Disable CONFIG_INFINIBAND_VMWARE_PVRDMA (Kamal Heib)
+- Linux v6.8.0-0.rc6.04b8076df253
+Resolves: 
+
 * Sat Mar 02 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc6.5ad3cb0ed525.53]
 - Linux v6.8.0-0.rc6.5ad3cb0ed525
 Resolves: 
