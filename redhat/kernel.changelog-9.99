@@ -1,3 +1,7 @@
+* Thu Mar 07 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc7.67be068d31d4.59]
+- Linux v6.8.0-0.rc7.67be068d31d4
+Resolves: 
+
 * Thu Mar 07 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.8.0-0.rc7.58]
 - Fedora: enable Microchip and their useful drivers (Peter Robinson)
 - spec: suppress "set +x" output (Jan Stancek)
