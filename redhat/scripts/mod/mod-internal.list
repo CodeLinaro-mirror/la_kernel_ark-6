@@ -36,6 +36,7 @@ handshake-test
 hashtable_test
 hid-uclogic-test
 iio-test-format
+iio-test-gts
 iio-test-rescale
 input_test
 is_signed_type_kunit
@@ -54,6 +55,7 @@ mptcp_crypto_test
 mptcp_token_test
 mtty
 netdevsim
+of_test
 overflow_kunit
 pktgen
 property-entry-test
@@ -72,6 +74,8 @@ soc-topology-test
 soc-utils-test
 stackinit_kunit
 strcat_kunit
+string_kunit
+string_helpers_kunit
 strscpy_kunit
 sysctl-test
 test_bits
