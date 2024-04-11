@@ -692,11 +692,9 @@ sources-rh: $(TARBALL) $(KABI_TARBALL) $(KABIDW_TARBALL) generate-testpatch-tmp 
 		configs/$(SPECPACKAGE_NAME)-*.config \
 		configs/partial*.config \
 		scripts/gating/gating.yaml \
+		scripts/filtermods.py \
 		scripts/mod/mod-denylist.sh \
-		scripts/mod/mod-internal.list \
-		scripts/mod/mod-partner.list \
 		scripts/mod/mod-sign.sh \
-		scripts/mod/mod-kvm.list \
 		configs/flavors \
 		configs/generate_all_configs.sh \
 		configs/merge.py \
@@ -718,6 +716,11 @@ sources-rh: $(TARBALL) $(KABI_TARBALL) $(KABIDW_TARBALL) generate-testpatch-tmp 
 		cp kabi/Module.kabi_$$KABIARCH $(SOURCES)/; \
 		cp kabi/Module.kabi_dup_$$KABIARCH $(SOURCES)/; \
 	done
+	@find $(SOURCES)/ -name "*.yaml" -o -name "*.yaml.fedora" -o -name "*.yaml.rhel" | \
+		xargs -i{} $(REDHAT)/scripts/yamlsanity.py {}
+	@echo Sanity checking filtermods configs
+	@$(REDHAT)/scripts/filtermods.py -q sort -c $(SOURCES)/def_variants.yaml.fedora -d /dev/null
+	@$(REDHAT)/scripts/filtermods.py -q sort -c $(SOURCES)/def_variants.yaml.rhel -d /dev/null
 
 dist-sources: dist-kabi dist-kabi-dup sources-rh
 
