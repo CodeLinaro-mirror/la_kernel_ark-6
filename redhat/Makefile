@@ -707,12 +707,7 @@ sources-rh: $(TARBALL) $(KABI_TARBALL) $(KABIDW_TARBALL) generate-testpatch-tmp 
 		$(SOURCES)/
 	@cat $$(ls -1 $(SPECPACKAGE_NAME).changelog-* | sort -t '.' -k 3 -n -r) \
 		> $(SOURCES)/kernel.changelog
-	@if [ "$(RELEASED_KERNEL)" -ne 0 ]; then \
-		cp keys/redhatsecureboot{301,501,ca5,ca1}.cer $(SOURCES)/; \
-		cp keys/secureboot_{ppc,s390}.cer $(SOURCES)/; \
-	else \
-		cp keys/redhatsecureboot{003,401,ca2,ca4}.cer $(SOURCES)/; \
-	fi
+	cp keys/redhatsecureboot{501,ca5}.cer $(SOURCES)/;
 	@for KABIARCH in $(ARCH_LIST); do \
 		cp kabi/Module.kabi_$$KABIARCH $(SOURCES)/; \
 		cp kabi/Module.kabi_dup_$$KABIARCH $(SOURCES)/; \
