@@ -63,7 +63,7 @@
 #define CREATE_TRACE_POINTS
 #include <trace/events/module.h>
 
-#include <linux/rh_features.h>
+#include <linux/rh_flags.h>
 
 /*
  * Mutex protects:
@@ -3383,7 +3383,7 @@ void print_modules(void)
 	pr_cont("\n");
 
 #ifdef CONFIG_RHEL_DIFFERENCES
-	rh_print_used_features();
+	rh_print_flags();
 #endif
 }
 
