@@ -274,12 +274,12 @@ workflow:
     architectures: aarch64
 .eln_automotive:
   variables:
-    rpmbuild_with: automotiveonly base
+    rpmbuild_with: automotive base
     package_name: kernel-automotive
     architectures: x86_64 aarch64
 .eln_automotive_debug:
   variables:
-    rpmbuild_with: automotiveonly debug
+    rpmbuild_with: automotive debug
     package_name: kernel-automotive
     architectures: x86_64 aarch64
 
@@ -582,11 +582,11 @@ c10s_64k_debug_cki_gating:
 
 # automotive/c10s CI on os-build-automotive-devel
 c10s_automotive_merge_request:
-  extends: [.merge_request, .trigger_c10s, .no_tests, .merge_ark_latest, .os_build_automotive_devel_mr,
+  extends: [.merge_request, .trigger_c10s, .no_tests, .os_build_automotive_devel_mr,
             .eln_automotive]
 
 c10s_automotive_debug_merge_request:
-  extends: [.merge_request, .trigger_c10s, .no_tests, .merge_ark_latest, .os_build_automotive_devel_mr,
+  extends: [.merge_request, .trigger_c10s, .no_tests, .os_build_automotive_devel_mr,
             .eln_automotive_debug]
 
 # scheduled job
