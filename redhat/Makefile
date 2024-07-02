@@ -1,5 +1,7 @@
 include Makefile.variables
 
+# Dummy comment to test the patchlab email bridge
+#
 #
 # Deprecated variables
 #
