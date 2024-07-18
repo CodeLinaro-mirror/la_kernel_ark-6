@@ -1,5 +1,9 @@
-* Wed Jul 17 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc0.51835949dda3.5]
+* Thu Jul 18 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc0.b1bc554e009e.6]
 - fedora: disable CONFIG_DRM_WERROR (Patrick Talbert)
+Resolves: 
+
+* Thu Jul 18 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc0.b1bc554e009e.5]
+- Linux v6.11.0-0.rc0.b1bc554e009e
 Resolves: 
 
 * Wed Jul 17 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc0.51835949dda3.4]
