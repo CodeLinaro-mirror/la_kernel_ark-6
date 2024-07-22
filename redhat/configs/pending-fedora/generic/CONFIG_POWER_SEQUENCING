@@ -11,4 +11,4 @@
 # 
 # 
 # Commit: 249ebf3f65f8 (power: sequencing: implement the pwrseq core)
-# CONFIG_POWER_SEQUENCING is not set
+CONFIG_POWER_SEQUENCING=m
