@@ -55,6 +55,7 @@ get_upstream_version()
 	raw_version="$(git describe "$mergebase")"
 	version="$(git show "$branch":Makefile | sed -ne '/^VERSION\ =\ /{s///;p;q}')"
 	patchlevel="$(git show "$branch":Makefile | sed -ne '/^PATCHLEVEL\ =\ /{s///;p;q}')"
+	rhelrel="$(git show "$branch":Makefile.rhelver | sed -ne '/^RHEL_RELEASE\ =\ /{s///;p;q}')"
 	kver="${version}.${patchlevel}"
 
 	#-rc indicates no tricks necessary, return version
@@ -63,15 +64,27 @@ get_upstream_version()
 		return
 	fi
 
-	#if -gXXX is _not_ there, must be a GA release, use version
-	if ! echo "${raw_version}" | grep -q -- "-g"; then
-		echo "$kver"
+	#must be a post tag release with -g but not -rcX, IOW an rc0.
+	if echo "${raw_version}" | grep -q -- "-g"; then
+		#Add a 1 to the version number
+		echo "${version}.$((patchlevel + 1))"
 		return
 	fi
 
-	#must be a post tag release with -g but not -rcX, IOW an rc0.
-	#Add a 1 to the version number
-	echo "${version}.$((patchlevel + 1))"
+	#if -gXXX is _not_ there, must be a GA release, but there are 2 GA releases:
+	#pre-rebase and post-rebase.
+
+	#post-rebase resets the RHEL_RELEASE
+	#treat like the beginning of rc0 and bump version
+	#7 is arbituary and ties to a minimum of 7 RCs
+	if ((rhelrel < 7)); then
+		#Add a 1 to the version number
+		echo "${version}.$((patchlevel + 1))"
+		return
+	fi
+
+	#pre-rebase
+	echo "$kver"
 }
 
 # To handle missing branches, precalculate previous kernel versions to fetch
@@ -79,8 +92,8 @@ get_prev_version()
 {
 	version_str=$1
 
-	version="$(echo "$version_str" | cut -c1)"
-	patchlevel="$(echo "$version_str" | cut -c3)"
+	version="$(echo "$version_str" | cut -d'.' -f1)"
+	patchlevel="$(echo "$version_str" | cut -d'.' -f2)"
 
 	echo "${version}.$((patchlevel - 1))"
 }
@@ -93,12 +106,13 @@ OS_BUILD_VER_prev="$(get_prev_version "$OS_BUILD_VER")"
 # version number and existance.  We may have to trigger a rebase.
 
 # check latest upstream RT branch
+OS_BUILD_PREV_BASE_BRANCH="origin/archived-${OS_BUILD_VER_prev}"
 if git fetch -q "$UPSTREAM_RT_TREE_NAME" "linux-${OS_BUILD_VER}.y-rt"; then
 	UPSTREAM_RT_DEVEL_VER="${OS_BUILD_VER}"
 	OS_BUILD_BASE_BRANCH="os-build"
 elif git fetch -q "$UPSTREAM_RT_TREE_NAME" "linux-${OS_BUILD_VER_prev}.y-rt"; then
 	UPSTREAM_RT_DEVEL_VER="${OS_BUILD_VER_prev}"
-	OS_BUILD_BASE_BRANCH="kernel-${UPSTREAM_RT_DEVEL_VER}.0-0"
+	OS_BUILD_BASE_BRANCH="$OS_BUILD_PREV_BASE_BRANCH"
 else
 	die "Neither version ($OS_BUILD_VER, $OS_BUILD_VER_prev) in upstream tree: $UPSTREAM_RT_TREE_NAME"
 fi
@@ -127,20 +141,29 @@ if test "$UPSTREAM_RT_DEVEL_VER" != "$RT_DEVEL_VER" -o \
 	# then rebuild the current merge base as it isn't saved either
 	prev_branch="$(git rev-parse --abbrev-ref HEAD)"
 	temp_prev_branch="_temp_prev_rt_devel_$(date +%F)"
-	git branch -D "$temp_prev_branch" 2>/dev/null
+	git branch -D "$temp_prev_branch" 2>/dev/null || true
 	git fetch "$UPSTREAM_RT_TREE_NAME" "$UPSTREAM_RT_PREV_BRANCH"
-	git checkout -b "$temp_prev_branch" "kernel-${OS_BUILD_VER_prev}.0-0"
-	git merge "$UPSTREAM_RT_TREE_NAME/$UPSTREAM_RT_PREV_BRANCH"
+	git checkout -b "$temp_prev_branch" "$OS_BUILD_PREV_BASE_BRANCH"
+	msg="Merge branch $UPSTREAM_RT_TREE_NAME/$UPSTREAM_RT_PREV_BRANCH"
+	git merge -m "$msg" "$UPSTREAM_RT_TREE_NAME/$UPSTREAM_RT_PREV_BRANCH"
 
 	# create devel merge branch to base merge on.
 	temp_devel_branch="_temp_devel_rt_devel_$(date +%F)"
-	git branch -D "$temp_devel_branch" 2>/dev/null
+	git branch -D "$temp_devel_branch" 2>/dev/null || true
 	git checkout -b "$temp_devel_branch" "$OS_BUILD_BASE_BRANCH"
-	git merge "$UPSTREAM_RT_TREE_NAME/$UPSTREAM_RT_DEVEL_BRANCH"
+	msg="Merge branch $UPSTREAM_RT_TREE_NAME/$UPSTREAM_RT_DEVEL_BRANCH"
+	git merge -m "$msg" "$UPSTREAM_RT_TREE_NAME/$UPSTREAM_RT_DEVEL_BRANCH"
 
 	git checkout "$prev_branch"
         # do the git rebase --onto $temp_devel_branch $temp_prev_branch
-	prev_rt_branch="$(git rev-parse --abbrev-ref $RT_DEVEL_BRANCH)"
+	prev_rt_branch="$(git rev-parse $RT_DEVEL_BRANCH)"
+
+	# rt-devel branch AUTOMATIC config merges will conflict with
+	# os-build AUTOMATIC merges if -stable makes changes.  Filter them
+	# out and let them properly come in through os-build.
+	# The conflicts are in the text sections of pending-fedora/rhel
+	# configs.
+	export GIT_SEQUENCE_EDITOR="sed -i '/AUTOMATIC/d;/Remove rt pending/d'"
 	ark_git_rebase "$RT_DEVEL_BRANCH" "$temp_prev_branch" "$temp_devel_branch"
 
 	# use the pre-rebase rt-devel branch and the post-rebase rt-devel
@@ -148,6 +171,10 @@ if test "$UPSTREAM_RT_DEVEL_VER" != "$RT_DEVEL_VER" -o \
 	ark_git_rebase "$AUTOMOTIVE_DEVEL_BRANCH" "$prev_rt_branch" "$RT_DEVEL_BRANCH"
 	git branch -D "$temp_prev_branch"
 	git branch -D "$temp_devel_branch"
+	export -n "GIT_SEQUENCE_EDITOR"
+
+	# allow force git push
+	export ARK_REBASE="true"
 fi
 
 ## Build -rt-devel branch, generate pending-rhel configs
