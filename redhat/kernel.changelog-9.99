@@ -1,5 +1,12 @@
-* Mon Aug 05 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc2.23]
+* Tue Aug 06 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc2.b446a2dae984.24]
 - fedora: disable CONFIG_DRM_WERROR (Patrick Talbert)
+Resolves: 
+
+* Tue Aug 06 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc2.b446a2dae984.23]
+- redhat/configs: Disable gfs2 in rhel configs (Andrew Price)
+- redhat/uki_addons/virt: add common FIPS addon (Emanuele Giuseppe Esposito)
+- redhat/kernel.spec: add uki_addons to create UKI kernel cmdline addons (Emanuele Giuseppe Esposito)
+- Linux v6.11.0-0.rc2.b446a2dae984
 Resolves: 
 
 * Mon Aug 05 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc2.22]
