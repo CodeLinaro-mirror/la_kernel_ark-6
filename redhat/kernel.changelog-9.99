@@ -1,5 +1,9 @@
-* Tue Aug 20 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc4.6e4436539ae1.38]
+* Wed Aug 21 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc4.b311c1b497e5.39]
 - Add weakdep support to the kernel spec (Justin M. Forbes)
+Resolves: 
+
+* Wed Aug 21 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc4.b311c1b497e5.38]
+- Linux v6.11.0-0.rc4.b311c1b497e5
 Resolves: 
 
 * Tue Aug 20 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.11.0-0.rc4.6e4436539ae1.37]
