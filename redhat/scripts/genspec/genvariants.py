@@ -147,12 +147,16 @@ def variantuki(variants, specdata):
     for variant in variants:
         vname = variant["Name"]
         vukidata = (f'%if %{{with_{vname}}} && %{{with_debug}} && %{{with_efiuki}}\n'
-                    f'%description 16k-debug-uki-virt\n'
-                    f'Prebuilt {vname} debug unified kernel image for virtual machines.\n'
+                    f'%description {vname}-debug-uki-virt\n'
+                    f'Prebuilt {vname} debug unified kernel image for virtual machines.\n\n'
+                    f'%description {vname}-debug-uki-virt-addons\n'
+                    f'Prebuilt {vname} debug unified kernel image addons for virtual machines.\n'
                     f'%endif\n\n'
                     f'%if %{{with_{vname}_base}} && %{{with_efiuki}}\n'
                     f'%description {vname}-uki-virt\n'
-                    f'Prebuilt {vname} unified kernel image for virtual machines.\n'
+                    f'Prebuilt {vname} unified kernel image for virtual machines.\n\n'
+                    f'%description {vname}-uki-virt-addons\n'
+                    f'Prebuilt {vname} unified kernel image addons for virtual machines.\n'
                     f'%endif\n')
         specdata = specdata.replace("%%VARIANTUKI%%", vukidata + "\n%%VARIANTUKI%%")
     specdata = specdata.replace("%%VARIANTUKI%%", "")
