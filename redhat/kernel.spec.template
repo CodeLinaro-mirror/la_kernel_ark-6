@@ -449,6 +449,11 @@ Summary: The Linux kernel
 %define with_selftests 0
 %endif
 
+# bpftool needs debuginfo to work
+%if %{with_debuginfo} == 0
+%define with_bpftool 0
+%endif
+
 %ifnarch noarch
 %define with_kernel_abi_stablelists 0
 %endif
@@ -669,6 +674,9 @@ Provides: installonlypkg(kernel)
 BuildRequires: kmod, bash, coreutils, tar, git-core, which
 BuildRequires: bzip2, xz, findutils, m4, perl-interpreter, perl-Carp, perl-devel, perl-generators, make, diffutils, gawk, %compression
 BuildRequires: gcc, binutils, redhat-rpm-config, hmaccalc, bison, flex, gcc-c++
+%if 0%{?fedora}
+BuildRequires: rust, rust-src, bindgen
+%endif
 BuildRequires: net-tools, hostname, bc, elfutils-devel
 BuildRequires: dwarves
 BuildRequires: python3
@@ -2104,6 +2112,10 @@ InitBuildVars() {
     cp configs/x509.genkey certs/.
     %endif
 
+%if %{with_debuginfo} == 0
+    sed -i 's/^\(CONFIG_DEBUG_INFO.*\)=y/# \1 is not set/' .config
+%endif
+
     Arch=`head -1 .config | cut -b 3-`
     %{log_msg "InitBuildVars: USING ARCH=$Arch"}
 
@@ -2835,6 +2847,7 @@ BuildKernel() {
     # the F17 UsrMove feature.
     ln -sf $DevelDir $RPM_BUILD_ROOT/lib/modules/$KernelVer/build
 
+%if %{with_debuginfo}
     # Generate vmlinux.h and put it to kernel-devel path
     # zfcpdump build does not have btf anymore
     if [ "$Variant" != "zfcpdump" ]; then
@@ -2846,6 +2859,7 @@ BuildKernel() {
 
         tools/bpf/bpftool/bootstrap/bpftool btf dump file vmlinux format c > $RPM_BUILD_ROOT/$DevelDir/vmlinux.h
     fi
+%endif
 
     %{log_msg "Cleanup kernel-devel and kernel-debuginfo files"}
     # prune junk from kernel-devel
