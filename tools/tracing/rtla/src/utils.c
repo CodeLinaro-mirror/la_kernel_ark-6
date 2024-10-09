@@ -211,6 +211,7 @@ long parse_ns_duration(char *val)
 /*
  * This is a set of helper functions to use SCHED_DEADLINE.
  */
+#ifndef __NR_sched_setattr
 #ifdef __x86_64__
 # define __NR_sched_setattr	314
 # define __NR_sched_getattr	315
@@ -230,10 +231,11 @@ long parse_ns_duration(char *val)
 # define __NR_sched_setattr	345
 # define __NR_sched_getattr	346
 #endif
+#endif
 
 #define SCHED_DEADLINE		6
 
-static inline int sched_setattr(pid_t pid, const struct sched_attr *attr,
+static inline int rtla_sched_setattr(pid_t pid, const struct sched_attr *attr,
 				unsigned int flags) {
 	return syscall(__NR_sched_setattr, pid, attr, flags);
 }
@@ -243,7 +245,7 @@ int __set_sched_attr(int pid, struct sched_attr *attr)
 	int flags = 0;
 	int retval;
 
-	retval = sched_setattr(pid, attr, flags);
+	retval = rtla_sched_setattr(pid, attr, flags);
 	if (retval < 0) {
 		err_msg("Failed to set sched attributes to the pid %d: %s\n",
 			pid, strerror(errno));
