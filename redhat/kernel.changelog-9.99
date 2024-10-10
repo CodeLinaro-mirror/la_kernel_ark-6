@@ -1,3 +1,8 @@
+* Thu Oct 10 2024 Augusto Caringi <acaringi@redhat.com> [6.10.14-0]
+- Config updates for 6.11.3 (Justin M. Forbes)
+- Linux v6.10.14
+Resolves: 
+
 * Fri Oct 04 2024 Augusto Caringi <acaringi@redhat.com> [6.10.13-0]
 - Linux v6.10.13
 Resolves: 
