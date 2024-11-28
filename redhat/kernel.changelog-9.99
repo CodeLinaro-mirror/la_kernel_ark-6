@@ -1,5 +1,6 @@
-* Wed Nov 27 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc0.aaf20f870da0.11]
-- Partially revert "crypto: akcipher - Disable signing and decryption" (Jan Stancek)
+* Thu Nov 28 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc0.b86545e02e8c.11]
+- crypto: sig - Disable signing (Herbert Xu)
+- Linux v6.13.0-0.rc0.b86545e02e8c
 Resolves: 
 
 * Wed Nov 27 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc0.aaf20f870da0.10]
