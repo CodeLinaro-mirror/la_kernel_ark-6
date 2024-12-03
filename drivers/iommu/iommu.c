@@ -2212,7 +2212,7 @@ int iommu_group_replace_domain(struct iommu_group *group,
 	mutex_unlock(&group->mutex);
 	return ret;
 }
-EXPORT_SYMBOL_NS_GPL(iommu_group_replace_domain, IOMMUFD_INTERNAL);
+EXPORT_SYMBOL_NS_GPL(iommu_group_replace_domain, "IOMMUFD_INTERNAL");
 
 static int __iommu_device_set_domain(struct iommu_group *group,
 				     struct device *dev,
@@ -3504,7 +3504,7 @@ iommu_attach_handle_get(struct iommu_group *group, ioasid_t pasid, unsigned int 
 
 	return handle;
 }
-EXPORT_SYMBOL_NS_GPL(iommu_attach_handle_get, IOMMUFD_INTERNAL);
+EXPORT_SYMBOL_NS_GPL(iommu_attach_handle_get, "IOMMUFD_INTERNAL");
 
 /**
  * iommu_attach_group_handle - Attach an IOMMU domain to an IOMMU group
@@ -3544,7 +3544,7 @@ err_unlock:
 	mutex_unlock(&group->mutex);
 	return ret;
 }
-EXPORT_SYMBOL_NS_GPL(iommu_attach_group_handle, IOMMUFD_INTERNAL);
+EXPORT_SYMBOL_NS_GPL(iommu_attach_group_handle, "IOMMUFD_INTERNAL");
 
 /**
  * iommu_detach_group_handle - Detach an IOMMU domain from an IOMMU group
@@ -3562,7 +3562,7 @@ void iommu_detach_group_handle(struct iommu_domain *domain,
 	xa_erase(&group->pasid_array, IOMMU_NO_PASID);
 	mutex_unlock(&group->mutex);
 }
-EXPORT_SYMBOL_NS_GPL(iommu_detach_group_handle, IOMMUFD_INTERNAL);
+EXPORT_SYMBOL_NS_GPL(iommu_detach_group_handle, "IOMMUFD_INTERNAL");
 
 /**
  * iommu_replace_group_handle - replace the domain that a group is attached to
@@ -3608,4 +3608,4 @@ err_unlock:
 	mutex_unlock(&group->mutex);
 	return ret;
 }
-EXPORT_SYMBOL_NS_GPL(iommu_replace_group_handle, IOMMUFD_INTERNAL);
+EXPORT_SYMBOL_NS_GPL(iommu_replace_group_handle, "IOMMUFD_INTERNAL");
