@@ -1,3 +1,8 @@
+* Thu Dec 05 2024 Augusto Caringi <acaringi@redhat.com> [6.11.11-0]
+- Bluetooth: btusb: add Foxconn 0xe0fc for Qualcomm WCN785x (Mark Pearson) [2329005]
+- Linux v6.11.11
+Resolves: rhbz#2329005
+
 * Fri Nov 22 2024 Augusto Caringi <acaringi@redhat.com> [6.11.10-0]
 - Remove F39 from release_targets as we near EOL (Justin M. Forbes)
 - Linux v6.11.10
