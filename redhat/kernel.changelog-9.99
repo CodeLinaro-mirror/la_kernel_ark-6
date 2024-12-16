@@ -1,6 +1,11 @@
-* Sun Dec 15 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc2.2d8308bf5b67.28]
+* Mon Dec 16 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc3.29]
 - x86/insn_decoder_test: allow longer symbol-names (David Rheinsberg)
 - kernel.spec: update license field (Scott Weaver)
+Resolves: 
+
+* Mon Dec 16 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc3.28]
+- redhat/configs: automotive: disable CONFIG_NET_DROP_MONITOR (Davide Caratti)
+- Linux v6.13.0-0.rc3
 Resolves: 
 
 * Sun Dec 15 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc2.2d8308bf5b67.27]
