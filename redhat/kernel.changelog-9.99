@@ -1,6 +1,10 @@
-* Mon Dec 30 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc5.42]
+* Tue Dec 31 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc5.ccb98ccef0e5.43]
 - x86/insn_decoder_test: allow longer symbol-names (David Rheinsberg)
 - kernel.spec: update license field (Scott Weaver)
+Resolves: 
+
+* Tue Dec 31 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc5.ccb98ccef0e5.42]
+- Linux v6.13.0-0.rc5.ccb98ccef0e5
 Resolves: 
 
 * Mon Dec 30 2024 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc5.41]
