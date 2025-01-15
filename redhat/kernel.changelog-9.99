@@ -1,6 +1,13 @@
-* Tue Jan 14 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc7.c45323b7560e.56]
+* Wed Jan 15 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc7.619f0b6fad52.57]
+- Fix build with merged-sbin (Adam Williamson)
 - x86/insn_decoder_test: allow longer symbol-names (David Rheinsberg)
 - kernel.spec: update license field (Scott Weaver)
+Resolves: 
+
+* Wed Jan 15 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc7.619f0b6fad52.56]
+- redhat/configs: enable CONFIG_VFAT_FS as a module (Dorinda Bassey)
+- redhat: create 'debug' addon for UKI (Li Tian)
+- Linux v6.13.0-0.rc7.619f0b6fad52
 Resolves: 
 
 * Tue Jan 14 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.13.0-0.rc7.c45323b7560e.55]
