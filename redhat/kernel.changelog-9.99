@@ -1,3 +1,11 @@
+* Mon Feb 17 2025 Augusto Caringi <acaringi@redhat.com> [6.12.14-0]
+- redhat/configs: automotive: Set CONFIG_FSCACHE=y (Augusto Caringi)
+- CONFIG_CPUFREQ_DT_PLATDEV is bool now (Justin M. Forbes)
+- Add some bugs to BugsFixed for the 6.12.14 update (Justin M. Forbes)
+- efi,lockdown: fix kernel lockdown on Secure Boot (Ondrej Mosnacek) {CVE-2025-1272}
+- Linux v6.12.14
+Resolves: 
+
 * Sat Feb 08 2025 Justin M. Forbes <jforbes@fedoraproject.org> [6.12.13-0]
 - Config update for 6.12.13 (Justin M. Forbes)
 - media: ov08x40: Don't log ov08x40_check_hwcfg() errors twice (Hans de Goede)
