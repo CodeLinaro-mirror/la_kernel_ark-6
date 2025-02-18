@@ -1,3 +1,7 @@
+* Tue Feb 18 2025 Augusto Caringi <acaringi@redhat.com> [6.12.15-0]
+- Linux v6.12.15
+Resolves: 
+
 * Mon Feb 17 2025 Augusto Caringi <acaringi@redhat.com> [6.12.14-0]
 - redhat/configs: automotive: Set CONFIG_FSCACHE=y (Augusto Caringi)
 - CONFIG_CPUFREQ_DT_PLATDEV is bool now (Justin M. Forbes)
