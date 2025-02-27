@@ -765,7 +765,7 @@ BuildRequires: libnl3-devel
 %endif
 
 %if %{with_tools} && %{with_ynl}
-BuildRequires: python3-pyyaml python3-jsonschema python3-pip python3-setuptools
+BuildRequires: python3-pyyaml python3-jsonschema python3-pip python3-setuptools >= 61
 %endif
 
 %if %{with_tools} || %{signmodules} || %{signkernel}
@@ -3985,8 +3985,8 @@ fi\
 %files -f %{package_name}-tools-debuginfo.list -n %{package_name}-tools-debuginfo
 %endif
 
-%ifarch %{cpupowerarchs}
 %files -n %{package_name}-tools-libs
+%ifarch %{cpupowerarchs}
 %{_libdir}/libcpupower.so.1
 %{_libdir}/libcpupower.so.0.0.1
 %endif
