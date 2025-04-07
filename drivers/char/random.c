@@ -1376,7 +1376,7 @@ static void __cold try_to_generate_entropy(void)
 	}
 	mix_pool_bytes(&stack->entropy, sizeof(stack->entropy));
 
-	del_timer_sync(&stack->timer);
+	timer_delete_sync(&stack->timer);
 	destroy_timer_on_stack(&stack->timer);
 }
 
