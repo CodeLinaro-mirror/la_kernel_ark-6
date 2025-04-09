@@ -1,5 +1,11 @@
-* Tue Apr 08 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.15.0-0.rc1.15]
+* Wed Apr 09 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.15.0-0.rc1.16]
 - apply -Wno-error=unterminated-string-initialization temporarily (Thorsten Leemhuis)
+Resolves: 
+
+* Wed Apr 09 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.15.0-0.rc1.15]
+- redhat: remove kernel-ipaclones-internal package (Joe Lawrence)
+- redhat/kernel.spec.template: add net packetdrill selftests (Hangbin Liu)
+- redhat/kernel.spec.template: Build rtla with BPF sample collection (Tomas Glozar)
 Resolves: 
 
 * Tue Apr 08 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.15.0-0.rc1.14]
