@@ -248,7 +248,7 @@ Summary: The Linux kernel
 # Only build the debug variants (--with dbgonly):
 %define with_dbgonly   %{?_with_dbgonly:      1} %{?!_with_dbgonly:      0}
 # Only build the realtime kernel (--with rtonly):
-%define with_rtonly    %{?_with_rtonly:       1} %{?!_with_rtonly:       0}
+%define with_rtonly    %{?_with_rtonly:       0} %{?!_with_rtonly:       1}
 # Only build the automotive kernel (--with automotiveonly):%
 %define with_automotiveonly %{?_with_automotiveonly:       1} %{?!_with_automotiveonly:       0}
 # Control whether we perform a compat. check against published ABI.
