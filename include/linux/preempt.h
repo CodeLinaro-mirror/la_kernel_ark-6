@@ -189,15 +189,91 @@ static __always_inline unsigned char interrupt_context_level(void)
  */
 #define in_atomic_preempt_off() (preempt_count() != PREEMPT_DISABLE_OFFSET)
 
-#if defined(CONFIG_DEBUG_PREEMPT) || defined(CONFIG_TRACE_PREEMPT_TOGGLE)
+#if defined(CONFIG_DEBUG_PREEMPT) || defined(CONFIG_PREEMPT_TRACER)
 extern void preempt_count_add(int val);
 extern void preempt_count_sub(int val);
-#define preempt_count_dec_and_test() \
-	({ preempt_count_sub(1); should_resched(0); })
+#elif defined(CONFIG_TRACE_PREEMPT_TOGGLE)
+/*
+ * Place the tracepoint-defs.h include inside this #elif block to avoid
+ * a circular dependency on architectures where asm/irqflags.h includes
+ * linux/preempt.h (e.g. m68k):
+ *
+ * preempt.h <--------------------+
+ *  tracepoint-defs.h             |
+ *   static_key.h                 |
+ *    jump_label.h                |
+ *     atomic.h                   |
+ *      irqflags.h                |
+ *       asm/irqflags.h ----------+
+ */
+#include <linux/tracepoint-defs.h>
+
+/*
+ * Lightweight preempt tracepoint hooks.
+ *
+ * When only CONFIG_TRACE_PREEMPT_TOGGLE is set (without DEBUG_PREEMPT
+ * or PREEMPT_TRACER), provide inline versions of preempt_count_add/sub
+ * that check a static key before calling into the tracing path.  This
+ * keeps the hot-path cost to a single 2-byte NOP per callsite.
+ *
+ * __trace_preempt_on/off() are thin no-argument wrappers in
+ * trace_preemptirq.c that fire the tracepoint unconditionally — all
+ * filtering is done inline via __preempt_trace_enabled().
+ *
+ * __preempt_trace_enabled(type, val) checks two conditions:
+ *  1. The tracepoint static key is active (subscriber present).
+ *  2. preempt_count() == val, meaning this is the outermost
+ *     disable (count goes 0->val) or the last enable (count goes
+ *     val->0).  This preserves preempt_latency_start/stop semantics.
+ *
+ * preempt_count_dec_and_test() is a dedicated inline function rather
+ * than a macro calling preempt_count_sub(1) + should_resched(0).
+ * It calls __preempt_count_dec_and_test() directly, preserving the
+ * architecture's optimized decrement-and-test pattern.  A macro-based
+ * approach would break this by forcing a separate re-read of
+ * __preempt_count.
+ */
+extern void __trace_preempt_on(void);
+extern void __trace_preempt_off(void);
+
+DECLARE_TRACEPOINT(preempt_enable);
+DECLARE_TRACEPOINT(preempt_disable);
+
+#define __preempt_trace_enabled(type, val) \
+	(tracepoint_enabled(preempt_##type) && preempt_count() == (val))
+
+static __always_inline void preempt_count_add(int val)
+{
+	__preempt_count_add(val);
+
+	if (__preempt_trace_enabled(disable, val))
+		__trace_preempt_off();
+}
+
+static __always_inline void preempt_count_sub(int val)
+{
+	if (__preempt_trace_enabled(enable, val))
+		__trace_preempt_on();
+
+	__preempt_count_sub(val);
+}
+
+static __always_inline bool preempt_count_dec_and_test(void)
+{
+	if (__preempt_trace_enabled(enable, 1))
+		__trace_preempt_on();
+
+	return __preempt_count_dec_and_test();
+}
 #else
 #define preempt_count_add(val)	__preempt_count_add(val)
 #define preempt_count_sub(val)	__preempt_count_sub(val)
 #define preempt_count_dec_and_test() __preempt_count_dec_and_test()
+#endif
+
+#if defined(CONFIG_DEBUG_PREEMPT) || defined(CONFIG_PREEMPT_TRACER)
+#define preempt_count_dec_and_test() \
+	({ preempt_count_sub(1); should_resched(0); })
 #endif
 
 #define __preempt_count_inc() __preempt_count_add(1)
