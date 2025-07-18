@@ -1,5 +1,12 @@
-* Thu Jul 17 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.16.0-0.rc6.e2291551827f.54]
+* Fri Jul 18 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.16.0-0.rc6.6832a9317eee.55]
 - redhat/configs: clang_lto: disable CONFIG_FORTIFY_KUNIT_TEST (Scott Weaver)
+Resolves: 
+
+* Fri Jul 18 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.16.0-0.rc6.6832a9317eee.54]
+- kernel.spec: always provide kernel-devel-uname-r (Scott Weaver)
+- kernel.spec: always provide kernel (Scott Weaver)
+- kernel.spec: dynamically set provides/requires name (Scott Weaver)
+- Linux v6.16.0-0.rc6.6832a9317eee
 Resolves: 
 
 * Thu Jul 17 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.16.0-0.rc6.e2291551827f.53]
