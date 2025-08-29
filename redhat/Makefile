@@ -321,7 +321,12 @@ else
     else
       # This value is used by the dist[g]-targets.  Changing this value has significant
       # consequences for all of RHEL kernel engineering.
-      BUILD_TARGET:=rhel-$(RHEL_MAJOR)-newest-test-pesign
+      BUILD_TARGET:=rhel-$(RHEL_MAJOR).$(RHEL_MINOR)-test-pesign
+      ifeq ("$(ZSTREAM)", "yes")
+          ifneq ($(shell git tag -l RHEL-$(RHEL_MAJOR).$(RHEL_MINOR)),)
+              BUILD_TARGET:=rhel-$(RHEL_MAJOR).$(RHEL_MINOR)-z-test-pesign
+          endif
+      endif
     endif
   endif
   ifeq ("$(DIST)", ".eln")
@@ -778,6 +783,8 @@ sources-rh: $(TARBALL) $(KABI_TARBALL) $(KABIDW_TARBALL) generate-testpatch-tmp 
 		README.rst \
 		kernel-local \
 		kernel.sbat.template \
+		uki.sbat.template \
+		uki-addons.sbat.template \
 		dracut-virt.conf \
 		$(SOURCES)/
 	@changelog_glob="$(SPECPACKAGE_NAME).changelog-*"; \
