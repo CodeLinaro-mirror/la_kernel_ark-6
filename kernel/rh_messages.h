@@ -57,6 +57,8 @@ static const char *rh_deprecated_init_fns[] = {
 static const char *rh_unmaintained_drivers[] = {
 	"aacraid",
 	"af_key",
+	"ahci_seattle",
+	"ahci_xgene",
 	"arp_tables",
 	"bnx2",
 	"bnx2fc",
@@ -67,6 +69,7 @@ static const char *rh_unmaintained_drivers[] = {
 	"e1000",
 	"ebtables",
 	"hdlc_fr",
+	"hisi_sas_main",
 	"hpsa",
 	"ip6_tables",
 	"ip_set",
@@ -115,6 +118,9 @@ static const char *rh_unmaintained_init_fns[] = {
 	"bnx2x_init",
 	"bnx2fc_mod_init",
 	"bnx2i_mod_init",
+	"ahci_seattle_probe",
+	"xgene_ahci_probe",
+	"hisi_sas_init",
 	0     /* Terminating entry */
 };
 
@@ -144,6 +150,7 @@ static const struct pci_device_id rh_disabled_pci_devices[] = {
 	{ 0x9005, 0x0285, 0x1014, 0x0312 },
 	{ 0x9005, 0x0285, 0x1028, PCI_ANY_ID },
 	{ 0x9005, 0x0285, 0x1028, 0x0287 },
+	{ 0x9005, 0x0285, 0x1028, 0x0291 },
 	{ 0x9005, 0x0285, 0x103C, 0x3227 },
 	{ 0x9005, 0x0285, 0x17aa, PCI_ANY_ID },
 	{ 0x9005, 0x0285, 0x17aa, 0x0286 },
