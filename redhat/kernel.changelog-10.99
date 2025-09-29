@@ -1,4 +1,4 @@
-* Sun Sep 28 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.17.0-0.rc7.51a24b7deaae.62]
+* Mon Sep 29 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.17.0-63]
 - redhat: config: Enable USBIO modules (Hans de Goede)
 - i2c: Add Intel USBIO I2C driver (Israel Cepeda)
 - gpio: Add Intel USBIO GPIO driver (Israel Cepeda)
@@ -19,6 +19,10 @@
 - x86/kexec: Consolidate relocate_kernel() function parameters (Kai Huang)
 - arm64: dts: qcom: x1e80100-lenovo-yoga-slim7x: add Bluetooth support (Jens Glathe)
 - redhat/configs: clang_lto: disable CONFIG_FORTIFY_KUNIT_TEST (Scott Weaver)
+Resolves: 
+
+* Mon Sep 29 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.17.0-62]
+- Linux v6.17.0
 Resolves: 
 
 * Sun Sep 28 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.17.0-0.rc7.51a24b7deaae.61]
