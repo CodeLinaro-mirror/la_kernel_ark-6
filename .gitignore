@@ -191,7 +191,7 @@ filtermods.log
 !.gitlab-ci.yml
 
 # Clang's compilation database file
-/compile_commands.json
+compile_commands.json
 
 # Documentation toolchain
 sphinx_*/
