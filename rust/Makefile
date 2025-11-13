@@ -126,7 +126,7 @@ rustdoc-core: $(RUST_LIB_SRC)/core/src/lib.rs rustdoc-clean FORCE
 
 # Even if `rustdoc` targets are not kernel objects, they should still be
 # treated as such so that we pass the same flags. Otherwise, for instance,
-# `rustc` will complain about missing sanitizer flags causing an ABI mismatch.
+# `rustdoc` will complain about missing sanitizer flags causing an ABI mismatch.
 rustdoc-compiler_builtins: private is-kernel-object := y
 rustdoc-compiler_builtins: $(src)/compiler_builtins.rs rustdoc-core FORCE
 	+$(call if_changed,rustdoc)
