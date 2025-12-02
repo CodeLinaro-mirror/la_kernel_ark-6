@@ -782,8 +782,11 @@ BuildRequires: sparse
 %if %{with_perf}
 BuildRequires: zlib-devel binutils-devel newt-devel perl(ExtUtils::Embed) bison flex xz-devel
 BuildRequires: audit-libs-devel python3-setuptools
+BuildRequires: capstone-devel
+BuildRequires: elfutils-debuginfod-client-devel
 BuildRequires: java-devel
 BuildRequires: libbabeltrace-devel
+BuildRequires: libpfm-devel
 BuildRequires: libtraceevent-devel
 %ifnarch s390x
 BuildRequires: numactl-devel
@@ -829,7 +832,10 @@ BuildRequires: clang llvm-devel fuse-devel zlib-devel binutils-devel python3-doc
 %ifarch x86_64 riscv64
 BuildRequires: lld
 %endif
+BuildRequires: libasan-static
 BuildRequires: libcap-devel libcap-ng-devel rsync libmnl-devel libxml2-devel
+BuildRequires: liburing-devel
+BuildRequires: libubsan
 BuildRequires: numactl-devel
 BuildRequires: xxd
 %endif
