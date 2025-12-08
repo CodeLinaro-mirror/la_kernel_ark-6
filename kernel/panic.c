@@ -401,7 +401,7 @@ static void panic_trigger_all_cpu_backtrace(void)
  */
 static void panic_other_cpus_shutdown(bool crash_kexec)
 {
-	if (panic_print & SYS_INFO_ALL_CPU_BT)
+	if (panic_print & SYS_INFO_ALL_BT)
 		panic_trigger_all_cpu_backtrace();
 
 	/*
@@ -628,50 +628,52 @@ void panic(const char *fmt, ...)
 }
 EXPORT_SYMBOL(panic);
 
-#define TAINT_FLAG(taint, _c_true, _c_false, _module)			\
+#define TAINT_FLAG(taint, _c_true, _c_false)				\
 	[ TAINT_##taint ] = {						\
 		.c_true = _c_true, .c_false = _c_false,			\
-		.module = _module,					\
 		.desc = #taint,						\
 	}
 
 /*
- * TAINT_FORCED_RMMOD could be a per-module flag but the module
- * is being removed anyway.
+ * NOTE: if you modify the taint_flags or TAINT_FLAGS_COUNT,
+ * please also modify tools/debugging/kernel-chktaint and
+ * Documentation/admin-guide/tainted-kernels.rst, including its
+ * small shell script that prints the TAINT_FLAGS_COUNT bits of
+ * /proc/sys/kernel/tainted.
  */
 const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
-	TAINT_FLAG(PROPRIETARY_MODULE,		'P', 'G', true),
-	TAINT_FLAG(FORCED_MODULE,		'F', ' ', true),
-	TAINT_FLAG(CPU_OUT_OF_SPEC,		'S', ' ', false),
-	TAINT_FLAG(FORCED_RMMOD,		'R', ' ', false),
-	TAINT_FLAG(MACHINE_CHECK,		'M', ' ', false),
-	TAINT_FLAG(BAD_PAGE,			'B', ' ', false),
-	TAINT_FLAG(USER,			'U', ' ', false),
-	TAINT_FLAG(DIE,				'D', ' ', false),
-	TAINT_FLAG(OVERRIDDEN_ACPI_TABLE,	'A', ' ', false),
-	TAINT_FLAG(WARN,			'W', ' ', false),
-	TAINT_FLAG(CRAP,			'C', ' ', true),
-	TAINT_FLAG(FIRMWARE_WORKAROUND,		'I', ' ', false),
-	TAINT_FLAG(OOT_MODULE,			'O', ' ', true),
-	TAINT_FLAG(UNSIGNED_MODULE,		'E', ' ', true),
-	TAINT_FLAG(SOFTLOCKUP,			'L', ' ', false),
-	TAINT_FLAG(LIVEPATCH,			'K', ' ', true),
-	TAINT_FLAG(AUX,				'X', ' ', true),
-	TAINT_FLAG(RANDSTRUCT,			'T', ' ', true),
-	TAINT_FLAG(TEST,			'N', ' ', true),
-	TAINT_FLAG(FWCTL,			'J', ' ', true),
-	TAINT_FLAG(20,				'?', '-', false ),
-	TAINT_FLAG(21,				'?', '-', false ),
-	TAINT_FLAG(22,				'?', '-', false ),
-	TAINT_FLAG(23,				'?', '-', false ),
-	TAINT_FLAG(24,				'?', '-', false ),
-	TAINT_FLAG(25,				'?', '-', false ),
-	TAINT_FLAG(PARTNER_SUPPORTED,		'p', ' ', true ),
-	TAINT_FLAG(SUPPORT_REMOVED,		'h', ' ', false ),
-	TAINT_FLAG(RESERVED28,			'?', '-', false ),
-	TAINT_FLAG(RESERVED29,			'?', '-', false ),
-	TAINT_FLAG(RESERVED30,			'?', '-', false ),
-	TAINT_FLAG(UNPRIVILEGED_BPF,		'u', ' ', false ),
+	TAINT_FLAG(PROPRIETARY_MODULE,		'P', 'G'),
+	TAINT_FLAG(FORCED_MODULE,		'F', ' '),
+	TAINT_FLAG(CPU_OUT_OF_SPEC,		'S', ' '),
+	TAINT_FLAG(FORCED_RMMOD,		'R', ' '),
+	TAINT_FLAG(MACHINE_CHECK,		'M', ' '),
+	TAINT_FLAG(BAD_PAGE,			'B', ' '),
+	TAINT_FLAG(USER,			'U', ' '),
+	TAINT_FLAG(DIE,				'D', ' '),
+	TAINT_FLAG(OVERRIDDEN_ACPI_TABLE,	'A', ' '),
+	TAINT_FLAG(WARN,			'W', ' '),
+	TAINT_FLAG(CRAP,			'C', ' '),
+	TAINT_FLAG(FIRMWARE_WORKAROUND,		'I', ' '),
+	TAINT_FLAG(OOT_MODULE,			'O', ' '),
+	TAINT_FLAG(UNSIGNED_MODULE,		'E', ' '),
+	TAINT_FLAG(SOFTLOCKUP,			'L', ' '),
+	TAINT_FLAG(LIVEPATCH,			'K', ' '),
+	TAINT_FLAG(AUX,				'X', ' '),
+	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
+	TAINT_FLAG(TEST,			'N', ' '),
+	TAINT_FLAG(FWCTL,			'J', ' '),
+	TAINT_FLAG(20,				'?', '-'),
+	TAINT_FLAG(21,				'?', '-'),
+	TAINT_FLAG(22,				'?', '-'),
+	TAINT_FLAG(23,				'?', '-'),
+	TAINT_FLAG(24,				'?', '-'),
+	TAINT_FLAG(25,				'?', '-'),
+	TAINT_FLAG(PARTNER_SUPPORTED,		'p', ' '),
+	TAINT_FLAG(SUPPORT_REMOVED,		'h', ' '),
+	TAINT_FLAG(RESERVED28,			'?', '-'),
+	TAINT_FLAG(RESERVED29,			'?', '-'),
+	TAINT_FLAG(RESERVED30,			'?', '-'),
+	TAINT_FLAG(UNPRIVILEGED_BPF,		'u', ' '),
 };
 
 #undef TAINT_FLAG
