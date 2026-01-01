@@ -1,5 +1,9 @@
-* Wed Dec 31 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.19.0-0.rc3.c8ebd433459b.27]
+* Thu Jan 01 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.19.0-0.rc3.b69053dd3ffb.28]
 - package YNL test framework files (Thorsten Leemhuis)
+Resolves: 
+
+* Thu Jan 01 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.19.0-0.rc3.b69053dd3ffb.27]
+- Linux v6.19.0-0.rc3.b69053dd3ffb
 Resolves: 
 
 * Wed Dec 31 2025 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.19.0-0.rc3.c8ebd433459b.26]
