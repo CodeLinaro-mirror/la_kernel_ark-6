@@ -1,3 +1,12 @@
+* Tue Feb 10 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.0-0]
+- redhat/kernel.spec.template: Add kernel-uki-dtbloader sub-package (Hans de Goede)
+- redhat/kernel.spec.template: Simplify uki-virt signing (Hans de Goede)
+- redhat/kernel.spec.template: Fix indentation of uki-virt generation code (Hans de Goede)
+- Initial setup for stable Fedora releases (Justin M. Forbes)
+- Reset RHEL_RELEASE for the 7.0 series (Justin M. Forbes)
+- redhat/configs: rename CONFIG_QCOM_QFPROM to CONFIG_NVMEM_QCOM_QFPROM (Eric Chanudet)
+Resolves: 
+
 * Mon Feb 09 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [6.19.0-59]
 - Linux v6.19.0
 Resolves: 
