@@ -4414,18 +4414,12 @@ static int __init init_sd(void)
 		goto err_out_class;
 	}
 
-<<<<<<< HEAD
 #ifdef CONFIG_RHEL_DIFFERENCES
 	if (!strcmp(sd_probe_type, "sync"))
 		sd_template.gendrv.probe_type = PROBE_FORCE_SYNCHRONOUS;
 #endif
 
-	err = scsi_register_driver(&sd_template.gendrv);
-||||||| 37a93dd5c49b5
-	err = scsi_register_driver(&sd_template.gendrv);
-=======
 	err = scsi_register_driver(&sd_template);
->>>>>>> master
 	if (err)
 		goto err_out_driver;
 
