@@ -1,3 +1,9 @@
+* Mon Feb 16 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.1-0]
+- Turn on ASUS_ARMOURY driver, fixes RHBZ 2433246 (Justin M. Forbes)
+- redhat/kernel.spec.template: Make -uki-dtbloader provide kernel-core-uname-r (Hans de Goede)
+- Linux v6.19.1
+Resolves: 
+
 * Tue Feb 10 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.0-0]
 - redhat/kernel.spec.template: Add kernel-uki-dtbloader sub-package (Hans de Goede)
 - redhat/kernel.spec.template: Simplify uki-virt signing (Hans de Goede)
