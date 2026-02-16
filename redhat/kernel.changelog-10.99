@@ -1,3 +1,7 @@
+* Mon Feb 16 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.2-0]
+- Linux v6.19.2
+Resolves: 
+
 * Mon Feb 16 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.1-0]
 - Turn on ASUS_ARMOURY driver, fixes RHBZ 2433246 (Justin M. Forbes)
 - redhat/kernel.spec.template: Make -uki-dtbloader provide kernel-core-uname-r (Hans de Goede)
