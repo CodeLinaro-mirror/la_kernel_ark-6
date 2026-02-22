@@ -59,7 +59,7 @@ int pci_add_dynid(struct pci_driver *drv,
 {
 	struct pci_dynid *dynid;
 
-	dynid = kzalloc(sizeof(*dynid), GFP_KERNEL);
+	dynid = kzalloc_obj(*dynid);
 	if (!dynid)
 		return -ENOMEM;
 
@@ -204,7 +204,7 @@ static ssize_t new_id_store(struct device_driver *driver, const char *buf,
 		return -EINVAL;
 
 	if (fields != 7) {
-		struct pci_dev *pdev = kzalloc(sizeof(*pdev), GFP_KERNEL);
+		struct pci_dev *pdev = kzalloc_obj(*pdev);
 		if (!pdev)
 			return -ENOMEM;
 
