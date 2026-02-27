@@ -1,3 +1,7 @@
+* Fri Feb 27 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.5-0]
+- Linux v6.19.5
+Resolves: 
+
 * Thu Feb 26 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.4-0]
 - media: ipu-bridge: Add upside-down sensor DMI quirk for Dell XPS 13 9340 and XPS 14 9440 (Hans de Goede)
 - Linux v6.19.4
