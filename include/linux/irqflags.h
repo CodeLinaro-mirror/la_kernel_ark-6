@@ -18,6 +18,19 @@
 #include <asm/irqflags.h>
 #include <asm/percpu.h>
 
+/*
+ * Avoid the circular dependency
+ * irqflags.h <-----------------+
+ *   tracepoint_defs.h          |
+ *     static_key.h             |
+ *       jump_label.h           |
+ *         atomic.h             |
+ *           cmpxchg.h ---------+
+ */
+#ifdef CONFIG_TRACE_IRQFLAGS_TOGGLE
+#include <linux/tracepoint-defs.h>
+#endif
+
 struct task_struct;
 
 /* Currently lockdep_softirqs_on/off is used only by lockdep */
@@ -231,8 +244,114 @@ extern void warn_bogus_irq_restore(void);
 		raw_safe_halt();		\
 	} while (0)
 
+#elif defined(CONFIG_TRACE_IRQFLAGS_TOGGLE) /* !CONFIG_TRACE_IRQFLAGS */
 
-#else /* !CONFIG_TRACE_IRQFLAGS */
+/*
+ * Lightweight IRQ tracepoint hooks.
+ *
+ * Fire irq_enable/irq_disable tracepoints without pulling in the heavy
+ * CONFIG_TRACE_IRQFLAGS infrastructure (lockdep, irqsoff tracer).
+ *
+ * Hot-path overhead:
+ *
+ * tracepoint_enabled() compiles to a static key — a 2-byte NOP when
+ * no subscriber is attached.  This is the only inline cost per
+ * callsite; all cold-path logic (state checks, tracepoint calls) is
+ * placed out-of-line by the compiler.
+ *
+ * No-argument wrappers:
+ *
+ * __trace_irq_enable() and __trace_irq_disable() take no arguments
+ * and unconditionally fire the tracepoint.  All state filtering
+ * (raw_irqs_disabled, raw_irqs_disabled_flags) is performed inline at
+ * the callsite *before* the call, so the compiler never needs to save
+ * caller state across the function call.  This avoids the register
+ * pressure and stack frame overhead that would result from passing
+ * flags as a function argument.
+ *
+ * Redundant-event filtering:
+ *
+ * Each macro checks the hardware IRQ state to suppress events that
+ * do not represent an actual transition.  For example, disabling
+ * interrupts when they are already disabled does not fire the
+ * irq_disable tracepoint.  The specific check differs per macro:
+ *
+ *  local_irq_enable:  fires only if IRQs are currently disabled
+ *  local_irq_disable: fires only if IRQs were enabled before cli
+ *  local_irq_save:    fires only if saved flags show IRQs were enabled
+ *  local_irq_restore: fires only if saved flags show IRQs were enabled
+ *  safe_halt:         fires only if IRQs are currently disabled
+ */
+DECLARE_TRACEPOINT(irq_enable);
+DECLARE_TRACEPOINT(irq_disable);
+
+void __trace_irq_enable(void);
+void __trace_irq_disable(void);
+
+#define local_irq_enable()				\
+	do {						\
+		if (tracepoint_enabled(irq_enable) &&	\
+		    raw_irqs_disabled())		\
+			__trace_irq_enable();		\
+		raw_local_irq_enable();			\
+	} while (0)
+
+/*
+ * Capture the IRQ state before disabling because raw_irqs_disabled()
+ * reads the hardware interrupt flag, which raw_local_irq_disable()
+ * will clear.
+ */
+#define local_irq_disable()				\
+	do {						\
+		bool __was_disabled = raw_irqs_disabled();\
+		raw_local_irq_disable();		\
+		if (tracepoint_enabled(irq_disable) &&	\
+		    !__was_disabled)			\
+			__trace_irq_disable();		\
+	} while (0)
+
+/*
+ * raw_local_irq_save() atomically saves flags and disables IRQs, so
+ * the saved flags already contain the pre-disable state.  Check them
+ * directly with raw_irqs_disabled_flags() — no need to sample the
+ * hardware state separately as local_irq_disable() must.
+ */
+#define local_irq_save(flags)				\
+	do {						\
+		raw_local_irq_save(flags);		\
+		if (tracepoint_enabled(irq_disable) &&	\
+		    !raw_irqs_disabled_flags(flags))	\
+			__trace_irq_disable();		\
+	} while (0)
+
+/*
+ * Use an if/else so that flags is never live across a function call.
+ * When the tracepoint fires (true branch), the saved flags tell us
+ * IRQs were enabled before the save, so raw_local_irq_enable() is
+ * semantically equivalent to raw_local_irq_restore(flags) — both
+ * just re-enable IRQs.  This lets the compiler avoid allocating a
+ * stack frame to preserve flags across the __trace_irq_enable() call.
+ */
+#define local_irq_restore(flags)			\
+	do {						\
+		if (tracepoint_enabled(irq_enable) &&	\
+		    !raw_irqs_disabled_flags(flags)) {	\
+			__trace_irq_enable();		\
+			raw_local_irq_enable();		\
+		} else {				\
+			raw_local_irq_restore(flags);	\
+		}					\
+	} while (0)
+
+#define safe_halt()					\
+	do {						\
+		if (tracepoint_enabled(irq_enable) &&	\
+		    raw_irqs_disabled())		\
+			__trace_irq_enable();		\
+		raw_safe_halt();			\
+	} while (0)
+
+#else /* !CONFIG_TRACE_IRQFLAGS_TOGGLE */
 
 #define local_irq_enable()	do { raw_local_irq_enable(); } while (0)
 #define local_irq_disable()	do { raw_local_irq_disable(); } while (0)

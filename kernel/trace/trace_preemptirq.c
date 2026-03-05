@@ -111,7 +111,27 @@ void trace_hardirqs_off(void)
 }
 EXPORT_SYMBOL(trace_hardirqs_off);
 NOKPROBE_SYMBOL(trace_hardirqs_off);
+
 #endif /* CONFIG_TRACE_IRQFLAGS */
+
+#ifdef CONFIG_TRACE_IRQFLAGS_TOGGLE
+EXPORT_TRACEPOINT_SYMBOL(irq_disable);
+EXPORT_TRACEPOINT_SYMBOL(irq_enable);
+
+void __trace_irq_enable(void)
+{
+	trace(irq_enable, TP_ARGS(CALLER_ADDR0, CALLER_ADDR1));
+}
+EXPORT_SYMBOL(__trace_irq_enable);
+NOKPROBE_SYMBOL(__trace_irq_enable);
+
+void __trace_irq_disable(void)
+{
+	trace(irq_disable, TP_ARGS(CALLER_ADDR0, CALLER_ADDR1));
+}
+EXPORT_SYMBOL(__trace_irq_disable);
+NOKPROBE_SYMBOL(__trace_irq_disable);
+#endif /* CONFIG_TRACE_IRQFLAGS_TOGGLE */
 
 #ifdef CONFIG_TRACE_PREEMPT_TOGGLE
 
