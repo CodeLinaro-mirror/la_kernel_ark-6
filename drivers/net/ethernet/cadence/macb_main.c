@@ -4648,9 +4648,9 @@ static void macb_clks_disable(struct clk *pclk, struct clk *hclk, struct clk *tx
 	clk_bulk_disable_unprepare(ARRAY_SIZE(clks), clks);
 }
 
-static int macb_clk_init(struct platform_device *pdev, struct clk **pclk,
-			 struct clk **hclk, struct clk **tx_clk,
-			 struct clk **rx_clk, struct clk **tsu_clk)
+static int macb_clk_init_dflt(struct platform_device *pdev, struct clk **pclk,
+			      struct clk **hclk, struct clk **tx_clk,
+			      struct clk **rx_clk, struct clk **tsu_clk)
 {
 	struct macb_platform_data *pdata;
 	int err;
@@ -4731,6 +4731,19 @@ err_disable_pclk:
 	clk_disable_unprepare(*pclk);
 
 	return err;
+}
+
+static int macb_clk_init(struct platform_device *pdev, struct clk **pclk,
+			 struct clk **hclk, struct clk **tx_clk,
+			 struct clk **rx_clk, struct clk **tsu_clk,
+			 const struct macb_config *config)
+{
+	if (config->clk_init)
+		return config->clk_init(pdev, pclk, hclk, tx_clk, rx_clk,
+					tsu_clk);
+	else
+		return macb_clk_init_dflt(pdev, pclk, hclk, tx_clk, rx_clk,
+					  tsu_clk);
 }
 
 static int macb_init(struct platform_device *pdev)
@@ -5341,7 +5354,7 @@ static int fu540_c000_clk_init(struct platform_device *pdev, struct clk **pclk,
 	struct clk_init_data init;
 	int err = 0;
 
-	err = macb_clk_init(pdev, pclk, hclk, tx_clk, rx_clk, tsu_clk);
+	err = macb_clk_init_dflt(pdev, pclk, hclk, tx_clk, rx_clk, tsu_clk);
 	if (err)
 		return err;
 
@@ -5489,7 +5502,6 @@ static const struct macb_config fu540_c000_config = {
 
 static const struct macb_config at91sam9260_config = {
 	.caps = MACB_CAPS_USRIO_HAS_CLKEN | MACB_CAPS_USRIO_DEFAULT_IS_MII_GMII,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.usrio = &macb_default_usrio,
 };
@@ -5497,7 +5509,6 @@ static const struct macb_config at91sam9260_config = {
 static const struct macb_config sama5d3macb_config = {
 	.caps = MACB_CAPS_SG_DISABLED |
 		MACB_CAPS_USRIO_HAS_CLKEN | MACB_CAPS_USRIO_DEFAULT_IS_MII_GMII,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.usrio = &macb_default_usrio,
 };
@@ -5505,7 +5516,6 @@ static const struct macb_config sama5d3macb_config = {
 static const struct macb_config pc302gem_config = {
 	.caps = MACB_CAPS_SG_DISABLED | MACB_CAPS_GIGABIT_MODE_AVAILABLE,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.usrio = &macb_default_usrio,
 };
@@ -5513,7 +5523,6 @@ static const struct macb_config pc302gem_config = {
 static const struct macb_config sama5d2_config = {
 	.caps = MACB_CAPS_USRIO_DEFAULT_IS_MII_GMII | MACB_CAPS_JUMBO,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.jumbo_max_len = 10240,
 	.usrio = &macb_default_usrio,
@@ -5522,7 +5531,6 @@ static const struct macb_config sama5d2_config = {
 static const struct macb_config sama5d29_config = {
 	.caps = MACB_CAPS_USRIO_DEFAULT_IS_MII_GMII | MACB_CAPS_GEM_HAS_PTP,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.usrio = &macb_default_usrio,
 };
@@ -5531,7 +5539,6 @@ static const struct macb_config sama5d3_config = {
 	.caps = MACB_CAPS_SG_DISABLED | MACB_CAPS_GIGABIT_MODE_AVAILABLE |
 		MACB_CAPS_USRIO_DEFAULT_IS_MII_GMII | MACB_CAPS_JUMBO,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.jumbo_max_len = 10240,
 	.usrio = &macb_default_usrio,
@@ -5540,7 +5547,6 @@ static const struct macb_config sama5d3_config = {
 static const struct macb_config sama5d4_config = {
 	.caps = MACB_CAPS_USRIO_DEFAULT_IS_MII_GMII,
 	.dma_burst_length = 4,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.usrio = &macb_default_usrio,
 };
@@ -5554,7 +5560,6 @@ static const struct macb_config emac_config = {
 
 static const struct macb_config np4_config = {
 	.caps = MACB_CAPS_USRIO_DISABLED,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.usrio = &macb_default_usrio,
 };
@@ -5564,7 +5569,6 @@ static const struct macb_config zynqmp_config = {
 		MACB_CAPS_JUMBO |
 		MACB_CAPS_GEM_HAS_PTP | MACB_CAPS_BD_RD_PREFETCH,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = init_reset_optional,
 	.jumbo_max_len = 10240,
 	.usrio = &macb_default_usrio,
@@ -5574,7 +5578,6 @@ static const struct macb_config zynq_config = {
 	.caps = MACB_CAPS_GIGABIT_MODE_AVAILABLE | MACB_CAPS_NO_GIGABIT_HALF |
 		MACB_CAPS_NEEDS_RSTONUBR,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.usrio = &macb_default_usrio,
 };
@@ -5584,7 +5587,6 @@ static const struct macb_config mpfs_config = {
 		MACB_CAPS_JUMBO |
 		MACB_CAPS_GEM_HAS_PTP,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = init_reset_optional,
 	.usrio = &macb_default_usrio,
 	.max_tx_length = 4040, /* Cadence Erratum 1686 */
@@ -5596,7 +5598,6 @@ static const struct macb_config sama7g5_gem_config = {
 		MACB_CAPS_USRIO_DEFAULT_IS_MII_GMII |
 		MACB_CAPS_MIIONRGMII | MACB_CAPS_GEM_HAS_PTP,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.usrio = &sama7g5_usrio,
 };
@@ -5606,7 +5607,6 @@ static const struct macb_config sama7g5_emac_config = {
 		MACB_CAPS_USRIO_HAS_CLKEN | MACB_CAPS_MIIONRGMII |
 		MACB_CAPS_GEM_HAS_PTP,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.usrio = &sama7g5_usrio,
 };
@@ -5617,7 +5617,6 @@ static const struct macb_config versal_config = {
 		MACB_CAPS_NEED_TSUCLK | MACB_CAPS_QUEUE_DISABLE |
 		MACB_CAPS_QBV,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = init_reset_optional,
 	.jumbo_max_len = 10240,
 	.usrio = &macb_default_usrio,
@@ -5628,7 +5627,6 @@ static const struct macb_config eyeq5_config = {
 		MACB_CAPS_GEM_HAS_PTP | MACB_CAPS_QUEUE_DISABLE |
 		MACB_CAPS_NO_LSO | MACB_CAPS_EEE,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = eyeq5_init,
 	.jumbo_max_len = 10240,
 	.usrio = &macb_default_usrio,
@@ -5640,7 +5638,6 @@ static const struct macb_config raspberrypi_rp1_config = {
 		MACB_CAPS_GEM_HAS_PTP |
 		MACB_CAPS_EEE,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.usrio = &macb_default_usrio,
 	.jumbo_max_len = 10240,
@@ -5681,7 +5678,6 @@ static const struct macb_config default_gem_config = {
 		MACB_CAPS_JUMBO |
 		MACB_CAPS_GEM_HAS_PTP,
 	.dma_burst_length = 16,
-	.clk_init = macb_clk_init,
 	.init = macb_init,
 	.usrio = &macb_default_usrio,
 	.jumbo_max_len = 10240,
@@ -5711,7 +5707,8 @@ static int macb_probe(struct platform_device *pdev)
 	if (!macb_config)
 		macb_config = &default_gem_config;
 
-	err = macb_config->clk_init(pdev, &pclk, &hclk, &tx_clk, &rx_clk, &tsu_clk);
+	err = macb_clk_init(pdev, &pclk, &hclk, &tx_clk, &rx_clk, &tsu_clk,
+			    macb_config);
 	if (err)
 		return err;
 
