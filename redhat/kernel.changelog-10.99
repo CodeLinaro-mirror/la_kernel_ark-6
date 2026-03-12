@@ -1,5 +1,10 @@
-* Wed Mar 11 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc3.b29fb8829bff.31]
+* Thu Mar 12 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc3.80234b5ab240.32]
 - Work around binutils update in s390x perf (Justin M. Forbes)
+Resolves: 
+
+* Thu Mar 12 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc3.80234b5ab240.31]
+- redhat/configs: remove CONFIG_ZBUD (Rafael Aquini)
+- Linux v7.0.0-0.rc3.80234b5ab240
 Resolves: 
 
 * Wed Mar 11 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc3.b29fb8829bff.30]
