@@ -1,3 +1,28 @@
+* Thu Mar 12 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.7-0]
+- Add some BugsFixed by 6.19.7 (Justin M. Forbes)
+- drm/i915/psr: Compute psr_entry_setup_frames into intel_crtc_state (Jouni Högander)
+- drm/i915/psr: Disable PSR on update_m_n and update_lrr (Jouni Högander)
+- Turn on GPIB for Fedora (Justin M. Forbes)
+- drm/i915/psr: Fix for Panel Replay X granularity DPCD register handling (Jouni Högander)
+- drm/dp: Add definition for Panel Replay full-line granularity (Jouni Högander)
+- drm/i915/display: Allow async flip when Selective Fetch is enabled (Jouni Högander)
+- drm/i915/psr: Perform full frame update on async flip (Jouni Högander)
+- drm/i915/psr: Set plane id bit in crtc_state->async_flip_planes for PSR (Jouni Högander)
+- drm/i915/psr: Move sink_sync_latency to intel_connector (Jouni Högander)
+- drm/i915/psr: Move sink PSR and Panel Replay booleans to intel_connector (Jouni Högander)
+- drm/i915/psr: Move Panel Replay DSC sink support data to intel_connector (Jouni Högander)
+- drm/i915/psr: Clear pr_dpcd as well on disconnect (Jouni Högander)
+- drm/i915/psr: Move pr_dpcd and psr_dpcd to intel_connector (Jouni Högander)
+- drm/i915/psr: Compute Panel Replay/Adaptive Sync coexistence behavior (Jouni Högander)
+- drm/i915/psr: Use SU granularity information available in intel_connector (Jouni Högander)
+- drm/i915/psr: Add panel granularity information into intel_connector (Jouni Högander)
+- Work around binutils update in s390x perf (Justin M. Forbes)
+- iommu: Fix mapping check for 0x0 to avoid re-mapping it (Antheas Kapenekakis)
+- Revert the UKI dtbloader for F42 (Justin M. Forbes)
+- Turn on release_targets for F43/F42 (Justin M. Forbes)
+- Linux v6.19.7
+Resolves: 
+
 * Wed Mar 04 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.6-0]
 - net: macb: Fix tx/rx malfunction after phy link down and up (Kevin Hao)
 - net: macb: Replace open-coded device config retrieval with of_device_get_match_data() (Kevin Hao)
