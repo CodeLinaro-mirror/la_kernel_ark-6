@@ -1,3 +1,11 @@
+* Fri Mar 13 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.8-0]
+- Fix mute LED on HP OmniBook 7 Laptop 16 (Justin M. Forbes)
+- Add Lenovo bug to BugsFixed for 6.19.8 (Justin M. Forbes)
+- Turn on Uniwill x86 platform driver (Justin M. Forbes)
+- ASoC: SDCA: Add ASoC jack hookup in class driver (Charles Keepax)
+- Linux v6.19.8
+Resolves: 
+
 * Thu Mar 12 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.7-0]
 - Add some BugsFixed by 6.19.7 (Justin M. Forbes)
 - drm/i915/psr: Compute psr_entry_setup_frames into intel_crtc_state (Jouni Högander)
