@@ -1,5 +1,10 @@
-* Thu Mar 12 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc3.80234b5ab240.32]
+* Fri Mar 13 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc3.0257f64bdac7.33]
 - Work around binutils update in s390x perf (Justin M. Forbes)
+Resolves: 
+
+* Fri Mar 13 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc3.0257f64bdac7.32]
+- redhat: genlog: add new JIRA cloud server hostname (Jan Stancek)
+- Linux v7.0.0-0.rc3.0257f64bdac7
 Resolves: 
 
 * Thu Mar 12 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc3.80234b5ab240.31]
