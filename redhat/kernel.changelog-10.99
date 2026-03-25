@@ -1,3 +1,12 @@
+* Wed Mar 25 2026 Augusto Caringi <acaringi@redhat.com> [6.19.10-0]
+- Add entries for 6.19.10 to BugsFixed (Justin M. Forbes)
+- Documentation: hid: intel-ish-hid: Document PRODUCT_FAMILY firmware matching (Vishnu Sankar)
+- HID: intel-ish-hid: loader: Add PRODUCT_FAMILY-based firmware matching (Vishnu Sankar)
+- Add BugsFixed for 6.19.10 (Justin M. Forbes)
+- drm/amdgpu: rework how we handle TLB fences (Alex Deucher)
+- Linux v6.19.10
+Resolves: 
+
 * Thu Mar 19 2026 Augusto Caringi <acaringi@redhat.com> [6.19.9-0]
 - arm64: dts: broadcom: bcm2712-rpi: Move the firmware node down 1 level (Rob Herring (Arm))
 - arm64: dts: broadcom: bcm2712-d-rpi-5-b: update uart10 interrupt (Gregor Herburger)
