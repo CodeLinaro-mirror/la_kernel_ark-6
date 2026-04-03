@@ -36,7 +36,7 @@ LINUX_UPSTREAM_BRANCH="master"
 # See .gitlab-ci.yml (this remote has push defined)
 KERNEL_ARK_REMOTE_NAME="gitlab"
 # shellcheck disable=SC2034
-KERNEL_ARK_MAIN_BRANCH="os-build"
+KERNEL_ARK_MAIN_BRANCH="${KERNEL_ARK_MAIN_BRANCH:-os-build}"
 KERNEL_ARK_NEXT_BRANCH="os-build-next"
 
 # verify git remote linux-next is setup
@@ -57,31 +57,22 @@ fi
 # hard reset the next branch to kernel-ark's main branch
 git reset --hard "$KERNEL_ARK_REMOTE_NAME/$KERNEL_ARK_MAIN_BRANCH"
 
-# install the merge driver dependencies
+# install the ark-md merge driver (https://gitlab.com/scweaver/ark-md)
 pip install -r "$DIRPATH/requirements.txt"
-
-# configure the merge driver
-# git config --local merge.ark-md.name 'kernel-ark merge driver'
-# git config --local merge.ark-md.driver "$DIRPATH/ark-merge-driver.py driver --debug --color %O %A %B %L %P"
-
-# set the ark merge driver as the default for all file types
-# Because the current merge driver won't be as good as git's ort merge
-# strategy, we'll use the merge driver as our merge tool to handle only
-# conflicts that git can't resolve.
-# echo "* merge=ark-md" > .git/info/attributes
 
 # configure the merge driver as our merge tool
 git config --local merge.tool ark-md
-git config --local mergetool.ark-md.cmd "$DIRPATH/ark-merge-driver.py mergetool --debug --color \"\$BASE\" \"\$LOCAL\" \"\$REMOTE\" \"\$MERGED\""
+git config --local mergetool.ark-md.cmd "ark-md mergetool --supervisor --debug --color \"\$BASE\" \"\$LOCAL\" \"\$REMOTE\" \"\$MERGED\""
 git config --local mergetool.ark-md.trustExitCode true
 git config --local mergetool.ark-md.guiDefault false
 git config --local mergetool.ark-md.prompt false
 
 # add the prepare-commit-msg git hook (which will add a list of files resolved by the merge driver)
+ARK_MD_PKG_DIR=$(python3 -c "import ark_md; import os; print(os.path.dirname(ark_md.__file__))")
 if [ ! -e .git/hooks ]; then
 	mkdir -p .git/hooks
 fi
-cp "$DIRPATH/ark-merge-driver-prepare-commit-msg.sh" .git/hooks/prepare-commit-msg
+cp "$ARK_MD_PKG_DIR/ark-merge-driver-prepare-commit-msg.sh" .git/hooks/prepare-commit-msg
 
 # merge linux-next to kernel-ark's next branch
 git merge --signoff --no-ff --no-edit "$(git describe "$LINUX_NEXT_REMOTE_NAME/$LINUX_NEXT_BRANCH")" || MERGE_RESULT=$?
