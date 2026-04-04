@@ -1,5 +1,9 @@
-* Fri Apr 03 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc6.d8a9a4b11a13.52]
+* Sat Apr 04 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc6.7ca6d1cfec80.53]
 - Work around binutils update in s390x perf (Justin M. Forbes)
+Resolves: 
+
+* Sat Apr 04 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc6.7ca6d1cfec80.52]
+- Linux v7.0.0-0.rc6.7ca6d1cfec80
 Resolves: 
 
 * Fri Apr 03 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-0.rc6.d8a9a4b11a13.51]
