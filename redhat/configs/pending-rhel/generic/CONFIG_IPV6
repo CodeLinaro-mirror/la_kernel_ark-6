@@ -1,0 +1,18 @@
+# ~~~
+# Symbol: IPV6 [=y]
+# Type  : bool
+# Defined at net/ipv6/Kconfig:6
+#   Prompt: The IPv6 protocol
+#   Depends on: NET [=y] && INET [=y]
+#   Location:
+#     -> Networking support (NET [=y])
+#       -> Networking options
+#         -> TCP/IP networking (INET [=y])
+#           -> The IPv6 protocol (IPV6 [=y])
+# Selects: CRYPTO_LIB_SHA1 [=y]
+# 
+# 
+# 
+# ~~~
+# Commit: 0b18542b7f53 ([NET]: Sink IPv6 menuoptions into its own submenu)
+CONFIG_IPV6=y

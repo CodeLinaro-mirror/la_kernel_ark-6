@@ -1,0 +1,17 @@
+# ~~~
+# Symbol: KALLSYMS_LINEINFO [=n]
+# Type  : bool
+# Defined at init/Kconfig:2073
+#   Prompt: Embed source file:line information in stack traces
+#   Depends on: KALLSYMS [=y] && DEBUG_INFO [=y]
+#   Location:
+#     -> General setup
+#       -> Configure standard kernel features (expert users) (EXPERT [=y])
+#         -> Load all symbols for debugging/ksymoops (KALLSYMS [=y])
+#           -> Embed source file:line information in stack traces (KALLSYMS_LINEINFO [=n])
+# 
+# 
+# 
+# ~~~
+# Commit: 8ecad477a872 (kallsyms: embed source file:line info in kernel stack traces)
+# CONFIG_KALLSYMS_LINEINFO is not set
