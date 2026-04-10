@@ -1,0 +1,2 @@
+# Mismatch found in riscv riscv64-rt config
+CONFIG_IOMMU_PT_RISCV64=y

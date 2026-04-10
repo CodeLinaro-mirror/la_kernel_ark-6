@@ -1,0 +1,2 @@
+# Mismatch found in arm64 aarch64-rt config
+CONFIG_MULTIPLEXER=y

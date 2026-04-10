@@ -1,0 +1,2 @@
+# Mismatch found in riscv riscv64-rt-debug config
+CONFIG_MULTIPLEXER=y

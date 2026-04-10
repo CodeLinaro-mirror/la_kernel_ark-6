@@ -1,0 +1,2 @@
+# Mismatch found in powerpc ppc64le-debug config
+CONFIG_MULTIPLEXER=y
