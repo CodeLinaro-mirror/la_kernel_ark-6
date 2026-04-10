@@ -1,0 +1,2 @@
+# Mismatch found in arm64 aarch64-automotive config
+CONFIG_PCI_PWRCTRL_GENERIC=y

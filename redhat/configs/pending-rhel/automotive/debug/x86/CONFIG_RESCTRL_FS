@@ -1,0 +1,2 @@
+# Mismatch found in x86_64 x86_64-automotive-debug config
+CONFIG_RESCTRL_FS=y
