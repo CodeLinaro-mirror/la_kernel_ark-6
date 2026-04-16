@@ -284,8 +284,9 @@ Summary: The Linux kernel
 %define with_debuginfo %{?_without_debuginfo: 0} %{?!_without_debuginfo: 1}
 # kernel-abi-stablelists
 %define with_kernel_abi_stablelists %{?_without_kernel_abi_stablelists: 0} %{?!_without_kernel_abi_stablelists: 1}
-# internal samples and selftests
-%define with_selftests %{?_without_selftests: 0} %{?!_without_selftests: 1}
+# internal samples and selftests -- disabled by default for now due to build
+# error in -next since 20260401 and mainline since 20260415
+%define with_selftests %{?_with_selftests:    1} %{?!_with_selftests:    0}
 #
 # Additional options for user-friendly one-off kernel building:
 #
@@ -4608,6 +4609,7 @@ fi\
 %{_mandir}/man1/rv-mon-wwnr.1.gz
 %{_mandir}/man1/rv-mon.1.gz
 %{_mandir}/man1/rv-mon-sched.1.gz
+%{_mandir}/man1/rv-mon-stall.1.gz
 %{_mandir}/man1/rv.1.gz
 
 %if %{with_debuginfo}
