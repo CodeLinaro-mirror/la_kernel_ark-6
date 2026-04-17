@@ -1,6 +1,11 @@
-* Thu Apr 16 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc0.1d51b370a0f8.65]
+* Fri Apr 17 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc0.43cfbdda5af6.66]
 - add man-page for rv-mon-stall (Thorsten Leemhuis)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Fri Apr 17 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc0.43cfbdda5af6.65]
+- Correct manual merge error in crypto/rng.c (Patrick Talbert)
+- Linux v7.1.0-0.rc0.43cfbdda5af6
 Resolves: 
 
 * Thu Apr 16 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc0.1d51b370a0f8.64]
