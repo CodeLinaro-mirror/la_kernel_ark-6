@@ -1,6 +1,10 @@
-* Sun Apr 19 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc0.faeab166167f.68]
+* Mon Apr 20 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc0.c1f49dea2b8f.69]
 - add man-page for rv-mon-stall (Thorsten Leemhuis)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Mon Apr 20 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc0.c1f49dea2b8f.68]
+- Linux v7.1.0-0.rc0.c1f49dea2b8f
 Resolves: 
 
 * Sun Apr 19 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc0.faeab166167f.67]
