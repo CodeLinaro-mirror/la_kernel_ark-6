@@ -1,3 +1,9 @@
+* Thu Apr 23 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.1-0]
+- Initial setup for stable Fedora releases (Justin M. Forbes)
+- Fix up rebase typo in drivers/pci/quirks.c (Justin M. Forbes)
+- Linux v7.0.1
+Resolves: 
+
 * Wed Apr 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.0.0-63]
 - Fix up mismatc with ACPI_PLATFORM_PROFILE (Justin M. Forbes)
 Resolves: 
