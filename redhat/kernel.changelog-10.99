@@ -1,3 +1,7 @@
+* Thu Apr 30 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.3-0]
+- Linux v7.0.3
+Resolves: 
+
 * Mon Apr 27 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.2-0]
 - drm/v3d: Reject empty multisync extension to prevent infinite loop (Ashutosh Desai)
 - net: macb: Use napi_schedule_irqoff() in IRQ handler (Kevin Hao)
