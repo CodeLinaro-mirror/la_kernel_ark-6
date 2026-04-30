@@ -1,6 +1,10 @@
-* Wed Apr 29 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc1.dca922e019dd.11]
+* Thu Apr 30 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc1.e75a43c7cec4.12]
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Thu Apr 30 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc1.e75a43c7cec4.11]
+- Linux v7.1.0-0.rc1.e75a43c7cec4
 Resolves: 
 
 * Wed Apr 29 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc1.dca922e019dd.10]
