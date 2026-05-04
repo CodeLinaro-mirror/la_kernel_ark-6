@@ -6,15 +6,13 @@ packages:
     - modules-core
   - name: modules-extra
     depends-on:
-    - modules-core
-  - name: modules-other
-    if_variant_in: ["rt"]
+    - modules
+  - name: modules-partner
     depends-on:
     - modules-core
 
 rules:
-  - kmod[2]: modules-core
-  - kmod4: modules-other
-    if_variant_in: ["rt"]
+  - kmod1: modules-extra
+  - kmod7: modules-extra
+  - kmod6: modules-partner
   - default: modules
-
