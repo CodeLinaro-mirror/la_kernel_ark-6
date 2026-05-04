@@ -829,7 +829,6 @@ class FiltermodTests(unittest.TestCase):
         self._is_kmod_pkg('kmod3', 'modules')
         self._is_kmod_pkg('kmod4', 'modules-other')
 
-
     def test2(self):
         self.pkg_list, self.kmod_list = sort_kmods(get_td('test2.dep'), get_td('test2.yaml'),
                                                    do_pictures=FiltermodTests.do_pictures)
@@ -896,6 +895,147 @@ class FiltermodTests(unittest.TestCase):
         self._is_kmod_pkg('kmod2', 'modules-core')
         self._is_kmod_pkg('kmod3', 'modules-other')
         self._is_kmod_pkg('kmod4', 'modules')
+
+    def test8_needs_exact_pkg(self):
+        """needs (exact_pkg) locks kmod to a specific package, deps adjust accordingly"""
+        self.pkg_list, self.kmod_list = sort_kmods(get_td('test8.dep'), get_td('test8.yaml'),
+                                                   do_pictures=FiltermodTests.do_pictures)
+
+        self._is_kmod_pkg('kmod2', 'modules')
+        self._is_kmod_pkg('kmod1', 'modules-extra')
+        self._is_kmod_pkg('kmod3', 'modules')
+
+        kmod2 = self.kmod_list.get('kmod2')
+        self.assertEqual(kmod2.assigned_to_pkg.name, 'modules')
+
+    def test9_needs_overrides_wants(self):
+        """needs takes priority over wants on the same kmod"""
+        self.pkg_list, self.kmod_list = sort_kmods(get_td('test9.dep'), get_td('test9.yaml'),
+                                                   do_pictures=FiltermodTests.do_pictures)
+
+        self._is_kmod_pkg('kmod1', 'modules-core')
+        self._is_kmod_pkg('kmod2', 'modules-core')
+
+        kmod1 = self.kmod_list.get('kmod1')
+        self.assertEqual(kmod1.assigned_to_pkg.name, 'modules-core')
+        self.assertIsNone(kmod1.preferred_pkg)
+
+    def test10_default_only(self):
+        """with only a default rule, all kmods go to the default package"""
+        self.pkg_list, self.kmod_list = sort_kmods(get_td('test10.dep'), get_td('test10.yaml'),
+                                                   do_pictures=FiltermodTests.do_pictures)
+
+        self._is_kmod_pkg('kmod1', 'modules')
+        self._is_kmod_pkg('kmod2', 'modules')
+        self._is_kmod_pkg('kmod3', 'modules')
+
+    def test11_deep_chain(self):
+        """5-level dep chain with both ends constrained, middle gets default"""
+        self.pkg_list, self.kmod_list = sort_kmods(get_td('test11.dep'), get_td('test11.yaml'),
+                                                   do_pictures=FiltermodTests.do_pictures)
+
+        self._is_kmod_pkg('kmod1', 'modules-extra')
+        self._is_kmod_pkg('kmod2', 'modules')
+        self._is_kmod_pkg('kmod3', 'modules')
+        self._is_kmod_pkg('kmod4', 'modules')
+        self._is_kmod_pkg('kmod5', 'modules-core')
+
+    def test12_diamond_deps(self):
+        """diamond in kmod deps: kmod1->kmod2->kmod4, kmod1->kmod3->kmod4"""
+        self.pkg_list, self.kmod_list = sort_kmods(get_td('test12.dep'), get_td('test12.yaml'),
+                                                   do_pictures=FiltermodTests.do_pictures)
+
+        self._is_kmod_pkg('kmod1', 'modules-extra')
+        self._is_kmod_pkg('kmod2', 'modules')
+        self._is_kmod_pkg('kmod3', 'modules')
+        self._is_kmod_pkg('kmod4', 'modules-core')
+
+    def test13_disconnected_subgraphs(self):
+        """two independent subgraphs are assigned independently"""
+        self.pkg_list, self.kmod_list = sort_kmods(get_td('test13.dep'), get_td('test13.yaml'),
+                                                   do_pictures=FiltermodTests.do_pictures)
+
+        self._is_kmod_pkg('kmod1', 'modules-extra')
+        self._is_kmod_pkg('kmod2', 'modules')
+        self._is_kmod_pkg('kmod3', 'modules-core')
+        self._is_kmod_pkg('kmod4', 'modules-core')
+
+    def test14_wants_overridden_by_constraint(self):
+        """kmod2 wants extra but kmod1's constraint forces it to core"""
+        self.pkg_list, self.kmod_list = sort_kmods(get_td('test14.dep'), get_td('test14.yaml'),
+                                                   do_pictures=FiltermodTests.do_pictures)
+
+        self._is_kmod_pkg('kmod1', 'modules-core')
+        self._is_kmod_pkg('kmod2', 'modules-core')
+
+        kmod2 = self.kmod_list.get('kmod2')
+        self.assertEqual(kmod2.preferred_pkg.name, 'modules-extra')
+
+    def test15_deep_propagation_across_branches(self):
+        """constraint from kmod1 (extra branch) propagates 4 levels to override kmod6's partner preference"""
+        self.pkg_list, self.kmod_list = sort_kmods(get_td('test15.dep'), get_td('test15.yaml'),
+                                                   do_pictures=FiltermodTests.do_pictures)
+
+        self._is_kmod_pkg('kmod1', 'modules-extra')
+        self._is_kmod_pkg('kmod2', 'modules')
+        self._is_kmod_pkg('kmod3', 'modules')
+        self._is_kmod_pkg('kmod4', 'modules')
+        self._is_kmod_pkg('kmod5', 'modules')
+        self._is_kmod_pkg('kmod6', 'modules-core')
+        self._is_kmod_pkg('kmod7', 'modules-extra')
+
+        kmod6 = self.kmod_list.get('kmod6')
+        self.assertEqual(kmod6.preferred_pkg.name, 'modules-partner')
+
+    def test16_complex_multi_branch_realistic(self):
+        """realistic scenario: 5 packages (2 branches), 11 kmods (net+storage subgraphs
+        joined by shared deps), needs/wants/default rules, cross-branch constraint override
+
+        Package hierarchy (depends-on):        Kmod dependencies (A: B = A depends on B):
+
+          modules-extra ─┐                       net_bridge ──► net_virt ──► net_base ──► crypto
+                         ├─ modules ─┐                                          ▲
+          modules-internal ─┘        ├─ core     net_ovs ───┬──► net_virt       │
+                                     │                      │               stor_base ◄── stor_raid ◄── stor_dm
+          modules-partner ───────────┘           helper ◄───┴───────────────────────────────────────────┘
+
+                                                 partner_drv (standalone)     internal_test (standalone)
+
+        Rules:                                  Expected result:
+          net_bridge  → needs extra               net_bridge     = extra     (needs satisfied)
+          internal_test → needs internal           internal_test  = internal  (needs satisfied)
+          net_ovs     → wants extra                net_ovs        = extra     (wants satisfied)
+          stor_dm     → wants extra                stor_dm        = extra     (wants satisfied)
+          helper      → wants partner              partner_drv    = partner   (wants satisfied)
+          partner_drv → wants partner              helper         = core      (wants OVERRIDDEN: partner
+          default     → modules                                                unreachable from extra)
+                                                   net_virt/net_base/stor_raid/stor_base/crypto = modules
+        """
+        self.pkg_list, self.kmod_list = sort_kmods(get_td('test16.dep'), get_td('test16.yaml'),
+                                                   do_pictures=FiltermodTests.do_pictures)
+
+        # needs rules: hard-locked to exact package
+        self._is_kmod_pkg('kmod_net_bridge', 'modules-extra')
+        self._is_kmod_pkg('kmod_internal_test', 'modules-internal')
+
+        # wants rules satisfied: standalone or unconstrained
+        self._is_kmod_pkg('kmod_net_ovs', 'modules-extra')
+        self._is_kmod_pkg('kmod_stor_dm', 'modules-extra')
+        self._is_kmod_pkg('kmod_partner_drv', 'modules-partner')
+
+        # wants overridden by cross-branch constraint: helper wanted partner
+        # but net_ovs and stor_dm (both extra) depend on it, and partner is
+        # not in extra's dependency chain, so helper is forced to core
+        self._is_kmod_pkg('kmod_helper', 'modules-core')
+        helper = self.kmod_list.get('kmod_helper')
+        self.assertEqual(helper.preferred_pkg.name, 'modules-partner')
+
+        # default fallback: intermediate and shared kmods go to modules
+        self._is_kmod_pkg('kmod_net_virt', 'modules')
+        self._is_kmod_pkg('kmod_net_base', 'modules')
+        self._is_kmod_pkg('kmod_stor_raid', 'modules')
+        self._is_kmod_pkg('kmod_stor_base', 'modules')
+        self._is_kmod_pkg('kmod_crypto', 'modules')
 
 
 def do_rpm_mapping_test(config_pathname, kmod_rpms):
