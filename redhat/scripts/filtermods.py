@@ -74,7 +74,7 @@ import yaml
 import unittest
 from collections import deque
 
-from logging import getLogger, DEBUG, INFO, WARN, ERROR, CRITICAL, NOTSET, FileHandler, StreamHandler, Formatter, Logger
+from logging import getLogger, DEBUG, INFO, WARNING, ERROR, CRITICAL, NOTSET, FileHandler, StreamHandler, Formatter
 from typing import Optional
 
 log = getLogger('filtermods')
@@ -1231,7 +1231,7 @@ def main():
     if options.cmd == "selftest":
         options.verbose = options.verbose - 2
     options.verbose = max(options.verbose - options.quiet, 0)
-    levels = [NOTSET, CRITICAL, ERROR, WARN, INFO, DEBUG]
+    levels = [NOTSET, CRITICAL, ERROR, WARNING, INFO, DEBUG]
     stdout_log_level = levels[min(options.verbose, len(levels) - 1)]
 
     log = setup_logging(options.log_filename, stdout_log_level)
