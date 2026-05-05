@@ -1,6 +1,68 @@
 #!/usr/bin/env python3
 """
 filter kmods into groups for packaging, see filtermods.adoc
+
+Algorithm overview
+==================
+Assigns each kernel module (kmod) to exactly one RPM sub-package while
+respecting kmod dependency constraints: if kmod A depends on kmod B, then
+B's package must be reachable from A's package (same package, or one that
+A's package transitively depends on).
+
+The solver uses constraint propagation (AC-3 arc consistency) followed by
+greedy instantiation.  Each kmod keeps an allowed_list — a set of packages
+it could still be placed in.  The algorithm narrows these sets until every
+kmod has exactly one package.
+
+Phases
+------
+
+                        ┌─────────────────────────────────────────────────────────────┐
+                        │                      sort_kmods()                           │
+                        └─────────────────────────────────────────────────────────────┘
+
+  ┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
+  │  1. init labels  │──▶│  2. propagate    │──▶│  3. resolve      │──▶│  4. resolve       │
+  │                  │   │                  │   │     preferred    │   │     remaining    │
+  └──────────────────┘   └──────────────────┘   └──────────────────┘   └──────────────────┘
+
+  allowed_list per kmod — how it evolves through the phases:
+
+  Phase 0 (setup):       {all packages}          — every kmod starts with full set
+                              │
+  Phase 1 (init labels):      ▼
+      needs rule:        {exact_pkg}             — hard lock to one package
+      wants rule:        {target ∪ ancestors}    — target package and those it depends on
+      no rule:           {all packages}          — unchanged
+                              │
+  Phase 2 (propagate):        ▼
+      worklist loop:     prune infeasible pkgs   — for each pkg in allowed_list, check
+                         from allowed_list         that every kmod neighbor has at least
+                              │                    one compatible pkg; if not, remove it
+                              │                    re-queue neighbors when set shrinks
+                              ▼
+                         arc-consistent state    — fixed point, all remaining pkgs are
+                              │                    locally compatible with every neighbor
+  Phase 3 (resolve preferred):▼
+      for each kmod      narrow to {preferred}   — if kmod has a wants rule and its
+      with wants rule:   then propagate            preferred pkg is still allowed, pick it
+                              │                    (or nearest ancestor); re-propagate
+                              │
+  Phase 4 (resolve remaining):▼
+      reverse topo order narrow to {default}     — pick default pkg (or nearest ancestor);
+      for remaining:     then propagate            reverse topo so parents settle first
+                              │
+                              ▼
+                         {single package}        — every kmod assigned to exactly one pkg
+
+Convergence: allowed_list sets only shrink (monotonic).  The potential
+  sum(|allowed_list|) is bounded below by 0 and strictly decreases on every
+  productive prune, so the worklist always drains.
+
+Correctness: pruning only removes packages provably incompatible with at
+  least one neighbor.  For tree-shaped package hierarchies (the common case),
+  arc consistency guarantees that the greedy resolve phases cannot cause
+  dead ends.
 """
 
 import argparse
@@ -10,6 +72,7 @@ import subprocess
 import sys
 import yaml
 import unittest
+from collections import deque
 
 from logging import getLogger, DEBUG, INFO, WARN, ERROR, CRITICAL, NOTSET, FileHandler, StreamHandler, Formatter, Logger
 from typing import Optional
@@ -112,7 +175,6 @@ class KMod(HierarchyObject):
         self.is_dependency_for: set[KMod] = set()
         self.assigned_to_pkg: Optional[KModPackage] = None
         self.preferred_pkg: Optional[KModPackage] = None
-        self.rule_specifity: int = 0
         self.allowed_list: Optional[set[KModPackage]] = None
         self.err = 0
 
@@ -220,6 +282,8 @@ class KModPackage(HierarchyObject):
         self.all_depends_on_list: list[KModPackage] = self._get_all_linked(KModPackage._get_depends_on)
         self.all_depends_on: set[KModPackage] = set(self.all_depends_on_list)
         self.all_deps_for: Optional[set[KModPackage]] = None
+        self.self_and_below: set[KModPackage] = set()
+        self.self_and_above: set[KModPackage] = set()
         self.default = False
         log.debug('KModPackage created %s, depends_on: %s', name, [pkg.name for pkg in depends_on])
 
@@ -293,110 +357,121 @@ def walk_kmod_chain(kmod, myfunc):
     return visited
 
 
-# is pkg a parent to any pkg from "alist"
-def is_pkg_parent_to_any(pkg: KModPackage, alist: set[KModPackage]) -> bool:
-    if pkg in alist:
-        return True
+def pick_best(allowed_set: set[KModPackage], target_pkg: KModPackage = None) -> Optional[KModPackage]:
+    """Pick one package from allowed_set for a kmod to be assigned to.
 
-    for some_pkg in alist:
-        if some_pkg in pkg.all_depends_on:
-            return True
-    return False
+    If target_pkg is given, try it first, then walk down its dependency
+    chain and return the first match found in allowed_set.
+
+    If there is no target or no match, pick the package that sits highest
+    in the dependency tree (has the most dependencies below it).
+
+    Example with: modules-extra -> modules-core
+                  modules       -> modules-core
+
+      pick_best({modules, modules-extra})           => modules or modules-extra
+          (tied, both depend on one package)
+      pick_best({modules, modules-core})            => modules
+          (modules sits higher, it depends on modules-core)
+      pick_best({modules, modules-core}, modules)   => modules
+          (target_pkg matches directly)
+      pick_best({modules-core}, modules)            => modules-core
+          (target_pkg not in set, but its dependency is)
+    """
+    if not allowed_set:
+        return None
+    if target_pkg:
+        if target_pkg in allowed_set:
+            return target_pkg
+        for child in target_pkg.all_depends_on_list:
+            if child in allowed_set:
+                return child
+    return max(allowed_set, key=lambda p: len(p.all_depends_on))
 
 
-# is pkg a child to any pkg from "alist"
-def is_pkg_child_to_any(pkg: KModPackage, alist: set[KModPackage]) -> bool:
-    if pkg in alist:
-        return True
+def prune_allowed(kmod: KMod) -> bool:
+    """Remove packages from kmod's allowed_list that are incompatible
+    with its kmod neighbors (dependencies and dependents).
 
-    for some_pkg in alist:
-        if pkg in some_pkg.all_depends_on:
-            return True
-    return False
+    For each package P in kmod's allowed_list, remove P if:
+    - any kmod dependency has allowed_list & P.self_and_below == {}, or
+    - any kmod dependent  has allowed_list & P.self_and_above == {}
 
+    where:
+      P.self_and_below = {P} | P.all_depends_on      (P and everything P depends on)
+      P.self_and_above = {P} | P.get_all_deps_for()   (P and everything that depends on P)
 
-def update_allowed(kmod: KMod, visited: set[KMod], update_linked: bool = False) -> int:
-    num_updated = 0
-    init = False
+    This ensures that if a kmod is placed in package P, its dependencies
+    can go into P or a package below P, and its dependents can go into P
+    or a package above P. Packages that violate this are eliminated.
+
+    Returns True if any packages were removed, False otherwise.
+    Sets kmod.err if the entire allowed_list becomes empty.
+    """
+    if kmod.err or not kmod.allowed_list:
+        return False
+
     to_remove = set()
-
-    if kmod in visited:
-        return num_updated
-    visited.add(kmod)
-
-    # if we have nothing, try to initialise based on parents and children
-    if kmod.allowed_list is None:
-        init_allowed_list: set[KModPackage] = set()
-
-        # init from children
+    for pkg in kmod.allowed_list:
         for kmod_dep in kmod.depends_on:
-            if kmod_dep.allowed_list:
-                init_allowed_list.update(kmod_dep.allowed_list)
-                init = True
-
-        if init:
-            # also add any pkgs that pkgs from list could depend on
-            deps_for = set()
-            for pkg in init_allowed_list:
-                deps_for.update(pkg.get_all_deps_for())
-            init_allowed_list.update(deps_for)
-
-        # init from parents
-        if not init:
-            for kmod_par in kmod.is_dependency_for:
-                if kmod_par.allowed_list:
-                    init_allowed_list.update(kmod_par.allowed_list)
-                    # also add any pkgs that depend on pkgs from list
-                    for pkg in kmod_par.allowed_list:
-                        init_allowed_list.update(pkg.all_depends_on)
-                        init = True
-
-        if init:
-            kmod.allowed_list = init_allowed_list
-            log.debug('%s: init to %s', kmod.name, [x.name for x in kmod.allowed_list])
-
-    kmod_allowed_list = kmod.allowed_list or set()
-    # log.debug('%s: update to %s', kmod.name, [x.name for x in kmod_allowed_list])
-
-    # each allowed is parent to at least one child allowed [for _all_ children]
-    for pkg in kmod_allowed_list:
-        for kmod_dep in kmod.depends_on:
-            if kmod_dep.allowed_list is None or kmod_dep.err:
+            if not kmod_dep.allowed_list or kmod_dep.err:
                 continue
-            if not is_pkg_parent_to_any(pkg, kmod_dep.allowed_list):
+            if not (pkg.self_and_below & kmod_dep.allowed_list):
                 to_remove.add(pkg)
-                log.debug('%s: remove %s from allowed, child: %s [%s]',
-                          kmod.name, [pkg.name], kmod_dep.name, [x.name for x in kmod_dep.allowed_list])
+                log.debug('%s: remove %s, child %s has %s',
+                          kmod.name, pkg.name, kmod_dep.name, [x.name for x in kmod_dep.allowed_list])
+                break
 
-    # each allowed is child to at least one parent allowed [for _all_ parents]
-    for pkg in kmod_allowed_list:
+        if pkg in to_remove:
+            continue
+
         for kmod_par in kmod.is_dependency_for:
-            if kmod_par.allowed_list is None or kmod_par.err:
+            if not kmod_par.allowed_list or kmod_par.err:
                 continue
-
-            if not is_pkg_child_to_any(pkg, kmod_par.allowed_list):
+            if not (pkg.self_and_above & kmod_par.allowed_list):
                 to_remove.add(pkg)
-                log.debug('%s: remove %s from allowed, parent: %s %s',
-                          kmod.name, [pkg.name], kmod_par.name, [x.name for x in kmod_par.allowed_list])
+                log.debug('%s: remove %s, parent %s has %s',
+                          kmod.name, pkg.name, kmod_par.name, [x.name for x in kmod_par.allowed_list])
+                break
 
-    for pkg in to_remove:
-        kmod_allowed_list.remove(pkg)
-        num_updated = num_updated + 1
-        if len(kmod_allowed_list) == 0:
-            log.error('%s: cleared entire allow list', kmod.name)
-            kmod.err = 1
+    if not to_remove:
+        return False
 
-    if init or to_remove or update_linked:
-        if to_remove:
-            log.debug('%s: updated to %s', kmod.name, [x.name for x in kmod_allowed_list])
+    kmod.allowed_list -= to_remove
+    log.debug('%s: pruned to %s', kmod.name, [x.name for x in kmod.allowed_list])
+    if not kmod.allowed_list:
+        log.error('%s: cleared entire allow list', kmod.name)
+        kmod.err = 1
+    return True
 
-        for kmod_dep in kmod.depends_on:
-            num_updated = num_updated + update_allowed(kmod_dep, visited)
 
-        for kmod_dep in kmod.is_dependency_for:
-            num_updated = num_updated + update_allowed(kmod_dep, visited)
+def propagate(kmod_list: KModList, seed_kmods=None):
+    """Run prune_allowed() across kmods until no more changes occur.
 
-    return num_updated
+    When seed_kmods is None, starts with all kmods in topological order.
+    When seed_kmods is given, starts with their immediate neighbors only.
+
+    Each time prune_allowed() removes a package from a kmod's allowed_list,
+    that kmod's neighbors are re-queued, since the change may make some of
+    their packages incompatible too.
+    """
+    if seed_kmods is None:
+        queue = deque(kmod_list.get_topo_order())
+    else:
+        queue = deque()
+        for kmod in seed_kmods:
+            for neighbor in kmod.depends_on | kmod.is_dependency_for:
+                queue.append(neighbor)
+    in_queue = set(queue)
+
+    while queue:
+        kmod = queue.popleft()
+        in_queue.discard(kmod)
+        if prune_allowed(kmod):
+            for neighbor in kmod.depends_on | kmod.is_dependency_for:
+                if neighbor not in in_queue:
+                    queue.append(neighbor)
+                    in_queue.add(neighbor)
 
 
 def apply_initial_labels(pkg_list: KModPackageList, kmod_list: KModList, treat_default_as_wants=False):
@@ -415,161 +490,82 @@ def apply_initial_labels(pkg_list: KModPackageList, kmod_list: KModList, treat_d
                 rule_type = 'wants'
 
             if 'needs' == rule_type:
-                # kmod_matching is already in topo_order
                 kmod_matching = get_kmods_matching_re(kmod_list, rule)
                 for kmod in kmod_matching:
                     if kmod.assigned_to_pkg and kmod.assigned_to_pkg != pkg_obj:
                         log.error('%s: can not be required by 2 pkgs %s %s', kmod.name, kmod.assigned_to_pkg, pkg_obj.name)
                     else:
                         kmod.assigned_to_pkg = pkg_obj
-                        kmod.allowed_list = set([pkg_obj])
-                        kmod.rule_specifity = len(kmod_matching)
+                        kmod.allowed_list = {pkg_obj}
                         log.debug('%s: needed by %s', kmod.name, [pkg_obj.name])
 
-            if 'wants' == rule_type:
-                # kmod_matching is already in topo_order
+            elif 'wants' == rule_type:
                 kmod_matching = get_kmods_matching_re(kmod_list, rule)
                 for kmod in kmod_matching:
-                    if kmod.allowed_list is None:
-                        kmod.allowed_list = set(pkg_obj.all_depends_on)
-                        kmod.allowed_list.add(pkg_obj)
+                    if not kmod.assigned_to_pkg and not kmod.preferred_pkg:
+                        kmod.allowed_list = {pkg_obj} | pkg_obj.all_depends_on
                         kmod.preferred_pkg = pkg_obj
-                        kmod.rule_specifity = len(kmod_matching)
-                        log.debug('%s: wanted by %s, init allowed to %s', kmod.name, [pkg_obj.name], [pkg.name for pkg in kmod.allowed_list])
+                        log.debug('%s: wanted by %s, allowed: %s', kmod.name, [pkg_obj.name], [p.name for p in kmod.allowed_list])
+                    elif kmod.assigned_to_pkg:
+                        log.debug('%s: ignoring wants by %s, assigned to %s', kmod.name, pkg_obj.name, kmod.assigned_to_pkg.name)
                     else:
-                        if kmod.assigned_to_pkg:
-                            log.debug('%s: ignoring wants by %s, already assigned to %s', kmod.name, pkg_obj.name, kmod.assigned_to_pkg.name)
-                        else:
-                            # rule specifity may not be good idea, so just log it
-                            # e.g. .*test.* may not be more specific than arch/x86/.*
-                            log.debug('already have wants for %s %s, new rule: %s', kmod.name, kmod.preferred_pkg, rule)
+                        log.debug('already have wants for %s %s, new rule: %s', kmod.name, kmod.preferred_pkg, rule)
 
-            if 'default' == rule_type:
+            elif 'default' == rule_type:
                 pkg_obj.default = True
 
 
-def settle(kmod_list: KModList) -> None:
-    kmod_topo_order = list(kmod_list.get_topo_order())
+def resolve_preferred(kmod_list: KModList):
+    """Resolve kmods that have a preferred_pkg (set by 'wants' rules).
 
-    for i in range(0, 25):
-        log.debug('settle start %s', i)
-
-        ret = 0
-        for kmod in kmod_topo_order:
-            visited: set[KMod] = set()
-            ret = ret + update_allowed(kmod, visited)
-        log.debug('settle %s updated nodes: %s', i, ret)
-
-        if ret == 0:
-            break
-
-        kmod_topo_order.reverse()
-
-
-# phase 1 - propagate initial labels
-def propagate_labels_1(pkg_list: KModPackageList, kmod_list: KModList):
+    For each kmod with multiple allowed packages and a preferred_pkg,
+    use pick_best() to select the preferred package (or closest match)
+    and narrow allowed_list to just that one. Then propagate the change
+    to neighbors.
+    """
     log.info('')
-    settle(kmod_list)
-
-
-def pick_closest_to_preffered(preferred_pkg: KModPackage, allowed_set: set[KModPackage]):
-    for child in preferred_pkg.all_depends_on_list:
-        if child in allowed_set:
-            return child
-    return None
-
-
-# phase 2 - if some kmods allow more than one pkg, pick wanted package
-def propagate_labels_2(pkg_list: KModPackageList, kmod_list: KModList):
-    log.info('')
-    ret = 0
     for kmod in kmod_list.get_topo_order():
-        update_linked = False
-
-        if kmod.allowed_list is None and kmod.preferred_pkg:
-            log.error('%s: has no allowed list but has preferred_pkg %s', kmod.name, kmod.preferred_pkg.name)
-            kmod.err = 1
-
-        if kmod.allowed_list and kmod.preferred_pkg:
-            chosen_pkg = None
-            if kmod.preferred_pkg in kmod.allowed_list:
-                chosen_pkg = kmod.preferred_pkg
-            else:
-                chosen_pkg = pick_closest_to_preffered(kmod.preferred_pkg, kmod.allowed_list)
-
-            if chosen_pkg is not None:
-                kmod.allowed_list = set([chosen_pkg])
-                log.debug('%s: making to prefer %s (preffered is %s), allowed: %s', kmod.name, chosen_pkg.name,
-                          kmod.preferred_pkg.name, [pkg.name for pkg in kmod.allowed_list])
-                update_linked = True
-
-        visited: set[KMod] = set()
-        ret = ret + update_allowed(kmod, visited, update_linked)
-
-    log.debug('updated nodes: %s', ret)
-    settle(kmod_list)
+        if kmod.err or not kmod.allowed_list or len(kmod.allowed_list) <= 1:
+            continue
+        if not kmod.preferred_pkg:
+            continue
+        chosen = pick_best(kmod.allowed_list, kmod.preferred_pkg)
+        if chosen:
+            kmod.allowed_list = {chosen}
+            log.debug('%s: resolved to preferred %s', kmod.name, chosen.name)
+            propagate(kmod_list, [kmod])
 
 
-# Is this the best pick? ¯\_(ツ)_/¯
-def pick_topmost_allowed(allowed_set: set[KModPackage]) -> KModPackage:
-    topmost = next(iter(allowed_set))
-    for pkg in allowed_set:
-        if len(pkg.all_depends_on) > len(topmost.all_depends_on):
-            topmost = pkg
+def resolve_remaining(pkg_list: KModPackageList, kmod_list: KModList):
+    """Final pass: resolve kmods that still have multiple allowed packages
+    after resolve_preferred().
 
-    return topmost
-
-
-# phase 3 - assign everything else that remained
-def propagate_labels_3(pkg_list: KModPackageList, kmod_list: KModList):
+    Walks kmods in reverse topological order (dependents before dependencies),
+    using pick_best() with the default package as target. Falls back to
+    pick_best() without a target if the default package doesn't match.
+    Each resolution is propagated to neighbors.
+    """
     log.info('')
-    ret = 0
-    kmod_topo_order = list(kmod_list.get_topo_order())
-    # do reverse topo order to cover children faster
-    kmod_topo_order.reverse()
-
     default_pkg = None
-    default_name = ''
     for pkg_obj in pkg_list:
         if pkg_obj.default:
             if default_pkg:
                 log.error('Already have default pkg: %s / %s', default_pkg.name, pkg_obj.name)
             else:
                 default_pkg = pkg_obj
-                default_name = default_pkg.name
 
-    for kmod in kmod_topo_order:
-        update_linked = False
-        chosen_pkg = None
-
-        if kmod.allowed_list is None:
-            if default_pkg:
-                chosen_pkg = default_pkg
-            else:
-                log.error('%s not assigned and there is no default', kmod.name)
-        elif len(kmod.allowed_list) > 1:
-            if default_pkg:
-                if default_pkg in kmod.allowed_list:
-                    chosen_pkg = default_pkg
-                else:
-                    chosen_pkg = pick_closest_to_preffered(default_pkg, kmod.allowed_list)
-                    if chosen_pkg:
-                        log.debug('closest is %s', chosen_pkg.name)
-            if not chosen_pkg:
-                # multiple pkgs are allowed, but none is preferred or default
-                chosen_pkg = pick_topmost_allowed(kmod.allowed_list)
-                log.debug('topmost is %s', chosen_pkg.name)
-
-        if chosen_pkg:
-            kmod.allowed_list = set([chosen_pkg])
-            log.debug('%s: making to prefer %s (default: %s)', kmod.name, [chosen_pkg.name], default_name)
-            update_linked = True
-
-        visited: set[KMod] = set()
-        ret = ret + update_allowed(kmod, visited, update_linked)
-
-    log.debug('updated nodes: %s', ret)
-    settle(kmod_list)
+    for kmod in reversed(list(kmod_list.get_topo_order())):
+        if kmod.err or not kmod.allowed_list or len(kmod.allowed_list) <= 1:
+            continue
+        chosen = None
+        if default_pkg:
+            chosen = pick_best(kmod.allowed_list, default_pkg)
+        if not chosen:
+            chosen = pick_best(kmod.allowed_list)
+        if chosen:
+            kmod.allowed_list = {chosen}
+            log.debug('%s: resolved to %s', kmod.name, chosen.name)
+            propagate(kmod_list, [kmod])
 
 
 def load_config(config_pathname: str, kmod_list: KModList, variants=[]):
@@ -683,6 +679,14 @@ def sort_kmods(depmod_pathname: str, config_str: str, variants=[], do_pictures='
     kmod_list.load_depmod_file(depmod_pathname)
 
     pkg_list = load_config(config_str, kmod_list, variants)
+    all_pkgs = set(pkg_list)
+
+    for pkg in pkg_list:
+        pkg.self_and_below = {pkg} | pkg.all_depends_on
+        pkg.self_and_above = {pkg} | pkg.get_all_deps_for()
+
+    for kmod in kmod_list.name_to_kmod_map.values():
+        kmod.allowed_list = set(all_pkgs)
 
     basename = os.path.splitext(config_str)[0]
 
@@ -691,12 +695,11 @@ def sort_kmods(depmod_pathname: str, config_str: str, variants=[], do_pictures='
         make_pictures(pkg_list, kmod_list, basename + "_0", print_allowed=False)
 
     try:
-
-        propagate_labels_1(pkg_list, kmod_list)
+        propagate(kmod_list)
         if '1' in do_pictures:
             make_pictures(pkg_list, kmod_list, basename + "_1")
-        propagate_labels_2(pkg_list, kmod_list)
-        propagate_labels_3(pkg_list, kmod_list)
+        resolve_preferred(kmod_list)
+        resolve_remaining(pkg_list, kmod_list)
     finally:
         if 'f' in do_pictures:
             make_pictures(pkg_list, kmod_list, basename + "_f")
@@ -742,13 +745,13 @@ def print_report(pkg_list: KModPackageList, kmod_list: KModList):
 
         bad_parent_list = []
         for kmod_parent in kmod.is_dependency_for:
-            if not is_pkg_child_to_any(kmod.preferred_pkg, kmod_parent.allowed_list):
+            if not (kmod.preferred_pkg.self_and_above & kmod_parent.allowed_list):
                 bad_parent_list.append(kmod_parent)
 
         bad_child_list = []
         for kmod_child in kmod.depends_on:
-            if not is_pkg_parent_to_any(kmod.preferred_pkg, kmod_child.allowed_list):
-                bad_child_list.append(kmod_parent)
+            if not (kmod.preferred_pkg.self_and_below & kmod_child.allowed_list):
+                bad_child_list.append(kmod_child)
 
         log.info('%s: wanted by %s but ended up in %s', kmod.name, [kmod.preferred_pkg.name], [pkg.name for pkg in kmod.allowed_list])
         if bad_parent_list:
