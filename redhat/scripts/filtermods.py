@@ -204,7 +204,7 @@ class KModList():
         kmod = KMod(kmod_pathname)
         # log.debug('Adding kmod %s (%s) to list', kmod.name, kmod.kmod_pathname)
         if kmod.kmod_pathname != kmod_pathname:
-            raise Exception('Already have %s, but path changed? %s', kmod_name, kmod_pathname)
+            raise Exception('Already have %s, but path changed? %s' % (kmod_name, kmod_pathname))
         if not kmod.name:
             raise Exception('Each kmod needs a name')
         self.name_to_kmod_map[kmod_name] = kmod
@@ -213,7 +213,7 @@ class KModList():
     def process_depmod_line(self, line):
         tmp = line.split(':')
         if len(tmp) != 2:
-            raise Exception('Depmod line has unexpected format: %s', line)
+            raise Exception('Depmod line has unexpected format: %s' % line)
         kmod_pathname = tmp[0].strip()
         dependencies_pathnames = tmp[1].strip()
         kmod = self.get(kmod_pathname, create_if_missing=True)
@@ -265,7 +265,7 @@ class KModList():
         for kmod_pathname in ret:
             kmod = self.get(kmod_pathname)
             if not kmod:
-                raise Exception('Could not find kmod %s in depmod', kmod_pathname)
+                raise Exception('Could not find kmod %s in depmod' % kmod_pathname)
         log.debug('OK: all (%s) kmods from %s are known', len(ret), dirpath)
 
 
