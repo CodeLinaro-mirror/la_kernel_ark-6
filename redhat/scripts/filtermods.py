@@ -279,7 +279,9 @@ class KModPackage(HierarchyObject):
     def _get_deps_for(pkg):
         return pkg.is_dependency_for
 
-    def __init__(self, name: str, depends_on=[]) -> None:
+    def __init__(self, name: str, depends_on=None) -> None:
+        if depends_on is None:
+            depends_on = []
         self.name: str = name
         self.depends_on: set[KModPackage] = set(depends_on)
         self.is_dependency_for: set[KModPackage] = set()
@@ -575,7 +577,9 @@ def resolve_remaining(pkg_list: KModPackageList, kmod_list: KModList):
             propagate(kmod_list, [kmod])
 
 
-def load_config(config_pathname: str, kmod_list: KModList, variants=[]):
+def load_config(config_pathname: str, kmod_list: KModList, variants=None):
+    if variants is None:
+        variants = []
     kmod_pkg_list = KModPackageList()
 
     with open(config_pathname, 'r') as file:
@@ -680,7 +684,9 @@ def make_pictures(pkg_list: KModPackageList, kmod_list: KModList, filename: str,
     safe_run_command('dot -Tsvg %s.dot > %s.svg' % (filename, filename))
 
 
-def sort_kmods(depmod_pathname: str, config_str: str, variants=[], do_pictures=''):
+def sort_kmods(depmod_pathname: str, config_str: str, variants=None, do_pictures=''):
+    if variants is None:
+        variants = []
     log.info('%s %s', depmod_pathname, config_str)
     kmod_list = KModList()
     kmod_list.load_depmod_file(depmod_pathname)
