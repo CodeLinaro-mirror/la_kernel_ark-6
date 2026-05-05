@@ -159,6 +159,10 @@ def get_topo_order(obj_list: list[HierarchyObject], func_get_linked_objs=lambda 
                 if all_deps_sorted:
                     no_deps.add(obj)
 
+        if not no_deps:
+            cycle_names = [str(obj) for obj in objs_to_sort]
+            raise Exception('Dependency cycle detected among: %s' % ', '.join(cycle_names))
+
         for obj in no_deps:
             topo_order.append(obj)
             objs_sorted.add(obj)
