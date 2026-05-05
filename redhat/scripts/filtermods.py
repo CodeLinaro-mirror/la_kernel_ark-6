@@ -127,11 +127,16 @@ def setup_logging(log_filename, stdout_log_level):
     return log
 
 
-def canon_modname(kmod_pathname: str) -> str:
-    name = os.path.basename(kmod_pathname)
-    if name.endswith('.xz'):
-        name = name[:-3]
+def strip_ko_suffix(name: str) -> str:
+    for ext in ('.xz', '.zst', '.gz'):
+        if name.endswith(ext):
+            name = name[:-len(ext)]
+            break
     return name
+
+
+def canon_modname(kmod_pathname: str) -> str:
+    return strip_ko_suffix(os.path.basename(kmod_pathname))
 
 
 class HierarchyObject:
@@ -252,9 +257,7 @@ class KModList():
         ret = []
         for root, dirs, files in os.walk(topdir):
             for filename in files:
-                if filename.endswith('.xz'):
-                    filename = filename[:-3]
-                if filename.endswith('.ko'):
+                if strip_ko_suffix(filename).endswith('.ko'):
                     kmod_pathname = os.path.join(root, filename)
                     ret.append(kmod_pathname)
 
