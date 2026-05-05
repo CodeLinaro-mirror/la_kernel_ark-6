@@ -1042,19 +1042,9 @@ class FiltermodTests(unittest.TestCase):
 
 
 def do_rpm_mapping_test(config_pathname, kmod_rpms):
+    """Check that kmod-to-package assignments in built RPMs match config rules."""
+    import shlex
     kmod_dict = {}
-
-    def get_kmods_matching_re(pkgname, param_re):
-        matched = []
-        param_re = '^kernel/' + param_re
-        pattern = re.compile(param_re)
-
-        for kmod_pathname, kmod_rec in kmod_dict.items():
-            m = pattern.match(kmod_pathname)
-            if m:
-                matched.append(kmod_pathname)
-
-        return matched
 
     for kmod_rpm in kmod_rpms.split():
         filename = os.path.basename(kmod_rpm)
@@ -1063,15 +1053,14 @@ def do_rpm_mapping_test(config_pathname, kmod_rpms):
         if not m:
             raise Exception('Unrecognized rpm ' + kmod_rpm + ', expected a kernel-modules* rpm')
         pkgname = 'modules-' + m.group(1)
-        m = re.match(r'modules-([0-9.]+)', pkgname)
-        if m:
+        if re.match(r'modules-([0-9.]+)', pkgname):
             pkgname = 'modules'
 
         tmpdir = os.path.join('tmp.filtermods', filename, pkgname)
         if not os.path.exists(tmpdir):
             log.info('creating tmp dir %s', tmpdir)
             os.makedirs(tmpdir)
-            safe_run_command('rpm2cpio %s | cpio -id' % (os.path.abspath(kmod_rpm)), cwddir=tmpdir)
+            safe_run_command('rpm2cpio %s | cpio -id' % (shlex.quote(os.path.abspath(kmod_rpm))), cwddir=tmpdir)
         else:
             log.info('using cached content of tmp dir: %s', tmpdir)
 
@@ -1082,33 +1071,45 @@ def do_rpm_mapping_test(config_pathname, kmod_rpms):
                     continue
 
                 kmod_pathname = 'kernel/' + ret.group(1)
-                if not kmod_pathname.endswith('.xz') and not kmod_pathname.endswith('.ko'):
+                if not re.search(r'\.ko(\.\w+)?$', kmod_pathname):
                     continue
                 if kmod_pathname in kmod_dict:
                     if pkgname not in kmod_dict[kmod_pathname]['target_pkgs']:
                         kmod_dict[kmod_pathname]['target_pkgs'].append(pkgname)
                 else:
-                    kmod_dict[kmod_pathname] = {}
-                    kmod_dict[kmod_pathname]['target_pkgs'] = [pkgname]
-                    kmod_dict[kmod_pathname]['pkg'] = None
-                    kmod_dict[kmod_pathname]['matched'] = False
+                    kmod_dict[kmod_pathname] = {'target_pkgs': [pkgname], 'pkg': None, 'rule': None}
 
     kmod_pkg_list = load_config(config_pathname, None)
 
+    default_pkg_name = None
     for package_name, rule_type, rule in kmod_pkg_list.rules:
-        kmod_names = get_kmods_matching_re(package_name, rule)
+        if rule_type == 'default':
+            default_pkg_name = package_name
+            continue
 
-        for kmod_pathname in kmod_names:
-            kmod_rec = kmod_dict[kmod_pathname]
+        param_re = '^kernel/' + rule
+        pattern = re.compile(param_re)
 
-            if not kmod_rec['matched']:
-                kmod_rec['matched'] = True
-                kmod_rec['pkg'] = package_name
+        for kmod_pathname, kmod_rec in kmod_dict.items():
+            if pattern.match(kmod_pathname):
+                if rule_type == 'needs' or kmod_rec['pkg'] is None:
+                    kmod_rec['pkg'] = package_name
+                    kmod_rec['rule'] = '%s: %s' % (rule_type, rule)
+
     for kmod_pathname, kmod_rec in kmod_dict.items():
-        if kmod_rec['pkg'] not in kmod_rec['target_pkgs']:
-            log.warning('kmod %s wanted by config in %s, in tree it is: %s', kmod_pathname, [kmod_rec['pkg']], kmod_rec['target_pkgs'])
+        if kmod_rec['pkg'] is None:
+            kmod_rec['pkg'] = default_pkg_name
+            kmod_rec['rule'] = 'default'
+
+    for kmod_pathname, kmod_rec in kmod_dict.items():
+        if kmod_rec['pkg'] is None:
+            log.warning('kmod %s not matched by any config rule and no default package, in tree it is: %s', kmod_pathname, kmod_rec['target_pkgs'])
+        elif kmod_rec['pkg'] not in kmod_rec['target_pkgs']:
+            if kmod_rec['rule'] == 'default':
+                log.info('kmod %s wanted by config in %s (rule: %s), in tree it is: %s', kmod_pathname, [kmod_rec['pkg']], kmod_rec['rule'], kmod_rec['target_pkgs'])
+            else:
+                log.warning('kmod %s wanted by config in %s (rule: %s), in tree it is: %s', kmod_pathname, [kmod_rec['pkg']], kmod_rec['rule'], kmod_rec['target_pkgs'])
         elif len(kmod_rec['target_pkgs']) > 1:
-            # if set(kmod_rec['target_pkgs']) != set(['modules', 'modules-core']):
             log.warning('kmod %s multiple matches in tree: %s/%s', kmod_pathname, [kmod_rec['pkg']], kmod_rec['target_pkgs'])
 
 
