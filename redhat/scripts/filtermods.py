@@ -883,7 +883,7 @@ class FiltermodTests(unittest.TestCase):
         self._is_kmod_pkg('kmod8', 'modules-partner')
         self._is_kmod_pkg('kmod9', 'modules-partner')
 
-    def _check_preffered_pkg(self, kmodname, pkgname):
+    def _check_preferred_pkg(self, kmodname, pkgname):
         kmod = self.kmod_list.get(kmodname)
         self.assertIsNotNone(kmod)
         self.assertEqual(kmod.preferred_pkg.name, pkgname)
@@ -892,9 +892,9 @@ class FiltermodTests(unittest.TestCase):
         self.pkg_list, self.kmod_list = sort_kmods(get_td('test5.dep'), get_td('test5.yaml'),
                                                    do_pictures=FiltermodTests.do_pictures)
 
-        self._check_preffered_pkg('kmod2', 'modules')
-        self._check_preffered_pkg('kmod3', 'modules-partner')
-        self._check_preffered_pkg('kmod4', 'modules-partner')
+        self._check_preferred_pkg('kmod2', 'modules')
+        self._check_preferred_pkg('kmod3', 'modules-partner')
+        self._check_preferred_pkg('kmod4', 'modules-partner')
 
     def test6(self):
         self.pkg_list, self.kmod_list = sort_kmods(get_td('test6.dep'), get_td('test6.yaml'),
