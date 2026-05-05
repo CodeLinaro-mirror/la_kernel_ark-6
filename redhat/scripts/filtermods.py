@@ -233,6 +233,7 @@ class KModList():
         with open(filepath) as f:
             lines = f.readlines()
             for line in lines:
+                line = line.strip()
                 if not line or line.startswith('#'):
                     continue
                 self.process_depmod_line(line)
