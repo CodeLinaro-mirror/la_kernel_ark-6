@@ -598,6 +598,8 @@ def load_config(config_pathname: str, kmod_list: KModList, variants=None):
         pkg_dep_list = []
         for pkg_dep_name in depends_on:
             pkg_dep = kmod_pkg_list.get(pkg_dep_name)
+            if pkg_dep is None:
+                raise Exception('Package %s depends on unknown package %s' % (pkg_name, pkg_dep_name))
             pkg_dep_list.append(pkg_dep)
 
         pkg_obj = kmod_pkg_list.get(pkg_name)
