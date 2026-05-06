@@ -1,6 +1,13 @@
-* Tue May 05 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.a293ec25d59d.17]
+* Wed May 06 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.74fe02ce122a.18]
+- Enable PKCS7_WAIVE_AUTHATTRS_REJECTION_FOR_MLDSA (Justin M. Forbes)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Wed May 06 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.74fe02ce122a.17]
+- redhat/configs: enable CONFIG_GPIO_NOVALAKE for x86 on RHEL (Steve Best)
+- redhat/Makefile: avoid picking up editor backup files in changelog glob (Jan Stancek)
+- Linux v7.1.0-0.rc2.74fe02ce122a
 Resolves: 
 
 * Tue May 05 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.a293ec25d59d.16]
