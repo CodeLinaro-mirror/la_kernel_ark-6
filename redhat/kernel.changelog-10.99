@@ -1,3 +1,13 @@
+* Thu May 07 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.4-0]
+- wifi: mt76: mt7925: fix incorrect TLV length in CLC command (Quan Zhou)
+- ASoC: SOF: Don't allow pointer operations on unconfigured streams (Mark Brown)
+- Turn on DVB_PT3 for Fedora at user request (Justin M. Forbes)
+- Enable MEDIA_TUNER_MXL301RF for Fedora (Justin M. Forbes)
+- mfd: bcm2835-pm: Add BCM2712 PM device support (Phil Elwell)
+- mfd: bcm2835-pm: Introduce SoC-specific type identifier (Phil Elwell)
+- Linux v7.0.4
+Resolves: 
+
 * Thu Apr 30 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.3-0]
 - Linux v7.0.3
 Resolves: 
