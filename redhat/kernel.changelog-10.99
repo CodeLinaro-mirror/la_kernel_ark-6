@@ -1,7 +1,12 @@
-* Wed May 06 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.74fe02ce122a.18]
-- Enable PKCS7_WAIVE_AUTHATTRS_REJECTION_FOR_MLDSA (Justin M. Forbes)
+* Thu May 07 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.8ab992f815d6.19]
+- Disable MODULE_SIG_KEY_TYPE_MLDSA_87 for RHEL right now (Justin M. Forbes)
+- Gate Fedora ELN kernel updates on openQA tests (Adam Williamson)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Thu May 07 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.8ab992f815d6.18]
+- Linux v7.1.0-0.rc2.8ab992f815d6
 Resolves: 
 
 * Wed May 06 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.74fe02ce122a.17]
