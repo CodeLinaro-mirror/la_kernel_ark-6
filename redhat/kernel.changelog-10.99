@@ -1,8 +1,13 @@
-* Fri May 08 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.917719c412c4.20]
+* Sat May 09 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.70390501d194.21]
 - rxrpc: Also unshare DATA/RESPONSE packets when paged frags are present (Hyunwoo Kim)
+- yamlsanity.py: allow multiple docs within a yaml file (Scott Weaver)
 - Disable MODULE_SIG_KEY_TYPE_MLDSA_87 for RHEL right now (Justin M. Forbes)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Sat May 09 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.70390501d194.20]
+- Linux v7.1.0-0.rc2.70390501d194
 Resolves: 
 
 * Fri May 08 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc2.917719c412c4.19]
