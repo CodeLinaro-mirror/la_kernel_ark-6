@@ -1,3 +1,18 @@
+* Wed May 13 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.14-0]
+- net: skbuff: preserve shared-frag marker during coalescing (William Bowling)
+- net: skbuff: propagate shared-frag marker through pskb_copy() (Hyunwoo Kim)
+- Turn off F43 and F44 release targets (Justin M. Forbes)
+- rxrpc: Also unshare DATA/RESPONSE packets when paged frags are present (Hyunwoo Kim)
+- rxrpc: Fix rxrpc_input_call_event() to only unshare DATA packets (David Howells)
+- rxrpc: Fix re-decryption of RESPONSE packets (David Howells)
+- rxrpc: Fix error handling in rxgk_extract_token() (David Howells)
+- rxrpc: Fix rxkad crypto unalignment handling (David Howells)
+- rxrpc: Fix conn-level packet handling to unshare RESPONSE packets (David Howells)
+- rxrpc: Fix memory leaks in rxkad_verify_response() (David Howells)
+- rxrpc: Fix potential UAF after skb_unshare() failure (David Howells)
+- xfrm: esp: avoid in-place decrypt on shared skb frags (Kuan-Ting Chen)
+Resolves: 
+
 * Thu Apr 23 2026 Augusto Caringi <acaringi@redhat.com> [6.19.14-0]
 - Linux v6.19.14
 Resolves: 
