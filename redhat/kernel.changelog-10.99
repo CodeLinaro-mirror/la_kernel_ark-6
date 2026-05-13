@@ -1,3 +1,15 @@
+* Wed May 13 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.6-0]
+- net: skbuff: propagate shared-frag marker through pskb_copy() (Hyunwoo Kim)
+- net: skbuff: preserve shared-frag marker during coalescing (William Bowling)
+- Add BugsFixed for 7.0.7 (Justin M. Forbes)
+- ovl: fix verity lazy-load guard broken by fsverity_active() semantic change (Colin Walters)
+- Revert rxrpc dirtyfrag fix in favor of version which landed upstream (Justin M. Forbes)
+- Re-enable Intel MEI for Fedora x86 (Justin M. Forbes)
+- xfrm: esp: avoid in-place decrypt on shared skb frags (Kuan-Ting Chen)
+- rxrpc: Also unshare DATA/RESPONSE packets when paged frags are present (Hyunwoo Kim)
+- Linux v7.0.6
+Resolves: 
+
 * Thu May 07 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.4-0]
 - wifi: mt76: mt7925: fix incorrect TLV length in CLC command (Quan Zhou)
 - ASoC: SOF: Don't allow pointer operations on unconfigured streams (Mark Brown)
