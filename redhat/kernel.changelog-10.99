@@ -1,6 +1,11 @@
-* Wed May 13 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc3.1d5dcaa3bd65.25]
+* Thu May 14 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc3.e1914add2799.26]
+- net: skbuff: propagate shared-frag marker through frag-transfer helpers (Hyunwoo Kim)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Thu May 14 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc3.e1914add2799.25]
+- Linux v7.1.0-0.rc3.e1914add2799
 Resolves: 
 
 * Wed May 13 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc3.1d5dcaa3bd65.24]
