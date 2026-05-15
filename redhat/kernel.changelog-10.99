@@ -1,3 +1,12 @@
+* Fri May 15 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.14-0]
+- net: skbuff: propagate shared-frag marker through frag-transfer helpers (Hyunwoo Kim)
+- Revert v3 of the fragnesia fix. V4 covers an additional path (Justin M. Forbes)
+- ptrace: slightly saner 'get_dumpable()' logic (Linus Torvalds)
+- net: skbuff: propagate shared-frag marker through frag-transfer helpers (Hyunwoo Kim)
+- Revert old fragnesia fixes in favor of more complete solution (Justin M. Forbes)
+- Revert old fragnesia fixes in favor of more complete solution (Justin M. Forbes)
+Resolves: 
+
 * Wed May 13 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.14-0]
 - net: skbuff: preserve shared-frag marker during coalescing (William Bowling)
 - net: skbuff: propagate shared-frag marker through pskb_copy() (Hyunwoo Kim)
