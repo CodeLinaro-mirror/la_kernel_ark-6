@@ -1,7 +1,13 @@
-* Sat May 16 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc3.6916d5703ddf.28]
+* Sun May 17 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc3.6916d5703ddf.29]
 - net: skbuff: propagate shared-frag marker through frag-transfer helpers (Hyunwoo Kim)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Sun May 17 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc3.6916d5703ddf.28]
+- Add missing config file for Fedora (Justin M. Forbes)
+- Turn on XFS_ONLINE_REPAIR for Fedora (Justin M. Forbes)
+- Enable SND_DESIGNWARE for Fedora x86 (Justin M. Forbes)
 Resolves: 
 
 * Sat May 16 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc3.6916d5703ddf.27]
