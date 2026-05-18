@@ -1,3 +1,10 @@
+* Mon May 18 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.9-0]
+- net/sched: fix pedit partial COW leading to page cache corruption (Rajat Gupta)
+- net: skbuff: propagate shared-frag marker through frag-transfer helpers (Hyunwoo Kim)
+- Revert fragnesia for so I can replace it with the newer one (Justin M. Forbes)
+- net/sched: act_pedit: extend the writable skb range per key (Zhang Cen)
+Resolves: 
+
 * Sun May 17 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.9-0]
 - Turn on XFS_ONLINE_REPAIR for Fedora (Justin M. Forbes)
 - Enable SND_DESIGNWARE for Fedora x86 (Justin M. Forbes)
