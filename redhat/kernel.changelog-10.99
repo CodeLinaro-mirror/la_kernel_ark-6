@@ -1,3 +1,10 @@
+* Mon May 18 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.14-0]
+- net/sched: fix pedit partial COW leading to page cache corruption (Rajat Gupta)
+- net: skbuff: propagate shared-frag marker through frag-transfer helpers (Hyunwoo Kim)
+- Revert fragnesia v4 in favor of v5 (Justin M. Forbes)
+- net/sched: act_pedit: extend the writable skb range per key (Zhang Cen)
+Resolves: 
+
 * Fri May 15 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.14-0]
 - net: skbuff: propagate shared-frag marker through frag-transfer helpers (Hyunwoo Kim)
 - Revert v3 of the fragnesia fix. V4 covers an additional path (Justin M. Forbes)
