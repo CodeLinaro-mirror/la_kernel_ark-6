@@ -36,7 +36,7 @@ BUILD_TARGET ?=
 # 'make dist-release'.  It should be set to "yes" if you expect to do
 # multiple updates and builds without bumping the base version, and no
 # when you expect every build to use a different base kernel version.
-BUMP_RELEASE:=no
+BUMP_RELEASE:=yes
 
 # For dist-release-tag and dist-git check that tree is in expected
 # state and has release commit as HEAD commit. Meant to be used
