@@ -1,3 +1,8 @@
+* Tue May 19 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.14-7]
+- net: gro: don't copy frags between mixed zcopy skbs (Sabrina Dubroca)
+- Turn on auto bumping for remainder of F42 (Justin M. Forbes)
+Resolves: 
+
 * Mon May 18 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.14-0]
 - net/sched: fix pedit partial COW leading to page cache corruption (Rajat Gupta)
 - net: skbuff: propagate shared-frag marker through frag-transfer helpers (Hyunwoo Kim)
