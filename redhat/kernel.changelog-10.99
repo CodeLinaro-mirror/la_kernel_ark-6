@@ -1,7 +1,17 @@
-* Tue May 19 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc4.ab5fce87a778.31]
+* Wed May 20 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc4.27fa82620cba.32]
+- rxrpc: Fix RESPONSE packet verification to extract skb to a linear buffer (David Howells)
+- rxrpc: Fix DATA decrypt vs splice() by copying data to buffer in recvmsg (David Howells)
+- crypto/krb5, rxrpc: Fix lack of pre-decrypt/pre-verify length checks (David Howells)
+- net/sched: act_pedit: extend the writable skb range per key (Zhang Cen)
 - net: skbuff: propagate shared-frag marker through frag-transfer helpers (Hyunwoo Kim)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Wed May 20 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc4.27fa82620cba.31]
+- redhat/configs: do not enable ARCH_TEGRA_238_SOC (Eric Chanudet)
+- redhat/configs: do not enable ARCH_R9A08G046 (Eric Chanudet)
+- Linux v7.1.0-0.rc4.27fa82620cba
 Resolves: 
 
 * Tue May 19 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc4.ab5fce87a778.30]
