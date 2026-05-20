@@ -147,55 +147,15 @@ static void rxrpc_rotate_rx_window(struct rxrpc_call *call)
 }
 
 /*
- * Decrypt and verify a DATA packet.  The content of the packet is pulled out
- * into a flat buffer rather than decrypting in place in the skbuff.  This also
- * has the advantage of aligning the buffer correctly for the crypto routines.
- *
- * We keep track of the sequence number of the packet currently decrypted into
- * the buffer in ->rx_dec_seq.  Unfortunately, this means that a MSG_PEEK of
- * more than one byte may cause a later packet to be decrypted into the buffer,
- * requiring the original to be re-decrypted when recvmsg() is called again.
+ * Decrypt and verify a DATA packet.
  */
 static int rxrpc_verify_data(struct rxrpc_call *call, struct sk_buff *skb)
 {
 	struct rxrpc_skb_priv *sp = rxrpc_skb(skb);
-	int ret;
 
-	if (call->rx_dec_seq == sp->hdr.seq && call->rx_dec_buffer)
+	if (sp->flags & RXRPC_RX_VERIFIED)
 		return 0;
-
-	if (sp->len > call->rx_dec_bsize) {
-		/* Make sure we can hold a 1412-byte jumbo subpacket and make
-		 * sure that the buffer size is aligned to a crypto blocksize.
-		 */
-		size_t size = max(round_up(sp->len, 32), 2048);
-		void *buffer = krealloc(call->rx_dec_buffer, size, GFP_NOFS);
-
-		if (!buffer)
-			return -ENOMEM;
-		call->rx_dec_buffer = buffer;
-		call->rx_dec_bsize = size;
-	}
-
-	ret = -EFAULT;
-	if (skb_copy_bits(skb, sp->offset, call->rx_dec_buffer, sp->len) < 0)
-		goto err;
-
-	call->rx_dec_offset = 0;
-	call->rx_dec_len = sp->len;
-	call->rx_dec_seq = sp->hdr.seq;
-	ret = call->security->verify_packet(call, skb);
-	if (ret < 0)
-		goto err;
-	return 0;
-
-err:
-	kfree(call->rx_dec_buffer);
-	call->rx_dec_buffer = NULL;
-	call->rx_dec_bsize = 0;
-	call->rx_dec_offset = 0;
-	call->rx_dec_len = 0;
-	return ret;
+	return call->security->verify_packet(call, skb);
 }
 
 /*
@@ -323,19 +283,16 @@ static int rxrpc_recvmsg_data(struct socket *sock, struct rxrpc_call *call,
 		if (msg)
 			sock_recv_timestamp(msg, sock->sk, skb);
 
-		if (rx_pkt_offset == USHRT_MAX) {
+		if (rx_pkt_offset == 0) {
 			ret2 = rxrpc_verify_data(call, skb);
 			trace_rxrpc_recvdata(call, rxrpc_recvmsg_next, seq,
-					     call->rx_dec_offset,
-					     call->rx_dec_len, ret2);
+					     sp->offset, sp->len, ret2);
 			if (ret2 < 0) {
 				ret = ret2;
 				goto out;
 			}
-			sp = rxrpc_skb(skb);
-			seq = sp->hdr.seq;
-			rx_pkt_offset = call->rx_dec_offset;
-			rx_pkt_len = call->rx_dec_len;
+			rx_pkt_offset = sp->offset;
+			rx_pkt_len = sp->len;
 		} else {
 			trace_rxrpc_recvdata(call, rxrpc_recvmsg_cont, seq,
 					     rx_pkt_offset, rx_pkt_len, 0);
@@ -347,10 +304,10 @@ static int rxrpc_recvmsg_data(struct socket *sock, struct rxrpc_call *call,
 		if (copy > remain)
 			copy = remain;
 		if (copy > 0) {
-			ret2 = copy_to_iter(call->rx_dec_buffer + rx_pkt_offset,
-					    copy, iter);
-			if (ret2 != copy) {
-				ret = -EFAULT;
+			ret2 = skb_copy_datagram_iter(skb, rx_pkt_offset, iter,
+						      copy);
+			if (ret2 < 0) {
+				ret = ret2;
 				goto out;
 			}
 
@@ -371,18 +328,13 @@ static int rxrpc_recvmsg_data(struct socket *sock, struct rxrpc_call *call,
 		/* The whole packet has been transferred. */
 		if (sp->hdr.flags & RXRPC_LAST_PACKET)
 			ret = 1;
-		rx_pkt_offset = USHRT_MAX;
+		rx_pkt_offset = 0;
 		rx_pkt_len = 0;
-
-		/* Terminate the receive here for MSG_PEEK otherwise we'd have
-		 * to replace the contents of ->rx_dec_buffer.
-		 */
-		if (unlikely(flags & MSG_PEEK))
-			break;
 
 		skb = skb_peek_next(skb, &call->recvmsg_queue);
 
-		rxrpc_rotate_rx_window(call);
+		if (!(flags & MSG_PEEK))
+			rxrpc_rotate_rx_window(call);
 
 		if (!rx->app_ops &&
 		    !skb_queue_empty_lockless(&rx->recvmsg_oobq)) {
