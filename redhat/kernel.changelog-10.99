@@ -1,3 +1,13 @@
+* Thu May 21 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.14-8]
+- net: skbuff: preserve shared-frag marker during coalescing (William Bowling)
+- xfrm: esp: restore combined single-frag length gate (Jingguo Tan)
+- Just disable the UKI DTB bits for the 6.19 repository (Justin M. Forbes)
+- Revert "redhat/kernel.spec.template: Fix indentation of uki-virt generation code" (Justin M. Forbes)
+- Revert "redhat/kernel.spec.template: Simplify uki-virt signing" (Justin M. Forbes)
+- Revert "redhat/kernel.spec.template: Add kernel-uki-dtbloader sub-package" (Justin M. Forbes)
+- Revert "redhat/kernel.spec.template: Make -uki-dtbloader provide kernel-core-uname-r" (Justin M. Forbes)
+Resolves: 
+
 * Tue May 19 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.19.14-7]
 - net: gro: don't copy frags between mixed zcopy skbs (Sabrina Dubroca)
 - Turn on auto bumping for remainder of F42 (Justin M. Forbes)
