@@ -1,11 +1,12 @@
-* Thu May 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc4.8bc67e4db64a.33]
-- rxrpc: Fix RESPONSE packet verification to extract skb to a linear buffer (David Howells)
-- rxrpc: Fix DATA decrypt vs splice() by copying data to buffer in recvmsg (David Howells)
-- crypto/krb5, rxrpc: Fix lack of pre-decrypt/pre-verify length checks (David Howells)
-- net/sched: act_pedit: extend the writable skb range per key (Zhang Cen)
-- net: skbuff: propagate shared-frag marker through frag-transfer helpers (Hyunwoo Kim)
+* Sun May 24 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc4.4cbfe4502e3d.34]
+- net/sched: fix pedit partial COW leading to page cache corruption (Rajat Gupta)
+- xfrm: esp: restore combined single-frag length gate (Jingguo Tan)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Sun May 24 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc4.4cbfe4502e3d.33]
+- Linux v7.1.0-0.rc4.4cbfe4502e3d
 Resolves: 
 
 * Thu May 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc4.8bc67e4db64a.32]
