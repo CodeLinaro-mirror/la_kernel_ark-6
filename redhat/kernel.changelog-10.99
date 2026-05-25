@@ -1,8 +1,14 @@
-* Sun May 24 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc4.4cbfe4502e3d.34]
+* Mon May 25 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc5.35]
 - net/sched: fix pedit partial COW leading to page cache corruption (Rajat Gupta)
 - xfrm: esp: restore combined single-frag length gate (Jingguo Tan)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Mon May 25 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc5.34]
+- Enable the drm/accel/qaic driver module for x86 in rhel config. (John Wiele)
+- Update rhel drm/accel configs to match centos-stream-10. (John Wiele)
+- Linux v7.1.0-0.rc5
 Resolves: 
 
 * Sun May 24 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc4.4cbfe4502e3d.33]
