@@ -1,3 +1,17 @@
+* Wed May 27 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.10-1]
+- ata: libata-scsi: do not needlessly defer commands when using PMP with FBS (Niklas Cassel)
+- ata: libata-scsi: do not use the deferred QC feature on PMPs with CBS (Niklas Cassel)
+- ata: libata-scsi: do not use the deferred QC feature for ATA_DEFER_PORT (Niklas Cassel)
+- ata: libata-scsi: improve readability of ata_scsi_qc_issue() (Niklas Cassel)
+- smb: client: reject userspace cifs.spnego descriptions (Asim Viladi Oglu Manizada)
+- ksmbd: close durable scavenger races against m_fp_list lookups (DaeMyung Kang)
+- iommu/amd: Remove latent out-of-bounds access in IOMMU debugfs (Eder Zulian)
+- iommu/amd: Fix illegal cap/mmio access in IOMMU debugfs (Guanghui Feng)
+- drm/i915/cx0: Rename intel_clear_response_ready flag (Suraj Kandpal)
+- drm/i915/cx0: Clear response ready & error bit (Suraj Kandpal)
+- drm/i915/pps: Enable panel power earlier (Mika Kahola)
+Resolves: 
+
 * Sat May 23 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.10-0]
 - Linux v7.0.10
 Resolves: 
