@@ -1,3 +1,10 @@
+* Mon Jun 01 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.11-1]
+- Revert "crypto/krb5, rxrpc: Fix lack of pre-decrypt/pre-verify length checks" (Justin M. Forbes)
+- Revert "rxrpc: Fix DATA decrypt vs splice() by copying data to buffer in recvmsg" (Justin M. Forbes)
+- Revert "rxrpc: Fix RESPONSE packet verification to extract skb to a linear buffer" (Justin M. Forbes)
+- Linux v7.0.11
+Resolves: 
+
 * Wed May 27 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.10-1]
 - ata: libata-scsi: do not needlessly defer commands when using PMP with FBS (Niklas Cassel)
 - ata: libata-scsi: do not use the deferred QC feature on PMPs with CBS (Niklas Cassel)
