@@ -307,16 +307,15 @@ struct rxrpc_security {
 				    struct sk_buff *challenge);
 
 	/* verify a response */
-	int (*verify_response)(struct rxrpc_connection *conn,
-			       struct sk_buff *response_skb,
-			       void *response, unsigned int len);
+	int (*verify_response)(struct rxrpc_connection *,
+			       struct sk_buff *);
 
 	/* clear connection security */
 	void (*clear)(struct rxrpc_connection *);
 
 	/* Default ticket -> key decoder */
 	int (*default_decode_ticket)(struct rxrpc_connection *conn, struct sk_buff *skb,
-				     void *ticket, unsigned int ticket_len,
+				     unsigned int ticket_offset, unsigned int ticket_len,
 				     struct key **_key);
 };
 
