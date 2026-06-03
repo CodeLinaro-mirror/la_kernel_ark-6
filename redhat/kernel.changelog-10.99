@@ -1,3 +1,7 @@
+* Wed Jun 03 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.34-0]
+- Linux v6.18.34
+Resolves: 
+
 * Sat May 23 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.33-0]
 - Add new configs for 6.19.33 (Justin M. Forbes)
 - Linux v6.18.33
