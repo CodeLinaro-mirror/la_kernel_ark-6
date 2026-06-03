@@ -14,7 +14,7 @@ rules:
   - !PassingTestCaseRule {test_case_name: s1-gcp-ci.brew-build.tier1.functional}
 --- !Policy
 product_versions:
-  - fedora-eln
+  - eln
 decision_context: bodhi_update_push_stable
 rules:
   - !PassingTestCaseRule {test_case_name: update.install_default_update_netinst, scenario: "fedora.updates-baseos-boot-iso.aarch64.aarch64"}

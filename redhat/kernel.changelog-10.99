@@ -1,7 +1,14 @@
-* Tue Jun 02 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc6.6f3ed7fec72f.41]
+* Wed Jun 03 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc6.ba3e43a9e601.42]
+- Update Fedora ELN gating policy to use 'eln' as the product version (Adam Williamson)
 - net/sched: fix pedit partial COW leading to page cache corruption (Rajat Gupta)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
 - disable selftests by default for now (Thorsten Leemhuis)
+Resolves: 
+
+* Wed Jun 03 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc6.ba3e43a9e601.41]
+- fedora: aarch64: Disable QCom QCE driver (Peter Robinson)
+- fedora: Updates for the 7.1 merge window (Peter Robinson)
+- Linux v7.1.0-0.rc6.ba3e43a9e601
 Resolves: 
 
 * Tue Jun 02 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc6.6f3ed7fec72f.40]
