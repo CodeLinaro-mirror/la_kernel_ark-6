@@ -1,3 +1,10 @@
+* Tue Jun 09 2026 Augusto Caringi <acaringi@redhat.com> [7.0.12-1]
+- Revert "xfrm: esp: restore combined single-frag length gate" (Justin M. Forbes)
+- Revert "ipv6: preserve insertion order for same-scope addresses" (Justin M. Forbes)
+- scsi: target: iscsi: Validate CHAP_R length before base64 decode (Alexandru Hossu)
+- Linux v7.0.12
+Resolves: 
+
 * Mon Jun 01 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.11-1]
 - Revert "crypto/krb5, rxrpc: Fix lack of pre-decrypt/pre-verify length checks" (Justin M. Forbes)
 - Revert "rxrpc: Fix DATA decrypt vs splice() by copying data to buffer in recvmsg" (Justin M. Forbes)
