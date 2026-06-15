@@ -455,7 +455,9 @@ Summary: The Linux kernel
 %define with_automotive 0
 %define with_stock 0
 %define with_debug 0
+%ifarch s390x ppc64le riscv64
 %define with_debuginfo 0
+%endif
 %define with_vdso_install 0
 %define with_perf 0
 %define with_libperf 0
@@ -518,6 +520,7 @@ Summary: The Linux kernel
 # RT and Automotive kernels are only built on x86_64 and aarch64
 %ifnarch x86_64 aarch64
 %define with_realtime 0
+%define with_realtime_arm64_64k 0
 %define with_automotive 0
 %endif
 
@@ -757,6 +760,7 @@ Summary: The Linux kernel
 %else
 %define with_realtime_arm64_64k_base 0
 %endif
+
 
 #
 # Packages that need to be installed before the kernel is, because the %%post
@@ -2999,7 +3003,7 @@ BuildKernel() {
 
 	rm -f $KernelUnifiedInitrd
 
-	KernelAddonsDirOut="$KernelUnifiedImage.extra.d"
+	KernelAddonsDirOut="$KernelUnifiedImage.extras/"
 	mkdir -p $KernelAddonsDirOut
 	python3 %{SOURCE151} %{SOURCE152} $KernelAddonsDirOut virt %{primary_target} %{_target_cpu} @uki-addons.sbat
 
@@ -4756,8 +4760,8 @@ fi\
 %attr(0644, root, root) /lib/modules/%{KVERREL}%{?3:+%{3}}/.%{?-k:%{-k*}}%{!?-k:vmlinuz}-virt.efi.hmac\
 %ghost /%{image_install_path}/efi/EFI/Linux/%{?-k:%{-k*}}%{!?-k:*}-%{KVERREL}%{?3:+%{3}}.efi\
 %{expand:%%files %{?3:%{3}-}uki-virt-addons}\
-%dir /lib/modules/%{KVERREL}%{?3:+%{3}}/%{?-k:%{-k*}}%{!?-k:vmlinuz}-virt.efi.extra.d/ \
-/lib/modules/%{KVERREL}%{?3:+%{3}}/%{?-k:%{-k*}}%{!?-k:vmlinuz}-virt.efi.extra.d/*.addon.efi\
+%dir /lib/modules/%{KVERREL}%{?3:+%{3}}/%{?-k:%{-k*}}%{!?-k:vmlinuz}-virt.efi.extras/ \
+/lib/modules/%{KVERREL}%{?3:+%{3}}/%{?-k:%{-k*}}%{!?-k:vmlinuz}-virt.efi.extras/*.addon.efi\
 %endif\
 %if %{with_dtbloader} && ("%{?3}" == "" || "%{3}" == "debug")\
 %{expand:%%files %{?3:%{3}-}uki-dtbloader}\
