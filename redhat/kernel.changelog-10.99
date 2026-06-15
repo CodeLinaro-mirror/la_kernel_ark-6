@@ -1,10 +1,14 @@
-* Mon Jun 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc7.e21ee273e6fa.54]
+* Mon Jun 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-55]
 - New config setting for ARM64 Erratum (Justin M. Forbes)
 - arm64: errata: Mitigate TLBI errata on NVIDIA Olympus CPU (Shanker Donthineni)
 - arm64: errata: Mitigate TLBI errata on various Arm CPUs (Mark Rutland)
 - arm64: cputype: Add C1-Premium definitions (Mark Rutland)
 - arm64: cputype: Add C1-Ultra definitions (Mark Rutland)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Mon Jun 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-54]
+- Linux v7.1.0
 Resolves: 
 
 * Mon Jun 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.1.0-0.rc7.e21ee273e6fa.53]
