@@ -1,3 +1,7 @@
+* Fri Jun 19 2026 Augusto Caringi <acaringi@redhat.com> [7.0.13-1]
+- Linux v7.0.13
+Resolves: 
+
 * Wed Jun 10 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.12-1]
 - New config setting for ARM64 Erratum (Justin M. Forbes)
 - arm64: errata: Mitigate TLBI errata on NVIDIA Olympus CPU (Shanker Donthineni)
