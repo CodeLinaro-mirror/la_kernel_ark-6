@@ -17,6 +17,7 @@
 #include <linux/ipv6.h>
 #include <linux/slab.h>
 #include <linux/overflow.h>
+#include <linux/unaligned.h>
 #include <net/ipv6.h>
 #include <net/netlink.h>
 #include <net/pkt_sched.h>
@@ -243,7 +244,6 @@ static int tcf_pedit_init(struct net *net, struct nlattr *nla,
 		goto out_free_ex;
 	}
 
-	nparms->tcfp_off_max_hint = 0;
 	nparms->tcfp_flags = parm->flags;
 	nparms->tcfp_nkeys = parm->nkeys;
 
@@ -269,14 +269,6 @@ static int tcf_pedit_init(struct net *net, struct nlattr *nla,
 						   BITS_PER_TYPE(int) - 1,
 						   nparms->tcfp_keys[i].shift);
 
-		/* The AT option can read a single byte, we can bound the actual
-		 * value with uchar max.
-		 */
-		cur += (0xff & offmask) >> nparms->tcfp_keys[i].shift;
-
-		/* Each key touches 4 bytes starting from the computed offset */
-		nparms->tcfp_off_max_hint =
-			max(nparms->tcfp_off_max_hint, cur + 4);
 	}
 
 	p = to_pedit(*a);
@@ -319,17 +311,12 @@ static void tcf_pedit_cleanup(struct tc_action *a)
 		call_rcu(&parms->rcu, tcf_pedit_cleanup_rcu);
 }
 
-static bool offset_valid(struct sk_buff *skb, int offset)
+static bool offset_valid(struct sk_buff *skb, int offset, int len)
 {
-	if (offset > 0 && offset > skb->len)
+	if (offset < -(int)skb_headroom(skb))
 		return false;
 
-	if (offset < 0) {
-		if (offset == INT_MIN || -offset > skb_headroom(skb))
-			return false;
-	}
-
-	return true;
+	return offset <= (int)skb->len - len;
 }
 
 static int pedit_l4_skb_offset(struct sk_buff *skb, int *hoffset, const int header_type)
@@ -396,26 +383,9 @@ TC_INDIRECT_SCOPE int tcf_pedit_act(struct sk_buff *skb,
 	struct tcf_pedit_key_ex *tkey_ex;
 	struct tcf_pedit_parms *parms;
 	struct tc_pedit_key *tkey;
-	u32 max_offset;
 	int i;
 
 	parms = rcu_dereference_bh(p->parms);
-
-	max_offset = min_t(u32, skb->len,
-			   (skb_transport_header_was_set(skb) ?
-			    skb_transport_offset(skb) :
-			    skb_network_offset(skb)) +
-			   parms->tcfp_off_max_hint);
-
-	/* If the skb has shared frags the user is likely using zero-copy
-	 * (e.g. sendfile).  Those page frags may point to page-cache pages;
-	 * writing into them would silently corrupt the page cache.
-	 * Linearize so pedit operates on a private copy.
-	 * TL;DR if you want to use ZC, don't use pedit */
-	if (skb_has_shared_frag(skb)) {
-		if (__skb_linearize(skb))
-			goto bad;
-	}
 
 	tcf_lastuse_update(&p->tcf_tm);
 	tcf_action_update_bstats(&p->common, skb);
@@ -424,11 +394,11 @@ TC_INDIRECT_SCOPE int tcf_pedit_act(struct sk_buff *skb,
 	tkey_ex = parms->tcfp_keys_ex;
 
 	for (i = parms->tcfp_nkeys; i > 0; i--, tkey++) {
+		int write_offset, write_len;
 		int offset = tkey->off;
 		int hoffset = 0;
-		int write_offset, write_len;
-		u32 *ptr, hdata;
-		u32 val, write_end;
+		u32 cur_val, val;
+		u32 *ptr;
 		int rc;
 
 		if (tkey_ex) {
@@ -446,13 +416,15 @@ TC_INDIRECT_SCOPE int tcf_pedit_act(struct sk_buff *skb,
 
 		if (tkey->offmask) {
 			u8 *d, _d;
+			int at_offset;
 
-			if (!offset_valid(skb, hoffset + tkey->at)) {
+			if (check_add_overflow(hoffset, (int)tkey->at, &at_offset) ||
+			    !offset_valid(skb, at_offset, sizeof(_d))) {
 				pr_info_ratelimited("tc action pedit 'at' offset %d out of bounds\n",
 						    hoffset + tkey->at);
 				goto bad;
 			}
-			d = skb_header_pointer(skb, hoffset + tkey->at,
+			d = skb_header_pointer(skb, at_offset,
 					       sizeof(_d), &_d);
 			if (!d)
 				goto bad;
@@ -464,64 +436,51 @@ TC_INDIRECT_SCOPE int tcf_pedit_act(struct sk_buff *skb,
 			}
 		}
 
-		write_offset = hoffset + offset;
-		if (unlikely(check_add_overflow(hoffset, offset,
-						&write_offset))) {
+		if (check_add_overflow(hoffset, offset, &write_offset)) {
 			pr_info_ratelimited("tc action pedit offset overflow\n");
 			goto bad;
 		}
 
-		if (!offset_valid(skb, write_offset)) {
+		if (!offset_valid(skb, write_offset, sizeof(*ptr))) {
 			pr_info_ratelimited("tc action pedit offset %d out of bounds\n",
 					    write_offset);
 			goto bad;
 		}
 
-		/* Earlier edits can change later header-relative offsets, so
-		 * grow the writable window from the final per-key store.
-		 */
-		if (write_offset >= 0) {
-			write_end = (u32)write_offset + sizeof(hdata);
-			if (write_end > max_offset) {
-				max_offset = min_t(u32, skb->len, write_end);
-				if (skb_ensure_writable(skb, max_offset))
-					goto bad;
-			}
-		}
-
 		if (write_offset < 0) {
 			if (skb_cow(skb, -write_offset))
 				goto bad;
+			if (write_offset + (int)sizeof(*ptr) > 0) {
+				if (skb_ensure_writable(skb,
+							min_t(int, skb->len,
+							      write_offset + (int)sizeof(*ptr))))
+					goto bad;
+			}
 		} else {
-			if (unlikely(check_add_overflow(write_offset,
-							(int)sizeof(hdata),
-							&write_len)))
+			if (check_add_overflow(write_offset, (int)sizeof(*ptr),
+					       &write_len))
 				goto bad;
 			if (skb_ensure_writable(skb, min_t(int, skb->len,
 							   write_len)))
 				goto bad;
 		}
 
-		ptr = skb_header_pointer(skb, write_offset,
-					 sizeof(hdata), &hdata);
-		if (!ptr)
-			goto bad;
+		ptr = (u32 *)(skb->data + write_offset);
+		cur_val = get_unaligned(ptr);
 		/* just do it, baby */
 		switch (cmd) {
 		case TCA_PEDIT_KEY_EX_CMD_SET:
 			val = tkey->val;
 			break;
 		case TCA_PEDIT_KEY_EX_CMD_ADD:
-			val = (*ptr + tkey->val) & ~tkey->mask;
+			val = (cur_val + tkey->val) & ~tkey->mask;
 			break;
 		default:
 			pr_info_ratelimited("tc action pedit bad command (%d)\n", cmd);
 			goto bad;
 		}
 
-		*ptr = ((*ptr & tkey->mask) ^ val);
-		if (ptr == &hdata)
-			skb_store_bits(skb, write_offset, ptr, sizeof(hdata));
+		put_unaligned((cur_val & tkey->mask) ^ val, ptr);
 	}
 
 	goto done;
