@@ -1178,7 +1178,7 @@ def main():
     parser.add_argument('-q', '--quiet', dest='quiet',
                         help='be more quiet', action='count', default=0)
     parser.add_argument('-l', '--log-filename', dest='log_filename',
-                        help='log filename', default='filtermods.log')
+                        help='log filename', default='')
 
     subparsers = parser.add_subparsers(dest='cmd')
 
