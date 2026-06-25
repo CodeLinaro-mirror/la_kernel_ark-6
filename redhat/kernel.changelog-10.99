@@ -1,6 +1,10 @@
-* Wed Jun 24 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc0.840ef6c78e6a.8]
-- redhat/kspdx: remove redundant OR terms from joint license expression (Jan Stancek)
+* Thu Jun 25 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc0.840ef6c78e6a.9]
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Thu Jun 25 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc0.840ef6c78e6a.8]
+- Increase the s390x kernel baseline (Justin M. Forbes)
+- redhat/kspdx: remove redundant OR terms from joint license expression (Jan Stancek)
 Resolves: 
 
 * Wed Jun 24 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc0.840ef6c78e6a.7]
