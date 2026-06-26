@@ -829,7 +829,9 @@ BuildRequires: audit-libs-devel python3-setuptools
 BuildRequires: capstone-devel
 BuildRequires: elfutils-debuginfod-client-devel
 BuildRequires: java-devel
+%if 0%{?fedora} || 0%{?rhel} >= 11
 BuildRequires: libbabeltrace2-devel
+%endif
 BuildRequires: libpfm-devel
 BuildRequires: libtraceevent-devel
 %ifnarch s390x
