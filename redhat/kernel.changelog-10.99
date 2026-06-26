@@ -1,5 +1,12 @@
-* Thu Jun 25 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc0.ab9de95c9cf9.10]
+* Fri Jun 26 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc0.ab9de95c9cf9.11]
+- redhat/kernel.spec: require libbabeltrace2-devel (Yaakov Selkowitz)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Fri Jun 26 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc0.ab9de95c9cf9.10]
+- fedora: aarch64: Set CONFIG_DRIVER_DEFERRED_PROBE_TIMEOUT=-1 (Ali Erdinc Koroglu)
+- redhat: configs: Enable AMD ISP4 MIPI camera solution (Kate Hsuan)
+- redhat: configs: Enable Intel CVS (Kate Hsuan)
 Resolves: 
 
 * Thu Jun 25 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc0.ab9de95c9cf9.9]

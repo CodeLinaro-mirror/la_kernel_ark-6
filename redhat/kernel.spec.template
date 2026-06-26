@@ -829,7 +829,7 @@ BuildRequires: audit-libs-devel python3-setuptools
 BuildRequires: capstone-devel
 BuildRequires: elfutils-debuginfod-client-devel
 BuildRequires: java-devel
-BuildRequires: libbabeltrace-devel
+BuildRequires: libbabeltrace2-devel
 BuildRequires: libpfm-devel
 BuildRequires: libtraceevent-devel
 %ifnarch s390x
