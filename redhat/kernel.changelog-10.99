@@ -1,3 +1,7 @@
+* Sat Jun 27 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.37-0]
+- Linux v6.18.37
+Resolves: 
+
 * Mon Jun 22 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.36-0]
 - Set CONFIG_ARM64_ERRATUM_4118414 (Justin M. Forbes)
 - Linux v6.18.36
