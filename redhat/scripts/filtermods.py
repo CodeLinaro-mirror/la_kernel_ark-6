@@ -379,8 +379,8 @@ def pick_best(allowed_set: set[KModPackage], target_pkg: KModPackage = None) -> 
     Example with: modules-extra -> modules-core
                   modules       -> modules-core
 
-      pick_best({modules, modules-extra})           => modules or modules-extra
-          (tied, both depend on one package)
+      pick_best({modules, modules-extra})           => modules-extra
+          (tied on depth, breaks tie by name)
       pick_best({modules, modules-core})            => modules
           (modules sits higher, it depends on modules-core)
       pick_best({modules, modules-core}, modules)   => modules
@@ -396,7 +396,7 @@ def pick_best(allowed_set: set[KModPackage], target_pkg: KModPackage = None) -> 
         for child in target_pkg.all_depends_on_list:
             if child in allowed_set:
                 return child
-    return max(allowed_set, key=lambda p: len(p.all_depends_on))
+    return max(allowed_set, key=lambda p: (len(p.all_depends_on), p.name))
 
 
 def prune_allowed(kmod: KMod) -> bool:
