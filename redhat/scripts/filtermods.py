@@ -324,7 +324,7 @@ class KModPackageList(HierarchyObject):
     def __init__(self) -> None:
         self.name_to_obj: dict[str, KModPackage] = {}
         self.kmod_pkg_list: list[KModPackage] = []
-        self.rules: list[tuple[str, str, str]] = []
+        self.rules: list[tuple[str, str, str, bool]] = []
 
     def get(self, pkgname):
         if pkgname in self.name_to_obj:
@@ -487,7 +487,7 @@ def propagate(kmod_list: KModList, seed_kmods=None):
 def apply_initial_labels(pkg_list: KModPackageList, kmod_list: KModList, treat_default_as_wants=False):
     log.debug('')
     for cur_rule in ['needs', 'wants', 'default']:
-        for package_name, rule_type, rule in pkg_list.rules:
+        for package_name, rule_type, rule, ignore_deps in pkg_list.rules:
             pkg_obj = pkg_list.get(package_name)
 
             if not pkg_obj:
@@ -508,6 +508,14 @@ def apply_initial_labels(pkg_list: KModPackageList, kmod_list: KModList, treat_d
                         kmod.assigned_to_pkg = pkg_obj
                         kmod.allowed_list = {pkg_obj}
                         log.debug('%s: needed by %s', kmod.name, [pkg_obj.name])
+                        if ignore_deps:
+                            for dep in kmod.depends_on:
+                                dep.is_dependency_for.discard(kmod)
+                            for parent in kmod.is_dependency_for:
+                                parent.depends_on.discard(kmod)
+                            kmod.depends_on.clear()
+                            kmod.is_dependency_for.clear()
+                            log.debug('%s: deps severed (ignore_deps)', kmod.name)
 
             elif 'wants' == rule_type:
                 kmod_matching = get_kmods_matching_re(kmod_list, rule)
@@ -614,9 +622,15 @@ def load_config(config_pathname: str, kmod_list: KModList, variants=None):
     for rule_dict in rules_list:
         if_variant_in = rule_dict.get('if_variant_in')
         exact_pkg = rule_dict.get('exact_pkg')
+        ignore_deps = rule_dict.get('ignore_deps', False)
+
+        if ignore_deps and exact_pkg is not True:
+            raise Exception(
+                'ignore_deps requires exact_pkg to be True'
+            )
 
         for key, value in rule_dict.items():
-            if key in ['if_variant_in', 'exact_pkg']:
+            if key in ['if_variant_in', 'exact_pkg', 'ignore_deps']:
                 continue
 
             if if_variant_in is not None:
@@ -636,8 +650,8 @@ def load_config(config_pathname: str, kmod_list: KModList, variants=None):
                 rule_type = 'default'
                 rule = '.*'
 
-            log.debug('found rule: %s', (package_name, rule_type, rule))
-            kmod_pkg_list.rules.append((package_name, rule_type, rule))
+            log.debug('found rule: %s', (package_name, rule_type, rule, ignore_deps))
+            kmod_pkg_list.rules.append((package_name, rule_type, rule, ignore_deps))
 
     log.info('loaded config, rules: %s', len(kmod_pkg_list.rules))
     return kmod_pkg_list
@@ -1057,6 +1071,21 @@ class FiltermodTests(unittest.TestCase):
         self._is_kmod_pkg('kmod_crypto', 'modules')
 
 
+    def test17_ignore_deps(self):
+        """ignore_deps severs edges so test kmod doesn't drag real kmod across sibling pkgs"""
+        self.pkg_list, self.kmod_list = sort_kmods(get_td('test17.dep'), get_td('test17.yaml'),
+                                                   do_pictures=FiltermodTests.do_pictures)
+
+        self._is_kmod_pkg('test_kunit.ko', 'modules-internal')
+        self._is_kmod_pkg('real.ko', 'modules-partner')
+        self._is_kmod_pkg('base.ko', 'modules')
+
+        test_kmod = self.kmod_list.get('test_kunit.ko')
+        self.assertEqual(test_kmod.assigned_to_pkg.name, 'modules-internal')
+        self.assertEqual(len(test_kmod.depends_on), 0)
+        self.assertEqual(len(test_kmod.is_dependency_for), 0)
+
+
 def do_rpm_mapping_test(config_pathname, kmod_rpms):
     """Check that kmod-to-package assignments in built RPMs match config rules."""
     import shlex
@@ -1098,7 +1127,7 @@ def do_rpm_mapping_test(config_pathname, kmod_rpms):
     kmod_pkg_list = load_config(config_pathname, None)
 
     default_pkg_name = None
-    for package_name, rule_type, rule in kmod_pkg_list.rules:
+    for package_name, rule_type, rule, _ignore_deps in kmod_pkg_list.rules:
         if rule_type == 'default':
             default_pkg_name = package_name
             continue
