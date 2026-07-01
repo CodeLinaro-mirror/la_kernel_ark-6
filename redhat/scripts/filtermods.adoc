@@ -43,10 +43,13 @@ come from the package of one of packages it depends on.
 The yaml config describes module packages, their dependencies and rules
 (or constraints) for kmods.
 
-* There are two main rule types:
-** "wants"   - rule is satisfied if kmod ends up in listed package
+* There are three rule types:
+** "wants"   - (default) rule is satisfied if kmod ends up in listed package
               (or any package it depends on - meaning it can move
               down in package hierarchy)
+** "needs"   - enabled by setting `exact_pkg: True` on the rule.
+              Hard-locks matched kmods to exactly one package.
+              The kmod cannot be moved to satisfy other constraints.
 ** "default" - specifies that all kmods which were not covered
               by other rules (implicitly or explicitely) become
               "wants" for listed package
@@ -60,10 +63,25 @@ The yaml config describes module packages, their dependencies and rules
 * General rule format is: "kmod_regex: module_name"
 * Packages and rules can be conditional (see 'if_variant_in' attribute below)
 
+==== Rule attributes
+Rules support optional attributes:
+
+* `exact_pkg: True` - promotes the rule from "wants" to "needs",
+  hard-locking matched kmods to the specified package.
+* `ignore_deps: True` - severs all dependency edges of matched kmods
+  so they do not constrain (or get constrained by) their dependencies.
+  Useful for test/kunit modules that depend on production kmods but
+  should be placed in a sibling package (e.g. modules-internal)
+  without dragging their dependencies out of intended packages.
+  Only meaningful together with `exact_pkg: True`.
+* `if_variant_in: [list]` - makes the rule conditional on variant.
+
 Rule examples:
 
 ----
-- drivers/base/.*(kunit|test).*: modules-internal
+- .*kunit.*: modules-internal
+  exact_pkg: True
+  ignore_deps: True
 - drivers/net/amt.ko: modules-core
 - fs/.*test.*: modules-internal
 - net/appletalk/appletalk.*: modules-extra
@@ -255,7 +273,8 @@ These make constraint checks simple set intersections.
 
 .There are 4 phases:
 1. *Apply initial labels* from yaml config:
-   "needs" rules lock a kmod to exactly one package,
+   "needs" rules (exact_pkg) lock a kmod to exactly one package
+   (and sever its dependency edges if ignore_deps is set),
    "wants" rules restrict a kmod to the target package and its ancestors,
    "default" marks the fallback package.
 2. *Propagate constraints* (worklist-based): for each kmod, remove
