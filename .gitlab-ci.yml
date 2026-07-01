@@ -275,7 +275,20 @@ delay_job:
     package_name: kernel-debug
     architectures: x86_64 aarch64 s390x ppc64le riscv64
     compiler: clang
-  eln-rt: &eln-rt
+.eln_clanglto_up:
+  variables:
+    rpmbuild_with: clang_lto up base
+    package_name: kernel
+    architectures: x86_64 aarch64
+    compiler: clang
+  allow_failure: true
+.eln_clanglto_up_debug:
+  variables:
+    rpmbuild_with: clang_lto up debug
+    package_name: kernel-debug
+    architectures: x86_64 aarch64
+    compiler: clang
+  allow_failure: true
 .eln_rt:
   variables:
     rpmbuild_with: realtime base
@@ -478,13 +491,21 @@ eln_next_baseline:
   extends: [.baseline, .trigger_eln, .reported_tests, .os_build_next_head,
             .eln_up]
 
-# eln_clang_baseline:
-#   extends: [.baseline, .trigger_eln, .reported_tests_clang, .ark_latest_head,
-#             .eln_clang_up]
-#
-# eln_clang_debug_baseline:
-#   extends: [.baseline, .trigger_eln, .reported_tests_clang, .ark_latest_head,
-#             .eln_clang_up_debug]
+eln_clang_baseline:
+  extends: [.baseline, .trigger_eln, .reported_tests_clang, .ark_latest_head,
+            .eln_clang_up]
+
+eln_clang_debug_baseline:
+  extends: [.baseline, .trigger_eln, .reported_tests_clang, .ark_latest_head,
+            .eln_clang_up_debug]
+
+eln_clanglto_baseline:
+  extends: [.baseline, .trigger_eln, .reported_tests_clang, .ark_latest_head,
+            .eln_clanglto_up, .delayed_start ]
+
+eln_clanglto_debug_baseline:
+  extends: [.baseline, .trigger_eln, .reported_tests_clang, .ark_latest_head,
+            .eln_clanglto_up_debug, .delayed_start ]
 
 eln_realtime_baseline:  # no tests as realtime code not present upstream
   extends: [.baseline, .trigger_eln, .no_tests, .ark_latest_head,
@@ -620,7 +641,7 @@ c10s_debug_baseline:
 # c10s_clang_baseline:
 #   extends: [.baseline, .trigger_c10s, .no_tests, .ark_latest_head,
 #             .eln_clang_up]
-#
+
 # c10s_clang_debug_baseline:
 #   extends: [.baseline, .trigger_c10s, .no_tests, .ark_latest_head,
 #             .eln_clang_up_debug]
