@@ -1,6 +1,9 @@
-* Sun Jun 28 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc1.15]
-- redhat/kernel.spec: require libbabeltrace2-devel (Yaakov Selkowitz)
+* Wed Jul 01 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc1.665159e24674.16]
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Wed Jul 01 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc1.665159e24674.15]
+- Linux v7.2.0-0.rc1.665159e24674
 Resolves: 
 
 * Sun Jun 28 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc1.14]
