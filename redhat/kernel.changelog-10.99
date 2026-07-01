@@ -1,3 +1,8 @@
+* Wed Jul 01 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.14-1]
+- ipv6: account for fraggap on the paged allocation path (Wongi Lee)
+- ipv4: account for fraggap on the paged allocation path (Wongi Lee)
+Resolves: 
+
 * Sat Jun 27 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.0.14-0]
 - Revert "Input: rmi4 - remove the need for artificial IRQ in case of HID" (Justin M. Forbes)
 - Linux v7.0.14
