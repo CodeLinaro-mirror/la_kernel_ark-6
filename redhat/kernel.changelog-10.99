@@ -1,5 +1,9 @@
-* Wed Jul 01 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc1.665159e24674.16]
+* Thu Jul 02 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc1.4a50a141f05a.17]
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Thu Jul 02 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc1.4a50a141f05a.16]
+- Linux v7.2.0-0.rc1.4a50a141f05a
 Resolves: 
 
 * Wed Jul 01 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc1.665159e24674.15]
