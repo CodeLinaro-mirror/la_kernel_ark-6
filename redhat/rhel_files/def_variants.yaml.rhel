@@ -18,6 +18,8 @@ packages:
     - modules
 
 rules:
+  - net/rxrpc/tests/rxrpc_kunit.*: modules-partner
+    exact_pkg: True
   - .*kunit.*: modules-internal
     exact_pkg: True
   - .*test[^/]*.ko: modules-internal
