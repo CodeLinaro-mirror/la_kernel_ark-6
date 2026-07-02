@@ -533,7 +533,7 @@ def propagate_labels_3(pkg_list: KModPackageList, kmod_list: KModList):
     for pkg_obj in pkg_list:
         if pkg_obj.default:
             if default_pkg:
-                log.error('Already have default pkg: %s / %s', default_pkg.name, pkg_obj.name)
+                log.warning('Already have default pkg: %s / %s', default_pkg.name, pkg_obj.name)
             else:
                 default_pkg = pkg_obj
                 default_name = default_pkg.name
