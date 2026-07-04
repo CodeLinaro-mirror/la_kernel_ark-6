@@ -1,3 +1,7 @@
+* Sat Jul 04 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc1.1e9cdc2ea15a.18]
+- Linux v7.2.0-0.rc1.1e9cdc2ea15a
+Resolves: 
+
 * Fri Jul 03 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc1.d2c9a99135da.17]
 - redhat/mod-sign.sh: use CONFIG_MODULE_SIG_HASH (Jan Stancek)
 - redhat/kernel.spec.template: Pack a bit more descriptive name for extras/ (Vitaly Kuznetsov)
