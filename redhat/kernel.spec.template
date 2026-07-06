@@ -1027,8 +1027,8 @@ Source13: redhatsecureboot501.cer
 %define secureboot_key_uki_0 %{_datadir}/pki/sb-certs/secureboot-uki-virt-%{_arch}.cer
 
 %if 0%{?centos}
-%define pesign_name_0 centossecureboot201
-%define pesign_name_uki_0 centossecureboot204
+%define pesign_name_0 centossecureboot801
+%define pesign_name_uki_0 centossecureboot804
 %else
 %ifarch x86_64 aarch64
 %define pesign_name_0 redhatsecureboot501
