@@ -1,3 +1,7 @@
+* Sun Jul 12 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc2.44696aa3a489.24]
+- Linux v7.2.0-0.rc2.44696aa3a489
+Resolves: 
+
 * Sat Jul 11 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc2.dd3210c47e8d.23]
 - Turn on CONFIG_REGMAP for RHEL s390x pending for mismatch (Justin M. Forbes)
 - redhat: add kmap.py tool and kernel-kmap-internal package (Rado Vrbovsky)
