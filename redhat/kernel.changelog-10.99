@@ -1,6 +1,12 @@
-* Mon Jul 13 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.26]
-- redhat/kernel.spec: require libbabeltrace2-devel (Yaakov Selkowitz)
+* Tue Jul 14 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.3b029c035b34.27]
+- xfs: resample the data fork mapping after cycling ILOCK (Darrick J. Wong)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Tue Jul 14 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.3b029c035b34.26]
+- redhat/kernel.spec: require libbabeltrace2-devel (Yaakov Selkowitz)
+- redhat: move ynltool debuginfo to kernel-tools-debuginfo (Augusto Caringi)
+- Linux v7.2.0-0.rc3.3b029c035b34
 Resolves: 
 
 * Mon Jul 13 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.25]
