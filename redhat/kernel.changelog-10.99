@@ -1,3 +1,13 @@
+* Tue Jul 14 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.3-1]
+- xfs: resample the data fork mapping after cycling ILOCK (Darrick J. Wong)
+- redhat: configs: fedora: Enable Sony IMX471 image sensor (Kate Hsuan)
+- media: i2c: imx471: Add Sony IMX471 image sensor driver (Kate Hsuan)
+- platform: int3472: discrete: con_id vana for Sony IMX471 as power enable (Kate Hsuan)
+- media: ipu-bridge: Add Sony IMX471 for Lenovo X1 Carbon G14 (Kate Hsuan)
+- media: ipu-bridge: Add DMI information of Lenovo X9 to the image upside-down list (Kate Hsuan)
+- redhat: move ynltool debuginfo to kernel-tools-debuginfo (Augusto Caringi)
+Resolves: 
+
 * Sat Jul 04 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.3-1]
 - Linux v7.1.3
 Resolves: 
