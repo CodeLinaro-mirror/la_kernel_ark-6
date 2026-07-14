@@ -1,3 +1,9 @@
+* Tue Jul 14 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.3b029c035b34.26]
+- redhat/kernel.spec: require libbabeltrace2-devel (Yaakov Selkowitz)
+- redhat: move ynltool debuginfo to kernel-tools-debuginfo (Augusto Caringi)
+- Linux v7.2.0-0.rc3.3b029c035b34
+Resolves: 
+
 * Mon Jul 13 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.25]
 - Linux v7.2.0-0.rc3
 Resolves: 
