@@ -1,6 +1,12 @@
-* Wed Jul 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.3b029c035b34.28]
+* Wed Jul 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.58717b2a1365.29]
 - xfs: resample the data fork mapping after cycling ILOCK (Darrick J. Wong)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Wed Jul 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.58717b2a1365.28]
+- Add fedora entry in pending for weird mismatch in scripts (Justin M. Forbes)
+- Fix up config mismatches (Justin M. Forbes)
+- Linux v7.2.0-0.rc3.58717b2a1365
 Resolves: 
 
 * Wed Jul 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.3b029c035b34.27]
