@@ -1,6 +1,11 @@
-* Tue Jul 14 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.3b029c035b34.27]
+* Wed Jul 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.3b029c035b34.28]
 - xfs: resample the data fork mapping after cycling ILOCK (Darrick J. Wong)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Wed Jul 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.3b029c035b34.27]
+- redhat/kernel.spec: derive pesign_name_0 from secureboot_key_0 (Jan Stancek)
+- redhat/configs: Move IOMMU_PT_* from rhel-pending to rhel (Jennifer Berringer)
 Resolves: 
 
 * Tue Jul 14 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.3b029c035b34.26]
