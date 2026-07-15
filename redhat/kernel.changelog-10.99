@@ -1,3 +1,9 @@
+* Wed Jul 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.58717b2a1365.28]
+- Add fedora entry in pending for weird mismatch in scripts (Justin M. Forbes)
+- Fix up config mismatches (Justin M. Forbes)
+- Linux v7.2.0-0.rc3.58717b2a1365
+Resolves: 
+
 * Wed Jul 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.3b029c035b34.27]
 - redhat/kernel.spec: derive pesign_name_0 from secureboot_key_0 (Jan Stancek)
 - redhat/configs: Move IOMMU_PT_* from rhel-pending to rhel (Jennifer Berringer)
