@@ -1,6 +1,13 @@
-* Wed Jul 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.58717b2a1365.29]
+* Thu Jul 16 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.37e2f878a7a6.30]
 - xfs: resample the data fork mapping after cycling ILOCK (Darrick J. Wong)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Thu Jul 16 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.37e2f878a7a6.29]
+- redhat/configs: enable QCS615 pinctrl and interconnect drivers (Wu Fang)
+- redhat/configs: automotive: enable SENSORS_INA2XX (Jared Kangas)
+- redhat/configs: automotive: enable PWM_FSL_FTM as a module (Jared Kangas)
+- Linux v7.2.0-0.rc3.37e2f878a7a6
 Resolves: 
 
 * Wed Jul 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.58717b2a1365.28]
