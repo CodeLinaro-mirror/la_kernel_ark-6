@@ -1,3 +1,7 @@
+* Fri Jul 17 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.fce2dfa773ce.30]
+- Linux v7.2.0-0.rc3.fce2dfa773ce
+Resolves: 
+
 * Thu Jul 16 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc3.37e2f878a7a6.29]
 - redhat/configs: enable QCS615 pinctrl and interconnect drivers (Wu Fang)
 - redhat/configs: automotive: enable SENSORS_INA2XX (Jared Kangas)
