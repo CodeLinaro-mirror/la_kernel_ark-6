@@ -1,3 +1,7 @@
+* Mon Jul 20 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.4-1]
+- can: bcm: defer rx_op deallocation to workqueue to fix thrtimer UAF (Lee Jones)
+Resolves: 
+
 * Sat Jul 18 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.4-0]
 - KVM: nVMX: Put vmcs12 pages if nested VM-Enter fails due to invalid guest state (Sean Christopherson)
 - drm/amd: Create a device link between APU display and XHCI devices (Mario Limonciello)
