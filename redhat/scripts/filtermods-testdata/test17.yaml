@@ -4,17 +4,18 @@ packages:
   - name: modules
     depends-on:
     - modules-core
-  - name: modules-extra
+  - name: modules-internal
     depends-on:
     - modules-core
-  - name: modules-other
-    if_variant_in: ["rt"]
+    - modules
+  - name: modules-partner
     depends-on:
     - modules-core
+    - modules
 
 rules:
-  - kmod[2]: modules-core
-  - kmod4: modules-other
-    if_variant_in: ["rt"]
+  - .*kunit.*: modules-internal
+    exact_pkg: true
+    ignore_deps: true
+  - net/proto/.*: modules-partner
   - default: modules
-
