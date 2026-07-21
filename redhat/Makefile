@@ -740,7 +740,7 @@ setup-source: dist-clean-sources dist-git-version-check
 	@if [ "$(SPECPACKAGE_REBUILD)" = "1" ]; then \
 		$(REDHAT)/scripts/generate-rebuild-changelog.sh; \
 	fi
-	@if [ ! -e $(REDHAT)/$(SPECFILE).template ]; then \
+	@if ! $(GIT) -C "$(TOPDIR)" ls-files --error-unmatch -- "redhat/$(SPECFILE).template" >/dev/null 2>&1; then \
 		echo "Creating $(REDHAT)/$(SPECFILE).template as a copy of $(REDHAT)/kernel.spec.template"; \
 		cp $(REDHAT)/kernel.spec.template $(REDHAT)/$(SPECFILE).template; \
 	fi
