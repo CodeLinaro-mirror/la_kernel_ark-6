@@ -1,3 +1,7 @@
+* Tue Jul 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc4.b95f03f04d47.35]
+- redhat/kernel.spec: fix build for rtonly (Jan Stancek)
+Resolves: 
+
 * Tue Jul 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc4.b95f03f04d47.34]
 - redhat: filtermods.py: document exact_pkg and ignore_deps rule attributes (Jan Stancek)
 - redhat: filtermods.py: make pick_best() deterministic on tied packages (Jan Stancek)
