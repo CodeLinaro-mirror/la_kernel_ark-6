@@ -1,3 +1,22 @@
+* Tue Jul 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc4.b95f03f04d47.34]
+- redhat: filtermods.py: document exact_pkg and ignore_deps rule attributes (Jan Stancek)
+- redhat: filtermods.py: make pick_best() deterministic on tied packages (Jan Stancek)
+- redhat: filtermods.py: add ignore_deps rule option (Jan Stancek)
+- redhat: filtermods.py: don't create logfile automatically (Jan Stancek)
+- redhat: filtermods.py: clean up logging imports (Jan Stancek)
+- redhat: filtermods.py: strip lines when parsing depmod file (Jan Stancek)
+- redhat: filtermods.py: fix typo in _check_preffered_pkg (Jan Stancek)
+- redhat: filtermods.py: error on unknown package dependency (Jan Stancek)
+- redhat: filtermods.py: avoid mutable default arguments (Jan Stancek)
+- redhat: filtermods.py: handle .zst and .gz compressed modules (Jan Stancek)
+- redhat: filtermods.py: fix Exception string formatting (Jan Stancek)
+- redhat: filtermods.py: detect dependency cycles in get_topo_order() (Jan Stancek)
+- redhat: filtermods.py: fix do_rpm_mapping_test() (Jan Stancek)
+- redhat: filtermods.py: simplify algorithm (Jan Stancek)
+- redhat: filtermods.py: add new tests (Jan Stancek)
+- Linux v7.2.0-0.rc4.b95f03f04d47
+Resolves: 
+
 * Mon Jul 20 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc4.33]
 - Linux v7.2.0-0.rc4
 Resolves: 
