@@ -1,3 +1,14 @@
+* Tue Jul 21 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.4-2]
+- Revert "PCI/MSI: Unmap MSI-X region on error" (Yuanhe Shu)
+- Revert "btrfs: fix the file offset calculation inside btrfs_decompress_buf2page()" (Matthew Wilcox (Oracle))
+- drm/amdkfd: always resume_all after suspend_all (Alex Deucher)
+- KVM: nVMX: Hide shadow VMCS right after VMCLEAR (Hyunwoo Kim)
+- KVM: x86: Only reset TSC Deadline Timer in apic_timer_expired on KVM_RUN (Venkatesh Srinivas)
+- KVM: x86/mmu: Fix use-after-free on vendor module reload (Phil Rosenthal)
+- KVM: x86/mmu: Preserve nested TDP shadow page tables if they are used as roots (Hyunwoo Kim)
+- KVM: x86: Check for invalid/obsolete root *after* making MMU pages available (Sean Christopherson)
+Resolves: 
+
 * Mon Jul 20 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.4-1]
 - can: bcm: defer rx_op deallocation to workqueue to fix thrtimer UAF (Lee Jones)
 Resolves: 
