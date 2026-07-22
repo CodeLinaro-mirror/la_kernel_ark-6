@@ -1,3 +1,8 @@
+* Wed Jul 22 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc4.248951ddc14d.36]
+- redhat/configs: Enable deadline and stall monitors (Gabriele Monaco)
+- Linux v7.2.0-0.rc4.248951ddc14d
+Resolves: 
+
 * Tue Jul 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc4.b95f03f04d47.35]
 - redhat/kernel.spec: fix build for rtonly (Jan Stancek)
 Resolves: 
