@@ -1614,7 +1614,7 @@ AutoReqProv: no\
 %description %{?1:%{1}-}debuginfo\
 This package provides debug information for package %{name}%{?1:-%{1}}.\
 This is required to use SystemTap with %{name}%{?1:-%{1}}-%{KVERREL}.\
-%{expand:%%global _find_debuginfo_opts %{?_find_debuginfo_opts} --keep-section '.BTF' -p '.*\/usr\/src\/kernels/.*|XXX' -o ignored-debuginfo.list -p '/.*/%%{KVERREL_RE}%{?1:[+]%{1}}/.*|/.*%%{KVERREL_RE}%{?1:\+%{1}}(\.debug)?' -o debuginfo%{?1}.list}\
+%{expand:%%global _find_debuginfo_opts %{?_find_debuginfo_opts} --keep-section '.BTF' --keep-section '.rustc' -p '.*\/usr\/src\/kernels/.*|XXX' -o ignored-debuginfo.list -p '/.*/%%{KVERREL_RE}%{?1:[+]%{1}}/.*|/.*%%{KVERREL_RE}%{?1:\+%{1}}(\.debug)?' -o debuginfo%{?1}.list}\
 %{nil}
 
 #
@@ -2879,6 +2879,14 @@ BuildKernel() {
     fi
     if [ -f tools/objtool/fixdep ]; then
       cp -a tools/objtool/fixdep $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/tools/objtool/ || :
+    fi
+    if ls rust/*.rmeta >/dev/null 2>&1; then
+      mkdir -p $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust
+      cp -a rust/*.rmeta $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust/ || :
+    fi
+    if ls rust/*.so >/dev/null 2>&1; then
+      mkdir -p $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust
+      cp -a rust/*.so $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/rust/ || :
     fi
     if [ -d arch/$Arch/scripts ]; then
       cp -a arch/$Arch/scripts $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/arch/%{_arch} || :
