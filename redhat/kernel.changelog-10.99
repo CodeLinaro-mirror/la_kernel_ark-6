@@ -1,3 +1,7 @@
+* Wed Jul 22 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.4-3]
+- net/sched: cls_api: Handle TC_ACT_CONSUMED in tcf_qevent_handle (Jamal Hadi Salim)
+Resolves: 
+
 * Tue Jul 21 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.4-2]
 - Revert "PCI/MSI: Unmap MSI-X region on error" (Yuanhe Shu)
 - Revert "btrfs: fix the file offset calculation inside btrfs_decompress_buf2page()" (Matthew Wilcox (Oracle))
