@@ -1099,6 +1099,8 @@ Source74: partial-clang_lto-x86_64-snip.config
 Source75: partial-clang_lto-x86_64-debug-snip.config
 Source76: partial-clang_lto-aarch64-snip.config
 Source77: partial-clang_lto-aarch64-debug-snip.config
+Source78: partial-clang-s390x-snip.config
+Source79: partial-clang-s390x-debug-snip.config
 Source80: generate_all_configs.sh
 Source81: process_configs.sh
 
@@ -2261,7 +2263,7 @@ PARTIAL_CONFIGS=""
 PARTIAL_CONFIGS="$PARTIAL_CONFIGS %{SOURCE70} %{SOURCE71}"
 %endif
 %if %{with toolchain_clang}
-PARTIAL_CONFIGS="$PARTIAL_CONFIGS %{SOURCE72} %{SOURCE73}"
+PARTIAL_CONFIGS="$PARTIAL_CONFIGS %{SOURCE72} %{SOURCE73} %{SOURCE78} %{SOURCE79}"
 %endif
 %if %{with clang_lto}
 PARTIAL_CONFIGS="$PARTIAL_CONFIGS %{SOURCE74} %{SOURCE75} %{SOURCE76} %{SOURCE77}"
