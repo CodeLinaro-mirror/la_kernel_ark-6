@@ -1,3 +1,9 @@
+* Fri Jul 24 2026 Augusto Caringi <acaringi@redhat.com> [7.1.5-0]
+- redhat/configs: fix new config items for aarch64 and s390x (Augusto Caringi)
+- Revert some RHEL only rng patches (Justin M. Forbes)
+- Linux v7.1.5
+Resolves: 
+
 * Wed Jul 22 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.4-4]
 - net/packet: avoid fanout hook re-registration after unregister (David Lee)
 Resolves: 
