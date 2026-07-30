@@ -1,5 +1,11 @@
-* Wed Jul 29 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc5.fc02acf6ac0c.43]
+* Thu Jul 30 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc5.11028ab62899.44]
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Thu Jul 30 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc5.11028ab62899.43]
+- redhat/configs: do not enable IPQ_GCC_9650 (Eric Chanudet)
+- redhat/configs: do not enable CLK_X1P42100_* (Eric Chanudet)
+- Linux v7.2.0-0.rc5.11028ab62899
 Resolves: 
 
 * Wed Jul 29 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc5.fc02acf6ac0c.42]
