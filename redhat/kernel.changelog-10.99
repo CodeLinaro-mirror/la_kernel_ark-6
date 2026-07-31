@@ -1,5 +1,10 @@
-* Thu Jul 30 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc5.11028ab62899.44]
+* Fri Jul 31 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc5.8ba098e6b6ff.45]
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Fri Jul 31 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc5.8ba098e6b6ff.44]
+- redhat: Disable the CRYPTO_LIB_AESCFB config switch (Thomas Huth)
+- Linux v7.2.0-0.rc5.8ba098e6b6ff
 Resolves: 
 
 * Thu Jul 30 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc5.11028ab62899.43]
