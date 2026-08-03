@@ -1651,7 +1651,6 @@ struct pptable_funcs {
 	int (*ras_send_msg)(struct smu_context *smu,
 			    enum smu_message_type msg, uint32_t param, uint32_t *read_arg);
 
-
 	/**
 	 * @get_ras_smu_drv: Get RAS smu driver interface
 	 * Return: ras_smu_drv *
