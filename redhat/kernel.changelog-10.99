@@ -1,3 +1,11 @@
+* Mon Aug 03 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.6-1]
+- vhost: reset the vring metadata cache on vring reconfiguration (Jun Yang)
+Resolves: 
+
+* Mon Aug 03 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.6-1]
+- vhost: reset the vring metadata cache on vring reconfiguration (Jun Yang)
+Resolves: 
+
 * Mon Aug 03 2026 Augusto Caringi <acaringi@redhat.com> [7.1.6-0]
 - New config for stable (Justin M. Forbes)
 - acpi: battery: Sanitise model_number by dropping unprintable characters (Kate Hsuan)
