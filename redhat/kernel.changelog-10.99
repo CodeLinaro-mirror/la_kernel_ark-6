@@ -1,3 +1,19 @@
+* Mon Aug 03 2026 Augusto Caringi <acaringi@redhat.com> [7.1.6-0]
+- New config for stable (Justin M. Forbes)
+- acpi: battery: Sanitise model_number by dropping unprintable characters (Kate Hsuan)
+- redhat: configs: Enable AMD ISP4 MIPI camera solution (Kate Hsuan)
+- media: platform: amd: add DRM_AMDGPU dependency (Arnd Bergmann)
+- media: platform: amd: isp4: drop stale list reinit before free (Bin Du)
+- media: platform: amd: isp4 debug fs logging and more descriptive errors (Bin Du)
+- media: platform: amd: isp4 video node and buffers handling added (Bin Du)
+- media: platform: amd: isp4 subdev and firmware loading handling added (Bin Du)
+- media: platform: amd: Add isp4 fw and hw interface (Bin Du)
+- media: platform: amd: low level support for isp4 firmware (Bin Du)
+- media: platform: amd: Introduce amd isp4 capture driver (Bin Du)
+- serial: 8250_mid: Fix NULL function pointer dereference on DNV/ICX-D/SNR platforms (Jiangshan Yi)
+- Linux v7.1.6
+Resolves: 
+
 * Tue Jul 28 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.5-1]
 - ASoC: cs42l43: Correct report for forced microphone jack (Charles Keepax)
 - platform/x86/intel-uncore-freq: Fix current_freq_khz after CPU hotplug (Guixiong Wei)
