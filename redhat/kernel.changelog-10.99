@@ -1,3 +1,8 @@
+* Thu Aug 06 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.43-0]
+- Add new commit for stable (Justin M. Forbes)
+- Linux v6.18.43
+Resolves: 
+
 * Thu Jul 30 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.41-0]
 - Linux v6.18.41
 Resolves: 
