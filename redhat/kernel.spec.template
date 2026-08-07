@@ -2018,6 +2018,7 @@ PREEMPT_RT real-time preemption support, targeted for Automotive platforms
 %endif
 
 %if %{with_stock} && %{with_debug}
+%define variant_summary The Linux kernel compiled with extra debugging enabled
 %if !%{debugbuildsenabled}
 %kernel_variant_package -m debug
 %else
