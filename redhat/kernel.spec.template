@@ -2126,7 +2126,7 @@ Prebuilt default kernel image with auto DTB selection for ARM64 UEFI devices.
 # do a few sanity-checks for --with *only builds
 %if %{with_baseonly}
 %if !%{with_stock}
-%{log_msg "Cannot build --with baseonly, stock build is disabled"}
+%{log_msg "Cannot build with baseonly, stock build is disabled"}
 exit 1
 %endif
 %endif
