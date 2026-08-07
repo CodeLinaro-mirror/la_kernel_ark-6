@@ -860,11 +860,11 @@ dist-prep: ##build Setup the redhat/rpm/BUILD/ directory with the kernel source.
 dist-prep: RPMBUILDOPTS=--nodeps --target noarch -bp
 dist-prep: dist-sources do-rpmbuild
 
-dist-perf: RPMBUILDOPTS=--without up --without smp --without zfcpdump --without debug --without doc --without headers --without doc --without debuginfo --target $(MACH) -bb
+dist-perf: RPMBUILDOPTS=--without stock --without zfcpdump --without debug --without doc --without headers --without debuginfo --target $(MACH) -bb
 dist-perf: dist-sources do-rpmbuild
 
 dist-rpm-baseonly: ##build Create the binary RPMS for the kernel and modules (no userspace tools or debuginfo).
-dist-rpm-baseonly: RPMBUILDOPTS=--target $(MACH) --without debug --without debuginfo --without vdso_install --without bpftool --without perf --without tools -bb
+dist-rpm-baseonly: RPMBUILDOPTS=--target $(MACH) --without debug --without debuginfo --without vdso_install --without perf --without tools -bb
 dist-rpm-baseonly: dist-sources do-rpmbuild
 
 # dist-release related targets are used by the kernel maintainer team
