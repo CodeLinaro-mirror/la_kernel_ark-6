@@ -1996,7 +1996,7 @@ on kernel bugs, as some of these options impact performance noticably.
 %endif
 
 %if %{with_debug} && %{with_automotive} && !%{with_automotive_build}
-%define variant_summary The Linux Automotive kernel compiled with extra debugging enabled
+%define variant_summary The Linux kernel compiled for Automotive use with PREEMPT_RT and extra debugging enabled
 %kernel_variant_package automotive-debug
 %description automotive-debug-core
 The kernel package contains the Linux kernel (vmlinuz), the core of any
@@ -2010,7 +2010,7 @@ on kernel bugs, as some of these options impact performance noticably.
 %endif
 
 %if %{with_automotive_base}
-%define variant_summary The Linux kernel compiled with PREEMPT_RT enabled
+%define variant_summary The Linux kernel compiled for Automotive use with PREEMPT_RT enabled
 %kernel_variant_package automotive
 %description automotive-core
 This package includes a version of the Linux kernel compiled with the
