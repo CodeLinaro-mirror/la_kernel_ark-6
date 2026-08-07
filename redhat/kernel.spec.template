@@ -1053,7 +1053,7 @@ Source44: %{name}-riscv64-rhel.config
 Source45: %{name}-riscv64-debug-rhel.config
 %endif
 
-%if %{include_rhel} || %{include_automotive}
+%if 0%{?include_rhel} || 0%{?include_automotive}
 Source23: x509.genkey.rhel
 Source34: def_variants.yaml.rhel
 Source41: x509.genkey.centos
@@ -1147,8 +1147,8 @@ Source214: Module.kabi_dup_riscv64
 Source300: kernel-abi-stablelists-%{kabiversion}.tar.xz
 Source301: kernel-kabi-dw-%{kabiversion}.tar.xz
 
-%if 0%{include_rt}
-%if 0%{include_rhel}
+%if 0%{?include_rt}
+%if 0%{?include_rhel}
 Source474: %{name}-aarch64-rt-rhel.config
 Source475: %{name}-aarch64-rt-debug-rhel.config
 Source476: %{name}-aarch64-rt-64k-rhel.config
@@ -1156,7 +1156,7 @@ Source477: %{name}-aarch64-rt-64k-debug-rhel.config
 Source478: %{name}-x86_64-rt-rhel.config
 Source479: %{name}-x86_64-rt-debug-rhel.config
 %endif
-%if 0%{include_fedora}
+%if 0%{?include_fedora}
 Source480: %{name}-aarch64-rt-fedora.config
 Source481: %{name}-aarch64-rt-debug-fedora.config
 Source482: %{name}-aarch64-rt-64k-fedora.config
@@ -1168,7 +1168,7 @@ Source487: %{name}-riscv64-rt-debug-fedora.config
 %endif
 %endif
 
-%if %{include_automotive}
+%if 0%{?include_automotive}
 %if %{with_automotive_build}
 Source488: %{name}-aarch64-rhel.config
 Source489: %{name}-aarch64-debug-rhel.config
@@ -1307,7 +1307,7 @@ It provides the kernel source files common to all builds.
 
 %if %{with_perf}
 %package -n perf
-%if 0%{gemini}
+%if 0%{?gemini}
 Epoch: %{gemini}
 %endif
 Summary: Performance monitoring for the Linux kernel
@@ -1317,7 +1317,7 @@ This package contains the perf tool, which enables performance monitoring
 of the Linux kernel.
 
 %package -n perf-debuginfo
-%if 0%{gemini}
+%if 0%{?gemini}
 Epoch: %{gemini}
 %endif
 Summary: Debug information for package perf
@@ -1333,7 +1333,7 @@ This package provides debug information for the perf package.
 %{expand:%%global _find_debuginfo_opts %{?_find_debuginfo_opts} -p '.*%%{_bindir}/perf(\.debug)?|.*%%{_libexecdir}/perf-core/.*|.*%%{_libdir}/libperf-jvmti.so(\.debug)?|XXX' -o perf-debuginfo.list}
 
 %package -n python3-perf
-%if 0%{gemini}
+%if 0%{?gemini}
 Epoch: %{gemini}
 %endif
 Summary: Python bindings for apps which will manipulate perf events
@@ -1343,7 +1343,7 @@ written in the Python programming language to use the interface
 to manipulate perf events.
 
 %package -n python3-perf-debuginfo
-%if 0%{gemini}
+%if 0%{?gemini}
 Epoch: %{gemini}
 %endif
 Summary: Debug information for package perf python bindings
@@ -1445,7 +1445,7 @@ shipped as part of the kernel tools including ynl.
 %endif
 
 %package -n rtla
-%if 0%{gemini}
+%if 0%{?gemini}
 Epoch: %{gemini}
 %endif
 Summary: Real-Time Linux Analysis tools
@@ -1463,7 +1463,7 @@ about the properties and root causes of unexpected results.
 
 %if %{with_debuginfo}
 %package -n rtla-debuginfo
-%if 0%{gemini}
+%if 0%{?gemini}
 Epoch: %{gemini}
 %endif
 Summary: Debug information for package rtla
@@ -1480,7 +1480,7 @@ This package provides debug information for the rtla package.
 %endif
 
 %package -n rv
-%if 0%{gemini}
+%if 0%{?gemini}
 Epoch: %{gemini}
 %endif
 Summary: RV: Runtime Verification
@@ -1494,7 +1494,7 @@ to analyze the logical and timing behavior of Linux.
 
 %if %{with_debuginfo}
 %package -n rv-debuginfo
-%if 0%{gemini}
+%if 0%{?gemini}
 Epoch: %{gemini}
 %endif
 Summary: Debug information for package rv
