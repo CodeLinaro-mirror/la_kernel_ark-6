@@ -4530,13 +4530,11 @@ fi\
 %if %{with_realtime_arm64_64k_base}
 %kernel_variant_preun -v rt-64k
 %kernel_variant_post -v rt-64k
-%kernel_kvm_post rt-64k
 %endif
 
 %if %{with_debug} && %{with_realtime_arm64_64k}
 %kernel_variant_preun -v rt-64k-debug
 %kernel_variant_post -v rt-64k-debug
-%kernel_kvm_post rt-64k-debug
 %endif
 
 %if %{with_automotive} && %{with_debug} && !%{with_automotive_build}
