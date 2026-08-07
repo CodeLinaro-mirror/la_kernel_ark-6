@@ -515,8 +515,6 @@ Summary: The Linux kernel
 %define with_kabidwchk 0
 %define with_kabidw_base 0
 %define with_kernel_abi_stablelists 0
-%define with_selftests 0
-%define with_vdso_install 0
 %define with_configchecks 0
 %endif
 
@@ -645,7 +643,6 @@ Summary: The Linux kernel
 %define hdrarch powerpc
 %define make_target vmlinux
 %define kernel_image vmlinux
-%define kernel_image_elf 1
 %define use_vdso 0
 %endif
 
@@ -4760,10 +4757,6 @@ fi\
 %files
 %endif
 %endif
-
-# This is %%{image_install_path} on an arch where that includes ELF files,
-# or empty otherwise.
-%define elf_image_install_path %{?kernel_image_elf:%{image_install_path}}
 
 #
 # This macro defines the %%files sections for a kernel package
