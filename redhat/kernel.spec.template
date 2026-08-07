@@ -305,7 +305,9 @@ Summary: The Linux kernel
 %define with_toolsonly %{?_with_toolsonly:    1} %{?!_with_toolsonly:    0}
 # Control whether we perform a compat. check against published ABI.
 %define with_kabichk   %{?_without_kabichk:   0} %{?!_without_kabichk:   1}
-# Temporarily disable kabi checks until RC.
+# Seasonal toggle, not dead code: flipped off after a rebase and back on
+# once the kABI stablelists are updated for the new release (at RC).
+# While 0, it also forces with_kabidupchk and with_kabidwchk off below.
 %define with_kabichk 0
 # Control whether we perform a compat. check against DUP ABI.
 %define with_kabidupchk %{?_with_kabidupchk:  1} %{?!_with_kabidupchk:   0}
