@@ -4554,7 +4554,7 @@ fi\
 %endif
 
 %if %{with_kabidw_base}
-%ifarch x86_64 s390x ppc64 ppc64le aarch64 riscv64
+%ifarch x86_64 s390x ppc64le aarch64 riscv64
 %files kernel-kabidw-base-internal
 %defattr(-,root,root)
 /kabidw-base/%{_target_cpu}/*
