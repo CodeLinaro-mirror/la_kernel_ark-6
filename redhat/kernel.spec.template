@@ -1532,11 +1532,11 @@ external Linux kernel modules, and a yum plugin to aid enforcement.
 %endif
 
 %if %{with_kabidw_base}
-%package kernel-kabidw-base-internal
+%package -n %{name}-kabidw-base-internal
 Summary: The baseline dataset for kABI verification using DWARF data
 Group: System Environment/Kernel
 AutoReqProv: no
-%description kernel-kabidw-base-internal
+%description -n %{name}-kabidw-base-internal
 The package contains data describing the current ABI of the Red Hat Enterprise
 Linux kernel, suitable for the kabi-dw tool.
 %endif
@@ -4455,7 +4455,7 @@ fi\
 
 %if %{with_kabidw_base}
 %ifarch x86_64 s390x ppc64le aarch64 riscv64
-%files kernel-kabidw-base-internal
+%files -n %{name}-kabidw-base-internal
 %defattr(-,root,root)
 /kabidw-base/%{_target_cpu}/*
 %endif
