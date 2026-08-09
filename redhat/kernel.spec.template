@@ -241,13 +241,14 @@ Summary: The Linux kernel
 %define with_automotive %{?_with_automotive:  1} %{?!_with_automotive:   0}
 
 # Supported variants
-#            with_base with_debug    with_gcov
-# stock      X         X             X
-# zfcpdump   X                       X
-# arm64_16k  X         X             X
-# arm64_64k  X         X             X
-# realtime   X         X             X
-# automotive X         X             X
+#                    with_base with_debug    with_gcov
+# stock              X         X             X
+# zfcpdump           X                       X
+# arm64_16k          X         X             X
+# arm64_64k          X         X             X
+# realtime           X         X             X
+# realtime_arm64_64k X         X             X
+# automotive         X         X             X
 
 # kernel-doc
 %define with_doc       %{?_without_doc:       0} %{?!_without_doc:       1}
