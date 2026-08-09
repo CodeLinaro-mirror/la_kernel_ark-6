@@ -1223,7 +1223,6 @@ AutoProv: yes\
 
 %package doc
 Summary: Various documentation bits found in the kernel source
-Group: Documentation
 %description doc
 This package contains documentation files from the kernel
 source. Various bits of information about the Linux kernel and the
@@ -1338,7 +1337,6 @@ of applications which use perf library from kernel source.
 
 %package -n libperf-debuginfo
 Summary: Debug information for package libperf
-Group: Development/Debug
 Requires: %{name}-debuginfo-common-%{_target_cpu} = %{version}-%{release}
 AutoReqProv: no
 %description -n libperf-debuginfo
@@ -1481,7 +1479,6 @@ This package provides debug information for the rv package.
 %if %{with_kmap} && %{with_base}
 %package -n %{name}-kmap-internal
 Summary: Kernel source-to-module mapping data and module list
-Group: Development/System
 BuildRequires: python3
 %description -n %{name}-kmap-internal
 The %{name}-kmap-internal package contains a JSON mapping file that describes
@@ -1539,7 +1536,6 @@ external Linux kernel modules, and a yum plugin to aid enforcement.
 %if %{with_kabidw_base}
 %package -n %{name}-kabidw-base-internal
 Summary: The baseline dataset for kABI verification using DWARF data
-Group: System Environment/Kernel
 AutoReqProv: no
 %description -n %{name}-kabidw-base-internal
 The package contains data describing the current ABI of the Red Hat Enterprise
@@ -1630,7 +1626,6 @@ This meta package provides a single reference that other packages can Require to
 %define kernel_modules_internal_package() \
 %package %{?1:%{1}-}modules-internal\
 Summary: Extra kernel modules to match the %{?1:%{1} }kernel\
-Group: System Environment/Kernel\
 Provides: %{name}%{?1:-%{1}}-modules-internal-%{_target_cpu} = %{specrpmversion}-%{release}\
 Provides: %{name}%{?1:-%{1}}-modules-internal-%{_target_cpu} = %{specrpmversion}-%{release}%{uname_suffix %{?1}}\
 Provides: %{name}%{?1:-%{1}}-modules-internal = %{specrpmversion}-%{release}%{uname_suffix %{?1}}\
@@ -1803,7 +1798,6 @@ Conflicts: %{name}%{?1:-%{1}}-core = %{specrpmversion}-%{release}\
 %define kernel_modules_partner_package() \
 %package %{?1:%{1}-}modules-partner\
 Summary: Extra kernel modules to match the %{?1:%{1} }kernel\
-Group: System Environment/Kernel\
 Provides: %{name}%{?1:-%{1}}-modules-partner-%{_target_cpu} = %{specrpmversion}-%{release}\
 Provides: %{name}%{?1:-%{1}}-modules-partner-%{_target_cpu} = %{specrpmversion}-%{release}%{uname_suffix %{?1}}\
 Provides: %{name}%{?1:-%{1}}-modules-partner = %{specrpmversion}-%{release}%{uname_suffix %{?1}}\
