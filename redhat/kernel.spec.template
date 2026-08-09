@@ -663,7 +663,7 @@ Summary: The Linux kernel
 %define nobuildarches i386 i686
 %endif
 
-%ifarch %nobuildarches
+%ifarch %{nobuildarches}
 # disable BuildKernel commands
 %define with_stock 0
 %define with_debug 0
@@ -2142,7 +2142,7 @@ sed -e s,@KVER,%{KVERREL}, -e s,@SBAT_SUFFIX,%{sbat_suffix}, %{SOURCE84} > uki-a
 sed -e s,@KVER,%{KVERREL}, -e s,@SBAT_SUFFIX,%{sbat_suffix}, %{SOURCE85} > kernel.sbat
 
 # only deal with configs if we are going to build for the arch
-%ifnarch %nobuildarches
+%ifnarch %{nobuildarches}
 
 if [ -L configs ]; then
 	rm -f configs
