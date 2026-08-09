@@ -2251,7 +2251,6 @@ for i in *.config; do
 done
 %endif
 
-%{log_msg "Set process_configs.sh $OPTS"}
 cp %{SOURCE81} .
 OPTS="-w -n -c"
 %if !%{with_configchecks}
@@ -2262,6 +2261,7 @@ for opt in %{clang_make_opts}; do
   OPTS="$OPTS -m $opt"
 done
 %endif
+%{log_msg "Set process_configs.sh $OPTS"}
 %{log_msg "Generate redhat configs"}
 RHJOBS=$RPM_BUILD_NCPUS SPECPACKAGE_NAME=%{name} ./process_configs.sh $OPTS %{specrpmversion}
 
