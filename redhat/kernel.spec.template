@@ -4215,7 +4215,7 @@ fi\
 
 # This macro defines a %%posttrans script for a kernel package.
 #	%%kernel_variant_posttrans [-v <subpackage>] [-u uki-suffix]
-# More text can follow to go at the end of this variant's %%post.
+# More text can follow to go at the end of this variant's %%posttrans.
 #
 # Options:
 #   -v <variant>: Variant name (e.g., "debug", "rt")
