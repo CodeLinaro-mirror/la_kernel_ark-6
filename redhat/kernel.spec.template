@@ -1608,6 +1608,10 @@ Requires: %{name}%{?1:-%{1}}-core = %{specrpmversion}-%{release}\
 This meta package is used to install matching core and devel packages for a given %{?2:%{2} }kernel.\
 %{nil}
 
+#
+# This macro creates the kernel-modules-extra-matched meta package.
+#	%%kernel_modules_extra_matched_package
+#
 %define kernel_modules_extra_matched_package() \
 %package modules-extra-matched\
 Summary: Meta package which requires modules-extra to be installed for all kernels.\
