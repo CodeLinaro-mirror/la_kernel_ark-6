@@ -2306,7 +2306,7 @@ cd ..
 %{log_msg "Start of build stage"}
 
 %{log_msg "General arch build configuration"}
-rm -rf %{buildroot_unstripped} || true
+rm -rf %{buildroot_unstripped}
 mkdir -p %{buildroot_unstripped}
 
 %if %{with_sparse}
