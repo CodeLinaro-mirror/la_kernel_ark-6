@@ -4659,10 +4659,8 @@ fi\
 #
 # This macro defines the %%files sections for a kernel package
 # and its devel and debuginfo packages.
-#	%%kernel_variant_files [-k vmlinux] <use_vdso> <condition> <subpackage>
+#	%%kernel_variant_files <use_vdso> <condition> <subpackage>
 #
-# Options:
-#   -k <name>: Kernel image filename (default: "vmlinuz")
 # Arguments:
 #   %1 - Whether VDSO was built (1=yes, 0=no) - controls if vdso files are included
 #   %2 - Condition (usually with_<variant>) - only generate files section if true
@@ -4679,13 +4677,13 @@ fi\
 #   - kernel-uki-virt: unified kernel image for VMs (if with_efiuki)
 #   - kernel-uki-dtbloader: kernel with systemd-stub for auto DTB loading (if with_dtbloader)
 #
-%define kernel_variant_files(k:) \
+%define kernel_variant_files() \
 %if %{2}\
 %{expand:%%files %{?1:-f kernel-%{?3:%{3}-}ldsoconf.list} %{?3:%{3}-}core}\
 %{!?_licensedir:%global license %%doc}\
 %%license linux-%{KVERREL}/COPYING-%{version}-%{release}\
-/lib/modules/%{KVERREL}%{?3:+%{3}}/%{?-k:%{-k*}}%{!?-k:vmlinuz}\
-%ghost /%{image_install_path}/%{?-k:%{-k*}}%{!?-k:vmlinuz}-%{KVERREL}%{?3:+%{3}}\
+/lib/modules/%{KVERREL}%{?3:+%{3}}/vmlinuz\
+%ghost /%{image_install_path}/vmlinuz-%{KVERREL}%{?3:+%{3}}\
 /lib/modules/%{KVERREL}%{?3:+%{3}}/.vmlinuz.hmac \
 %ghost /%{image_install_path}/.vmlinuz-%{KVERREL}%{?3:+%{3}}.hmac \
 %ifarch %{dtb_arches}\
@@ -4754,12 +4752,12 @@ fi\
 /lib/modules/%{KVERREL}%{?3:+%{3}}/symvers.%compext\
 /lib/modules/%{KVERREL}%{?3:+%{3}}/config\
 /lib/modules/%{KVERREL}%{?3:+%{3}}/modules.builtin*\
-%attr(0644, root, root) /lib/modules/%{KVERREL}%{?3:+%{3}}/%{?-k:%{-k*}}%{!?-k:vmlinuz}-virt.efi\
-%attr(0644, root, root) /lib/modules/%{KVERREL}%{?3:+%{3}}/.%{?-k:%{-k*}}%{!?-k:vmlinuz}-virt.efi.hmac\
-%ghost /%{image_install_path}/efi/EFI/Linux/%{?-k:%{-k*}}%{!?-k:*}-%{KVERREL}%{?3:+%{3}}.efi\
+%attr(0644, root, root) /lib/modules/%{KVERREL}%{?3:+%{3}}/vmlinuz-virt.efi\
+%attr(0644, root, root) /lib/modules/%{KVERREL}%{?3:+%{3}}/.vmlinuz-virt.efi.hmac\
+%ghost /%{image_install_path}/efi/EFI/Linux/*-%{KVERREL}%{?3:+%{3}}.efi\
 %{expand:%%files %{?3:%{3}-}uki-virt-addons}\
-%dir /lib/modules/%{KVERREL}%{?3:+%{3}}/%{?-k:%{-k*}}%{!?-k:vmlinuz}-virt.efi.extras.optional/ \
-/lib/modules/%{KVERREL}%{?3:+%{3}}/%{?-k:%{-k*}}%{!?-k:vmlinuz}-virt.efi.extras.optional/*.addon.efi\
+%dir /lib/modules/%{KVERREL}%{?3:+%{3}}/vmlinuz-virt.efi.extras.optional/ \
+/lib/modules/%{KVERREL}%{?3:+%{3}}/vmlinuz-virt.efi.extras.optional/*.addon.efi\
 %endif\
 %if %{with_dtbloader} && ("%{?3}" == "" || "%{3}" == "debug")\
 %{expand:%%files %{?3:%{3}-}uki-dtbloader}\
@@ -4770,14 +4768,14 @@ fi\
 /lib/modules/%{KVERREL}%{?3:+%{3}}/config\
 /lib/modules/%{KVERREL}%{?3:+%{3}}/modules.builtin*\
 /lib/modules/%{KVERREL}%{?3:+%{3}}/symvers.%compext\
-/lib/modules/%{KVERREL}%{?3:+%{3}}/%{?-k:%{-k*}}%{!?-k:vmlinuz}-dtbloader.efi\
-/lib/modules/%{KVERREL}%{?3:+%{3}}/.%{?-k:%{-k*}}%{!?-k:vmlinuz}-dtbloader.efi.hmac\
+/lib/modules/%{KVERREL}%{?3:+%{3}}/vmlinuz-dtbloader.efi\
+/lib/modules/%{KVERREL}%{?3:+%{3}}/.vmlinuz-dtbloader.efi.hmac\
 %ghost %attr(0644, root, root) /boot/System.map-%{KVERREL}%{?3:+%{3}}\
 %ghost %attr(0644, root, root) /boot/config-%{KVERREL}%{?3:+%{3}}\
 %ghost %attr(0600, root, root) /boot/initramfs-%{KVERREL}%{?3:+%{3}}.img\
 %ghost %attr(0644, root, root) /boot/symvers-%{KVERREL}%{?3:+%{3}}.%compext\
-%ghost %attr(0755, root, root) /%{image_install_path}/%{?-k:%{-k*}}%{!?-k:vmlinuz}-%{KVERREL}%{?3:+%{3}}\
-%ghost %attr(0644, root, root) /%{image_install_path}/.%{?-k:%{-k*}}%{!?-k:vmlinuz}-%{KVERREL}%{?3:+%{3}}.hmac\
+%ghost %attr(0755, root, root) /%{image_install_path}/vmlinuz-%{KVERREL}%{?3:+%{3}}\
+%ghost %attr(0644, root, root) /%{image_install_path}/.vmlinuz-%{KVERREL}%{?3:+%{3}}.hmac\
 %ifarch %{dtb_arches}\
 /lib/modules/%{KVERREL}%{?3:+%{3}}/dtb \
 %ghost /%{image_install_path}/dtb-%{KVERREL}%{?3:+%{3}} \
