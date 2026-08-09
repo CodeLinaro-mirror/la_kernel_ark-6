@@ -2190,7 +2190,6 @@ GetArch()
 
 # Merge in any user-provided local config option changes
 %{log_msg "Merge in any user-provided local config option changes"}
-%ifnarch %nobuildarches
 for i in %{all_configs}
 do
   kern_arch="$(GetArch $i)"
@@ -2210,7 +2209,6 @@ do
   done
   rm -f $i.tmp
 done
-%endif
 
 %if %{signkernel}%{signmodules}
 
