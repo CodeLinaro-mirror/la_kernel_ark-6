@@ -2274,16 +2274,11 @@ update_scripts() {
 }
 
 %{log_msg "Set scripts/SOURCES targets"}
-update_target=%{primary_target}
-if [ "%{primary_target}" == "rhel" ]; then
-: # no-op to avoid empty if-fi error
+update_scripts %{primary_target}
 %if 0%{?centos}
-  update_scripts $update_target
-  %{log_msg "Updating scripts/sources to centos version"}
-  update_target=centos
+%{log_msg "Updating scripts/sources to centos version"}
+update_scripts centos
 %endif
-fi
-update_scripts $update_target
 
 %endif
 
