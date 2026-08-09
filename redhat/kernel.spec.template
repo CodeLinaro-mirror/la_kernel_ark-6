@@ -4457,7 +4457,7 @@ fi\
 %ifarch x86_64 s390x ppc64le aarch64 riscv64
 %files -n %{name}-kabidw-base-internal
 %defattr(-,root,root)
-/kabidw-base/%{_target_cpu}/*
+/kabidw-base/%{_target_cpu}*/*
 %endif
 %endif
 
