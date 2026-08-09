@@ -3194,8 +3194,8 @@ BuildKernel() {
 
     # This is going to create a broken link during the build, but we don't use
     # it after this point.  We need the link to actually point to something
-    # when kernel-devel is installed, and a relative link doesn't work across
-    # the F17 UsrMove feature.
+    # when kernel-devel is installed, and /lib/modules lives on the /usr side
+    # of the merged-/usr layout, so a relative link would not resolve.
     ln -sf $DevelDir $RPM_BUILD_ROOT/lib/modules/$KernelVer/build
 
 %if %{with_debuginfo}
