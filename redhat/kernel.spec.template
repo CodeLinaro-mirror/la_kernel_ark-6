@@ -4235,7 +4235,7 @@ fi\
 %{nil}
 
 #
-# This macro defines a %%post script for a kernel*-modules-core package.
+# This macro defines a %%posttrans script for a kernel*-modules-core package.
 #	%%kernel_modules_core_post [<subpackage>]
 #
 %define kernel_modules_core_post() \
