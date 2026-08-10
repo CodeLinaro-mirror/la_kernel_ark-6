@@ -1,3 +1,7 @@
+* Mon Aug 10 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc7.53]
+- Linux v7.2.0-0.rc7
+Resolves: 
+
 * Sun Aug 09 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc6.06cf61899d64.52]
 - Fix up mismatch for rhel automotive (Justin M. Forbes)
 - Fix up a config mismatch in pending (Justin M. Forbes)
