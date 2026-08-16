@@ -1,7 +1,11 @@
-* Sat Aug 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc7.15ef2f78c49d.59]
+* Sun Aug 16 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc7.3eb40771c00a.60]
 - dracut-virt.conf: change systemd-pcrphase to systemd-pcrextend (Vitaly Kuznetsov)
 - redhat/kernel.spec.template: Switch UKI addons to using UKI cert (Vitaly Kuznetsov)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Sun Aug 16 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc7.3eb40771c00a.59]
+- Linux v7.2.0-0.rc7.3eb40771c00a
 Resolves: 
 
 * Sat Aug 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc7.15ef2f78c49d.58]
