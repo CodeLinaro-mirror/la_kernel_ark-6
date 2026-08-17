@@ -1,3 +1,9 @@
+* Mon Aug 17 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-60]
+- dracut-virt.conf: change systemd-pcrphase to systemd-pcrextend (Vitaly Kuznetsov)
+- redhat/kernel.spec.template: Switch UKI addons to using UKI cert (Vitaly Kuznetsov)
+- Linux v7.2.0
+Resolves: 
+
 * Sun Aug 16 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.2.0-0.rc7.3eb40771c00a.59]
 - Linux v7.2.0-0.rc7.3eb40771c00a
 Resolves: 
