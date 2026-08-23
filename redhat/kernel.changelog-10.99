@@ -1,3 +1,7 @@
+* Sun Aug 23 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.46-0]
+- Linux v6.18.46
+Resolves: 
+
 * Wed Aug 19 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.45-0]
 - Add config update for 6.18.44 (Justin M. Forbes)
 - Linux v6.18.45
