@@ -1,3 +1,8 @@
+* Sun Aug 23 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.10-0]
+- ALSA: hda/realtek: add quirk for Framework F111:0010 (Daniel Schaefer)
+- Linux v7.1.10
+Resolves: 
+
 * Wed Aug 19 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.9-0]
 - packet: use consistent hard_header_len in non-ring send paths (Qihang Tang)
 - platform/x86: int3472: Increase handshake GPIO delay to 200 ms (Hans de Goede)
