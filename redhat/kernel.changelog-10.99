@@ -1,6 +1,13 @@
-* Wed Aug 26 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc0.45c13f3f9e3b.13]
+* Thu Aug 27 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc0.3ba13f5e7180.14]
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Thu Aug 27 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc0.3ba13f5e7180.13]
+- One more mismatch for automotive (Justin M. Forbes)
+- redhat/configs: disable CONFIG_INTERCONNECT_QCOM_MAILI (Brian Masney)
+- Fix up mismatches for aarch64 (Justin M. Forbes)
+- Linux v7.3.0-0.rc0.3ba13f5e7180
 Resolves: 
 
 * Wed Aug 26 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc0.45c13f3f9e3b.12]
