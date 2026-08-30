@@ -1,6 +1,10 @@
-* Sat Aug 29 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc0.cf72cbb39da8.16]
+* Sun Aug 30 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc0.08dbfad3f504.17]
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Sun Aug 30 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc0.08dbfad3f504.16]
+- Linux v7.3.0-0.rc0.08dbfad3f504
 Resolves: 
 
 * Sat Aug 29 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc0.cf72cbb39da8.15]
