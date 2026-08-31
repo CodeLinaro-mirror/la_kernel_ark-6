@@ -31,8 +31,10 @@ for release in $( cat redhat/release_targets );  do
 	45) build=30$releasenum
 	    ;;
 	44) build=20$releasenum
+	    ApplyPatches=1
 	    ;;
 	43) build=10$releasenum
+	    ApplyPatches=1
 	    ;;
 	esac
 	if [[ $ApplyPatches == "1" ]] ; then

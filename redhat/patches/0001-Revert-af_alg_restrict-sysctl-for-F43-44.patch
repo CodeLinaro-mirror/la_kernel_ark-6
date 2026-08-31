@@ -1,0 +1,476 @@
+From 80487e9777086853b58a0b3833e5cafb0fa3ac89 Mon Sep 17 00:00:00 2001
+From: "Justin M. Forbes" <jforbes@fedoraproject.org>
+Date: Mon, 31 Aug 2026 08:58:00 -0600
+Subject: [PATCH] Revert af_alg_restrict sysctl for F43/44
+
+Signed-off-by: Justin M. Forbes <jforbes@fedoraproject.org>
+---
+ Documentation/admin-guide/sysctl/crypto.rst | 36 ----------
+ Documentation/crypto/userspace-if.rst       | 13 +---
+ crypto/af_alg.c                             | 76 ++-------------------
+ crypto/algif_aead.c                         | 11 ---
+ crypto/algif_hash.c                         | 24 -------
+ crypto/algif_rng.c                          |  9 ---
+ crypto/algif_skcipher.c                     | 27 ++------
+ include/crypto/if_alg.h                     | 42 ++++--------
+ 8 files changed, 26 insertions(+), 212 deletions(-)
+
+diff --git a/Documentation/admin-guide/sysctl/crypto.rst b/Documentation/admin-guide/sysctl/crypto.rst
+index 9a1bd53287f4..b707bd314a64 100644
+--- a/Documentation/admin-guide/sysctl/crypto.rst
++++ b/Documentation/admin-guide/sysctl/crypto.rst
+@@ -7,42 +7,6 @@ kernel configuration:
+ 
+ .. contents:: :local:
+ 
+-.. _af_alg_restrict:
+-
+-af_alg_restrict
+-===============
+-
+-Controls the level of restriction of AF_ALG.
+-
+-AF_ALG is a deprecated and rarely-used userspace interface that is a
+-frequent source of vulnerabilities. It also unnecessarily exposes a
+-large number of kernel implementation details. For more information
+-about AF_ALG, see :ref:`Documentation/crypto/userspace-if.rst
+-<crypto_userspace_interface>`.
+-
+-Starting in Linux v7.3, AF_ALG supports only a limited set of
+-algorithms by default. This sysctl allows the system administrator to
+-remove this restriction when needed for compatibility reasons, or to
+-go further and disable AF_ALG entirely. The default value is 1.
+-
+-===  ==================================================================
+-0    AF_ALG is unrestricted.
+-
+-1    AF_ALG is supported with a limited list of algorithms. The list
+-     is designed for compatibility with known users such as iwd and
+-     bluez that haven't yet been fixed to use userspace crypto code.
+-
+-     Specifically, there is an allowlist for unprivileged processes
+-     and a somewhat longer allowlist for processes that hold
+-     CAP_SYS_ADMIN or CAP_NET_ADMIN in the initial user namespace.
+-
+-     Attempts to bind() an AF_ALG socket with a disallowed algorithm
+-     fail with ENOENT.
+-
+-2    AF_ALG is completely disabled. Attempts to create an AF_ALG
+-     socket fail with EAFNOSUPPORT.
+-===  ==================================================================
+-
+ fips_enabled
+ ============
+ 
+diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/crypto/userspace-if.rst
+index d6194346e366..ab93300c8e04 100644
+--- a/Documentation/crypto/userspace-if.rst
++++ b/Documentation/crypto/userspace-if.rst
+@@ -1,5 +1,3 @@
+-.. _crypto_userspace_interface:
+-
+ User Space Interface
+ ====================
+ 
+@@ -14,14 +12,9 @@ AF_ALG is insecure and is deprecated. Originally added to the kernel in 2010,
+ most kernel developers now consider it to be a mistake. Support for hardware
+ accelerators, which was the original purpose of AF_ALG, has been removed.
+ 
+-AF_ALG continues to be supported only for backwards compatibility.
+-
+-Starting in Linux v7.3, the set of algorithms supported by AF_ALG is limited by
+-default. See :ref:`/proc/sys/crypto/af_alg_restrict <af_alg_restrict>`.
+-
+-On systems where no programs using AF_ALG remain, the support for it should be
+-disabled entirely by setting ``/proc/sys/crypto/af_alg_restrict`` to 2 or by
+-disabling ``CONFIG_CRYPTO_USER_API_*`` in the kernel configuration.
++AF_ALG continues to be supported only for backwards compatibility. On systems
++where no programs using AF_ALG remain, the support for it should be disabled by
++disabling ``CONFIG_CRYPTO_USER_API_*``.
+ 
+ Deprecation
+ -----------
+diff --git a/crypto/af_alg.c b/crypto/af_alg.c
+index ab84c4488a15..cce000e8590e 100644
+--- a/crypto/af_alg.c
++++ b/crypto/af_alg.c
+@@ -8,7 +8,6 @@
+  */
+ 
+ #include <linux/atomic.h>
+-#include <linux/capability.h>
+ #include <crypto/if_alg.h>
+ #include <linux/crypto.h>
+ #include <linux/init.h>
+@@ -23,28 +22,10 @@
+ #include <linux/sched/signal.h>
+ #include <linux/security.h>
+ #include <linux/string.h>
+-#include <linux/sysctl.h>
+-#include <linux/user_namespace.h>
+ #include <keys/user-type.h>
+ #include <keys/trusted-type.h>
+ #include <keys/encrypted-type.h>
+ 
+-static int af_alg_restrict = 1;
+-
+-static const struct ctl_table af_alg_table[] = {
+-	{
+-		.procname       = "af_alg_restrict",
+-		.data           = &af_alg_restrict,
+-		.maxlen         = sizeof(int),
+-		.mode           = 0644,
+-		.proc_handler   = proc_dointvec_minmax,
+-		.extra1		= SYSCTL_ZERO,
+-		.extra2		= SYSCTL_TWO,
+-	},
+-};
+-
+-static struct ctl_table_header *af_alg_header;
+-
+ struct alg_type_list {
+ 	const struct af_alg_type *type;
+ 	struct list_head list;
+@@ -129,43 +110,6 @@ int af_alg_unregister_type(const struct af_alg_type *type)
+ }
+ EXPORT_SYMBOL_GPL(af_alg_unregister_type);
+ 
+-static bool af_alg_capable(void)
+-{
+-	return ns_capable_noaudit(&init_user_ns, CAP_NET_ADMIN) ||
+-	       capable(CAP_SYS_ADMIN);
+-}
+-
+-int af_alg_check_restriction(const char *name,
+-			     const struct af_alg_allowlist_entry allowlist[])
+-{
+-	int level = READ_ONCE(af_alg_restrict);
+-
+-	if (level == 0)
+-		return 0;
+-	if (level == 1) {
+-		for (const struct af_alg_allowlist_entry *ent = allowlist;
+-		     ent->name; ent++) {
+-			if (strcmp(name, ent->name) == 0) {
+-				if ((ent->flags & AF_ALG_UNPRIVILEGED) ||
+-				    af_alg_capable())
+-					return 0;
+-				/* List contains at most one entry per name. */
+-				break;
+-			}
+-		}
+-	}
+-	/*
+-	 * Use -ENOENT (the error code for "algorithm not found") instead of
+-	 * -EACCES or -EPERM, for the highest chance of correctly triggering
+-	 * fallback code paths in userspace programs.
+-	 *
+-	 * Don't log a warning, since it would be noisy.  iwd tries to bind a
+-	 * bunch of algorithms that it never uses.
+-	 */
+-	return -ENOENT;
+-}
+-EXPORT_SYMBOL_GPL(af_alg_check_restriction);
+-
+ static void alg_do_release(const struct af_alg_type *type, void *private)
+ {
+ 	if (!type)
+@@ -562,9 +506,6 @@ static int alg_create(struct net *net, struct socket *sock, int protocol,
+ 	struct sock *sk;
+ 	int err;
+ 
+-	if (READ_ONCE(af_alg_restrict) == 2)
+-		return -EAFNOSUPPORT;
+-
+ 	if (sock->type != SOCK_SEQPACKET)
+ 		return -ESOCKTNOSUPPORT;
+ 	if (protocol != 0)
+@@ -1281,32 +1222,27 @@ EXPORT_SYMBOL_GPL(af_alg_get_rsgl);
+ 
+ static int __init af_alg_init(void)
+ {
+-	int err;
+-
+-	af_alg_header = register_sysctl("crypto", af_alg_table);
++	int err = proto_register(&alg_proto, 0);
+ 
+-	err = proto_register(&alg_proto, 0);
+ 	if (err)
+-		goto out_unregister_sysctl;
++		goto out;
+ 
+ 	err = sock_register(&alg_family);
+-	if (err)
++	if (err != 0)
+ 		goto out_unregister_proto;
+ 
+-	return 0;
++out:
++	return err;
+ 
+ out_unregister_proto:
+ 	proto_unregister(&alg_proto);
+-out_unregister_sysctl:
+-	unregister_sysctl_table(af_alg_header);
+-	return err;
++	goto out;
+ }
+ 
+ static void __exit af_alg_exit(void)
+ {
+ 	sock_unregister(PF_ALG);
+ 	proto_unregister(&alg_proto);
+-	unregister_sysctl_table(af_alg_header);
+ }
+ 
+ module_init(af_alg_init);
+diff --git a/crypto/algif_aead.c b/crypto/algif_aead.c
+index 5574e2d70539..787aac8aeb24 100644
+--- a/crypto/algif_aead.c
++++ b/crypto/algif_aead.c
+@@ -34,11 +34,6 @@
+ #include <linux/net.h>
+ #include <net/sock.h>
+ 
+-static const struct af_alg_allowlist_entry aead_allowlist[] = {
+-	{ "ccm(aes)" }, /* bluez */
+-	{},
+-};
+-
+ static inline bool aead_sufficient_data(struct sock *sk)
+ {
+ 	struct alg_sock *ask = alg_sk(sk);
+@@ -349,12 +344,6 @@ static struct proto_ops algif_aead_ops_nokey = {
+ 
+ static void *aead_bind(const char *name)
+ {
+-	int err;
+-
+-	err = af_alg_check_restriction(name, aead_allowlist);
+-	if (err)
+-		return ERR_PTR(err);
+-
+ 	return crypto_alloc_aead(name, 0, AF_ALG_CRYPTOAPI_MASK);
+ }
+ 
+diff --git a/crypto/algif_hash.c b/crypto/algif_hash.c
+index 6e8b5fb82a7f..5452ad6c1506 100644
+--- a/crypto/algif_hash.c
++++ b/crypto/algif_hash.c
+@@ -16,24 +16,6 @@
+ #include <linux/net.h>
+ #include <net/sock.h>
+ 
+-static const struct af_alg_allowlist_entry hash_allowlist[] = {
+-	{ "cmac(aes)" }, /* iwd, bluez */
+-	{ "hmac(md5)" }, /* iwd */
+-	{ "hmac(sha1)" }, /* iwd */
+-	{ "hmac(sha224)" }, /* iwd */
+-	{ "hmac(sha256)" }, /* iwd */
+-	{ "hmac(sha384)" }, /* iwd */
+-	{ "hmac(sha512)" }, /* iwd, sha512hmac */
+-	{ "md4" }, /* iwd */
+-	{ "md5" }, /* iwd */
+-	{ "sha1", AF_ALG_UNPRIVILEGED }, /* iwd, iproute2 < 7.0 */
+-	{ "sha224" }, /* iwd */
+-	{ "sha256" }, /* iwd */
+-	{ "sha384" }, /* iwd */
+-	{ "sha512" }, /* iwd */
+-	{},
+-};
+-
+ struct hash_ctx {
+ 	struct af_alg_sgl sgl;
+ 
+@@ -400,12 +382,6 @@ static struct proto_ops algif_hash_ops_nokey = {
+ 
+ static void *hash_bind(const char *name)
+ {
+-	int err;
+-
+-	err = af_alg_check_restriction(name, hash_allowlist);
+-	if (err)
+-		return ERR_PTR(err);
+-
+ 	return crypto_alloc_ahash(name, 0, AF_ALG_CRYPTOAPI_MASK);
+ }
+ 
+diff --git a/crypto/algif_rng.c b/crypto/algif_rng.c
+index bd522915d56d..4dfe7899f8fa 100644
+--- a/crypto/algif_rng.c
++++ b/crypto/algif_rng.c
+@@ -50,10 +50,6 @@ MODULE_LICENSE("GPL");
+ MODULE_AUTHOR("Stephan Mueller <smueller@chronox.de>");
+ MODULE_DESCRIPTION("User-space interface for random number generators");
+ 
+-static const struct af_alg_allowlist_entry rng_allowlist[] = {
+-	{},
+-};
+-
+ struct rng_ctx {
+ #define MAXSIZE 128
+ 	unsigned int len;
+@@ -205,11 +201,6 @@ static void *rng_bind(const char *name)
+ {
+ 	struct rng_parent_ctx *pctx;
+ 	struct crypto_rng *rng;
+-	int err;
+-
+-	err = af_alg_check_restriction(name, rng_allowlist);
+-	if (err)
+-		return ERR_PTR(err);
+ 
+ 	pctx = kzalloc_obj(*pctx);
+ 	if (!pctx)
+diff --git a/crypto/algif_skcipher.c b/crypto/algif_skcipher.c
+index d469a3ec1491..035fed7db81f 100644
+--- a/crypto/algif_skcipher.c
++++ b/crypto/algif_skcipher.c
+@@ -35,24 +35,6 @@
+ #include <linux/string.h>
+ #include <net/sock.h>
+ 
+-static const struct af_alg_allowlist_entry skcipher_allowlist[] = {
+-	{ "adiantum(xchacha12,aes)", AF_ALG_UNPRIVILEGED }, /* cryptsetup */
+-	{ "adiantum(xchacha20,aes)", AF_ALG_UNPRIVILEGED }, /* cryptsetup */
+-	{ "cbc(aes)" }, /* iwd */
+-	{ "cbc(des)" }, /* iwd */
+-	{ "cbc(des3_ede)" }, /* iwd */
+-	{ "cbc(paes)" }, /* caam and others */
+-	{ "ctr(aes)" }, /* iwd */
+-	{ "ecb(aes)" }, /* iwd, bluez */
+-	{ "ecb(des)" }, /* iwd */
+-	{ "hctr2(aes)", AF_ALG_UNPRIVILEGED }, /* cryptsetup */
+-	{ "xts(aes)", AF_ALG_UNPRIVILEGED }, /* cryptsetup benchmark */
+-	{ "xts(camellia)", AF_ALG_UNPRIVILEGED }, /* cryptsetup */
+-	{ "xts(serpent)", AF_ALG_UNPRIVILEGED }, /* cryptsetup */
+-	{ "xts(twofish)", AF_ALG_UNPRIVILEGED }, /* cryptsetup */
+-	{},
+-};
+-
+ static int skcipher_sendmsg(struct socket *sock, struct msghdr *msg,
+ 			    size_t size)
+ {
+@@ -328,13 +310,12 @@ static struct proto_ops algif_skcipher_ops_nokey = {
+ 
+ static void *skcipher_bind(const char *name)
+ {
+-	int err;
++	u32 mask = AF_ALG_CRYPTOAPI_MASK;
+ 
+-	err = af_alg_check_restriction(name, skcipher_allowlist);
+-	if (err)
+-		return ERR_PTR(err);
++	if (strcmp(name, "cbc(paes)") == 0)
++		mask = 0;
+ 
+-	return crypto_alloc_skcipher(name, 0, AF_ALG_CRYPTOAPI_MASK);
++	return crypto_alloc_skcipher(name, 0, mask);
+ }
+ 
+ static void skcipher_release(void *private)
+diff --git a/include/crypto/if_alg.h b/include/crypto/if_alg.h
+index 0d51428c1da4..7643ba954125 100644
+--- a/include/crypto/if_alg.h
++++ b/include/crypto/if_alg.h
+@@ -8,7 +8,6 @@
+ #ifndef _CRYPTO_IF_ALG_H
+ #define _CRYPTO_IF_ALG_H
+ 
+-#include <linux/bits.h>
+ #include <linux/compiler.h>
+ #include <linux/completion.h>
+ #include <linux/if_alg.h>
+@@ -122,7 +121,7 @@ struct af_alg_async_req {
+  * @iv:			IV for cipher operation
+  * @state:		Existing state for continuing operation
+  * @aead_assoclen:	Length of AAD for AEAD cipher operations
+- * @wait:		For waiting for completion of async crypto ops
++ * @completion:		Work queue for synchronous operation
+  * @used:		TX bytes sent to kernel. This variable is used to
+  *			ensure that user space cannot cause the kernel
+  *			to allocate too much memory in sendmsg operation.
+@@ -162,20 +161,9 @@ struct af_alg_ctx {
+ 	unsigned int inflight;
+ };
+ 
+-/* Flags for af_alg_allowlist_entry::flags: */
+-#define AF_ALG_UNPRIVILEGED BIT(0) /* Unprivileged use is allowed */
+-
+-struct af_alg_allowlist_entry {
+-	const char *name;
+-	u32 flags;
+-};
+-
+ int af_alg_register_type(const struct af_alg_type *type);
+ int af_alg_unregister_type(const struct af_alg_type *type);
+ 
+-int af_alg_check_restriction(const char *name,
+-			     const struct af_alg_allowlist_entry allowlist[]);
+-
+ int af_alg_release(struct socket *sock);
+ void af_alg_release_parent(struct sock *sk);
+ int af_alg_accept(struct sock *sk, struct socket *newsock,
+@@ -189,11 +177,10 @@ static inline struct alg_sock *alg_sk(struct sock *sk)
+ }
+ 
+ /**
+- * af_alg_sndbuf - Size of available buffer for sending data from user space to kernel.
++ * Size of available buffer for sending data from user space to kernel.
+  *
+- * @sk: socket of connection to user space
+- *
+- * Returns: number of bytes still available
++ * @sk socket of connection to user space
++ * @return number of bytes still available
+  */
+ static inline int af_alg_sndbuf(struct sock *sk)
+ {
+@@ -205,11 +192,10 @@ static inline int af_alg_sndbuf(struct sock *sk)
+ }
+ 
+ /**
+- * af_alg_writable - Can the send buffer still be written to?
+- *
+- * @sk: socket of connection to user space
++ * Can the send buffer still be written to?
+  *
+- * Returns: true => writable, false => not writable
++ * @sk socket of connection to user space
++ * @return true => writable, false => not writable
+  */
+ static inline bool af_alg_writable(struct sock *sk)
+ {
+@@ -217,11 +203,10 @@ static inline bool af_alg_writable(struct sock *sk)
+ }
+ 
+ /**
+- * af_alg_rcvbuf - Size of available buffer used by kernel for the RX user space operation.
++ * Size of available buffer used by kernel for the RX user space operation.
+  *
+- * @sk: socket of connection to user space
+- *
+- * Returns: number of bytes still available
++ * @sk socket of connection to user space
++ * @return number of bytes still available
+  */
+ static inline int af_alg_rcvbuf(struct sock *sk)
+ {
+@@ -233,11 +218,10 @@ static inline int af_alg_rcvbuf(struct sock *sk)
+ }
+ 
+ /**
+- * af_alg_readable - Can the RX buffer still be read from?
+- *
+- * @sk: socket of connection to user space
++ * Can the RX buffer still be written to?
+  *
+- * Returns: true => readable, false => not readable
++ * @sk socket of connection to user space
++ * @return true => writable, false => not writable
+  */
+ static inline bool af_alg_readable(struct sock *sk)
+ {
+-- 
+2.55.0
+
