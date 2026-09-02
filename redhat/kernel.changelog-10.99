@@ -1,3 +1,20 @@
+* Wed Sep 02 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.13-0]
+- New config item for 7.1.13 stable update (Justin M. Forbes)
+- Add more bugs to BugsFixed (Justin M. Forbes)
+- page_pool: keep frag_offset aligned for odd-sized requests (Florian Schauer) [2521546 2521847]
+- ACPI: scan: Do not combine resources that overlap completely (Rafael J. Wysocki) [2514390]
+- ACPI: scan: Avoid registering platform devices with resource overlaps (Rafael J. Wysocki) [2514390]
+- Bluetooth: btusb: limit RTL8761B BROKEN_EXT_SCAN quirk to 0bda:a728 (Junjie Cao) [2521504]
+- redhat: configs: fedora: Enable Intel CVS (Kate Hsuan)
+- media: i2c: cvs: Pass link frequency explicitly to csi_set_link_cfg() (Laurent Pinchart)
+- media: i2c: cvs: Add NVL ACPI ID (Arun T)
+- media: i2c: cvs: Add IPU8 PCI device ID (Arun T)
+- media: i2c: cvs: Add driver of Intel Computer Vision Sensing Controller(CVS) (Miguel Vadillo)
+- Add bugs to BugsFixed for 7.1.13 (Justin M. Forbes)
+- random: Drop the extrng module reference when import_ubuf() fails (Junjie Cao) [2524262]
+- Linux v7.1.13
+Resolves: rhbz#2514390, rhbz#2521504, rhbz#2521546, rhbz#2521847, rhbz#2524262
+
 * Fri Aug 28 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.1.12-0]
 - Linux v7.1.12
 Resolves: 
