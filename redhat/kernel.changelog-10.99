@@ -1,7 +1,11 @@
-* Thu Sep 03 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc1.940de590b839.21]
+* Fri Sep 04 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc1.bc35965f6940.22]
 - redhat: fix builds by disabling HYPERV_MOUSE_KUNIT_TEST (Nico Pache)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Fri Sep 04 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc1.bc35965f6940.21]
+- Linux v7.3.0-0.rc1.bc35965f6940
 Resolves: 
 
 * Thu Sep 03 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc1.940de590b839.20]
