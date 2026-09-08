@@ -609,16 +609,16 @@ dist-kabi-dw-check: dist-kabi
 	@rm -rf $(KABIDW)/base/$(CURARCH).tmp
 
 dist-configs-commit: dist-configs-prep
-	+@cd $(REDHAT)/configs; ./generate_all_configs.sh 1;\
+	+@cd $(REDHAT)/configs; ./generate_all_configs.sh;\
 	./process_configs.sh -z "$(SPECRPMVERSION)" "$(FLAVOR)"
 
 dist-configs-commit-mismatches: dist-configs-prep
-	+@cd $(REDHAT)/configs; ./generate_all_configs.sh 1;\
+	+@cd $(REDHAT)/configs; ./generate_all_configs.sh;\
 	./process_configs.sh -M "$(SPECRPMVERSION)" "$(FLAVOR)"
 
 dist-configs: ##configuration Create RHEL config files in redhat/config/.
 dist-configs: dist-configs-prep
-	+@cd $(REDHAT)/configs; ./generate_all_configs.sh 1;\
+	+@cd $(REDHAT)/configs; ./generate_all_configs.sh;\
 	./process_configs.sh $(PROCESS_CONFIGS_OPTS) "$(SPECRPMVERSION)" ""
 
 dist-fedora-configs: ##build build Fedora configs.
