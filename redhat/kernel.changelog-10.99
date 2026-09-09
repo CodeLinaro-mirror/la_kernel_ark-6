@@ -1,3 +1,7 @@
+* Wed Sep 09 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc2.893e11787f78.26]
+- Linux v7.3.0-0.rc2.893e11787f78
+Resolves: 
+
 * Tue Sep 08 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc2.28924df2a08f.25]
 - redhat: remove the dead debugbuildsenabled machinery (Jan Stancek)
 - Fix the statement regarding CONFIG_RHEL_DIFFERENCES in the FAQ (Vladislav Dronov)
