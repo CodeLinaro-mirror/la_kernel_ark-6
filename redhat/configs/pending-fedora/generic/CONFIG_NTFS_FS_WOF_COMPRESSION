@@ -1,0 +1,17 @@
+# ~~~
+# Symbol: NTFS_FS_WOF_COMPRESSION [=n]
+# Type  : bool
+# Defined at fs/ntfs/Kconfig:13
+#   Prompt: NTFS Windows system compression support
+#   Depends on: BLOCK [=y] && NTFS_FS [=m]
+#   Location:
+#     -> File systems
+#       -> DOS/FAT/EXFAT/NT Filesystems
+#         -> NTFS file system support (NTFS_FS [=m])
+#           -> NTFS Windows system compression support (NTFS_FS_WOF_COMPRESSION [=n])
+# 
+# 
+# 
+# ~~~
+# Commit: d38ce59d16d5 (ntfs: add WOF compression config option)
+# CONFIG_NTFS_FS_WOF_COMPRESSION is not set
