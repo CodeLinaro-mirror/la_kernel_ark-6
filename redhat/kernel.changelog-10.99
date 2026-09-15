@@ -1,7 +1,13 @@
-* Mon Sep 14 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc3.704340f1cd0d.32]
+* Tue Sep 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc3.587858367581.33]
 - redhat: fix builds by disabling HYPERV_MOUSE_KUNIT_TEST (Nico Pache)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Tue Sep 15 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc3.587858367581.32]
+- redhat/configs/fedora: Enable dwc dual-role and ulpi phy support (Hans de Goede)
+- redhat/configs/fedora: Enable some drivers for x86 tablets (Hans de Goede)
+- Linux v7.3.0-0.rc3.587858367581
 Resolves: 
 
 * Mon Sep 14 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc3.704340f1cd0d.31]
