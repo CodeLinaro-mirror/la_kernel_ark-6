@@ -1,9 +1,18 @@
-* Thu Sep 17 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc3.238650ef6c7c.35]
+* Fri Sep 18 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc3.5dd1818b15d9.36]
 - Revert "isofs: Drop support of directory entries straddling blocks" (Justin M. Forbes)
 - redhat: fix builds by disabling HYPERV_MOUSE_KUNIT_TEST (Nico Pache)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
 Resolves: 
+
+* Fri Sep 18 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc3.5dd1818b15d9.35]
+- redhat: add vfio selftests to kernel-modules-internal package (Rodolfo Vick) [RHEL-237560]
+- random: set vdso is_ready later during boot process (Vladislav Dronov) [RHEL-127733]
+- configs: rhel: riscv: Enable THERMAL_OF and UFSHCD (Jennifer Berringer)
+- redhat: kernel.spec: allow overriding CROSS_COMPILE (Scott Weaver)
+- redhat/configs: riscv: Enable SpacemiT V100 RISC-V platform support (Iker Pedrosa)
+- Linux v7.3.0-0.rc3.5dd1818b15d9
+Resolves: RHEL-127733, RHEL-237560
 
 * Thu Sep 17 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc3.238650ef6c7c.34]
 - Linux v7.3.0-0.rc3.238650ef6c7c

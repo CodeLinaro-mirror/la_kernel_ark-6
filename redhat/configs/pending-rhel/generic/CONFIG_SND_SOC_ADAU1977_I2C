@@ -1,0 +1,22 @@
+# ~~~
+# Symbol: SND_SOC_ADAU1977_I2C [=n]
+# Type  : tristate
+# Defined at sound/soc/codecs/Kconfig:532
+#   Prompt: Analog Devices ADAU1977/ADAU1978/ADAU1979 CODEC - I2C
+#   Depends on: SOUND [=m] && SND [=m] && SND_SOC [=m] && I2C [=y]
+#   Location:
+#     -> Device Drivers
+#       -> Sound card support (SOUND [=m])
+#         -> Advanced Linux Sound Architecture (SND [=m])
+#           -> ALSA for SoC audio support (SND_SOC [=m])
+#             -> CODEC drivers
+#               -> Analog Devices ADAU1977/ADAU1978/ADAU1979 CODEC - I2C (SND_SOC_ADAU1977_I2C [=n])
+# Selects: SND_SOC_ADAU1977 [=n] && REGMAP_I2C [=m]
+# Implied by [n]:
+#   - SND_SOC_ALL_CODECS [=n] && SOUND [=m] && SND [=m] && SND_SOC [=m] && COMPILE_TEST [=n]
+# 
+# 
+# 
+# ~~~
+# Commit: 603597c9375b (ASoC: Add ADAU1977 CODEC driver)
+# CONFIG_SND_SOC_ADAU1977_I2C is not set
