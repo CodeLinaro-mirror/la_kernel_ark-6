@@ -1,3 +1,8 @@
+* Sat Sep 19 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc3.40288c9206c1.36]
+- Keep the older NTFS3 module around as well for Fedora (Justin M. Forbes)
+- Linux v7.3.0-0.rc3.40288c9206c1
+Resolves: 
+
 * Fri Sep 18 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc3.5dd1818b15d9.35]
 - redhat: add vfio selftests to kernel-modules-internal package (Rodolfo Vick) [RHEL-237560]
 - random: set vdso is_ready later during boot process (Vladislav Dronov) [RHEL-127733]
