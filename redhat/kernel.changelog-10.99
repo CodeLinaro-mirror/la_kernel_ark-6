@@ -1,3 +1,7 @@
+* Mon Sep 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.37]
+- Linux v7.3.0-0.rc4
+Resolves: 
+
 * Sat Sep 19 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc3.40288c9206c1.36]
 - Keep the older NTFS3 module around as well for Fedora (Justin M. Forbes)
 - Linux v7.3.0-0.rc3.40288c9206c1
