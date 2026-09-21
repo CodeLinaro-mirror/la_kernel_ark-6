@@ -797,6 +797,9 @@ rawhide-release:
     FF_USE_NEW_BASH_EVAL_STRATEGY: true
   allow_failure:
     exit_codes: 137
+  retry:
+    max: 2
+    exit_codes: 1
   script:
     - redhat/scripts/ci/ark-create-release.sh
 
