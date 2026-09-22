@@ -1,3 +1,8 @@
+* Tue Sep 22 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.f0100363d8c3.38]
+- redhat/configs/rhel: Enable kmod ML-DSA-87 signing for RHEL (Lenny Szubowicz)
+- Linux v7.3.0-0.rc4.f0100363d8c3
+Resolves: 
+
 * Mon Sep 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.37]
 - Linux v7.3.0-0.rc4
 Resolves: 
