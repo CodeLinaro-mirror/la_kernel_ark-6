@@ -1,8 +1,13 @@
-* Mon Sep 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.38]
+* Tue Sep 22 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.f0100363d8c3.39]
 - Revert "isofs: Drop support of directory entries straddling blocks" (Justin M. Forbes)
 - redhat: fix builds by disabling HYPERV_MOUSE_KUNIT_TEST (Nico Pache)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Tue Sep 22 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.f0100363d8c3.38]
+- redhat/configs/rhel: Enable kmod ML-DSA-87 signing for RHEL (Lenny Szubowicz)
+- Linux v7.3.0-0.rc4.f0100363d8c3
 Resolves: 
 
 * Mon Sep 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.37]
