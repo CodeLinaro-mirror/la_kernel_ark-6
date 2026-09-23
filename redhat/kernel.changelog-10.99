@@ -1,8 +1,17 @@
-* Tue Sep 22 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.f0100363d8c3.39]
+* Wed Sep 23 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.fe2ec83746e5.40]
 - Revert "isofs: Drop support of directory entries straddling blocks" (Justin M. Forbes)
 - redhat: fix builds by disabling HYPERV_MOUSE_KUNIT_TEST (Nico Pache)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Wed Sep 23 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.fe2ec83746e5.39]
+- fedora: arm64: enable Samsung S6E3FA7 panel driver (Sam Day)
+- fedora: arm64: SDM670 pinctrl+NoC drivers (Sam Day)
+- fedora: arm64: built-in SDM845 core drivers (Sam Day)
+- Enable kmod ML-DSA-87 signing for Fedora (Justin M. Forbes)
+- fedora: riscv: Enable SpacemiT K1 and K3 configs (Jennifer Berringer)
+- Linux v7.3.0-0.rc4.fe2ec83746e5
 Resolves: 
 
 * Tue Sep 22 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.f0100363d8c3.38]
