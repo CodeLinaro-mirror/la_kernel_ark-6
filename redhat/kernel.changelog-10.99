@@ -1,3 +1,8 @@
+* Thu Sep 24 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.62f4c998b297.40]
+- redhat/configs/fedora: Enable AW88399 HDA side codec (Junjie Cao) [2537033]
+- Linux v7.3.0-0.rc4.62f4c998b297
+Resolves: rhbz#2537033
+
 * Wed Sep 23 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.fe2ec83746e5.39]
 - fedora: arm64: enable Samsung S6E3FA7 panel driver (Sam Day)
 - fedora: arm64: SDM670 pinctrl+NoC drivers (Sam Day)
