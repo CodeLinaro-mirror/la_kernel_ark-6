@@ -1,8 +1,12 @@
-* Fri Sep 25 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.165768bb7026.42]
+* Sat Sep 26 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.6812ce4e4379.43]
 - Revert "isofs: Drop support of directory entries straddling blocks" (Justin M. Forbes)
 - redhat: fix builds by disabling HYPERV_MOUSE_KUNIT_TEST (Nico Pache)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Sat Sep 26 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.6812ce4e4379.42]
+- Linux v7.3.0-0.rc4.6812ce4e4379
 Resolves: 
 
 * Fri Sep 25 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.165768bb7026.41]
