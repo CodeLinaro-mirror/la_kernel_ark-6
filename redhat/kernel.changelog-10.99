@@ -1,3 +1,7 @@
+* Sat Sep 26 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.6812ce4e4379.42]
+- Linux v7.3.0-0.rc4.6812ce4e4379
+Resolves: 
+
 * Fri Sep 25 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc4.165768bb7026.41]
 - redhat: correct the scriptlet name in the posttrans doc comment (Jan Stancek)
 - redhat: drop the pre-5.11 archaeology from the build-id comment (Jan Stancek)
