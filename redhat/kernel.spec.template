@@ -4263,6 +4263,39 @@ fi\
 %{nil}
 
 #
+# This macro defines a %%verifyscript for a kernel package.
+#	%%kernel_variant_verify [-v <subpackage>]
+# kernel-install copies the packaged image out of /lib/modules, so the copy
+# is not owned by the package and rpm -V does not check it. Depending on the
+# kernel-install layout the copy is at:
+#   /boot/vmlinuz-<version>              (grub plugin, layout other than uki)
+#   <boot-root>/<entry-token>/<version>/linux   (BLS Type 1 layout)
+# A UKI layout builds a new image instead of copying, so there is nothing
+# to compare.
+#
+%define kernel_variant_verify(v:) \
+%{expand:%%verifyscript %{?-v:%{-v*}-}core}\
+_kver=%{KVERREL}%{?-v:+%{-v*}}\
+_mod_img=/lib/modules/$_kver/vmlinuz\
+_copy=/%{image_install_path}/vmlinuz-$_kver\
+if [ -x /bin/kernel-install ]; then\
+    _inspect=$(/bin/kernel-install inspect "$_kver" "$_mod_img" 2>/dev/null)\
+    _layout=$(echo "$_inspect" | grep -o 'KERNEL_INSTALL_LAYOUT=.*' | cut -d= -f2-)\
+    _boot_root=$(echo "$_inspect" | grep -o 'KERNEL_INSTALL_BOOT_ROOT=.*' | cut -d= -f2-)\
+    _token=$(echo "$_inspect" | grep -o 'KERNEL_INSTALL_ENTRY_TOKEN=.*' | cut -d= -f2-)\
+    if [ "$_layout" = bls ] && [ -n "$_boot_root" ] && [ -n "$_token" ]; then\
+        _copy="$_boot_root/$_token/$_kver/linux"\
+    fi\
+fi\
+if [ "$_layout" != uki ] && [ -f "$_mod_img" ] && [ -f "$_copy" ] &&\
+    [ "$(sha512sum $_mod_img | cut -d' ' -f1)" != "$(sha512sum $_copy | cut -d' ' -f1)" ]; then\
+    echo "$_copy does not match $_mod_img" >&2\
+    exit 1\
+fi\
+exit 0\
+%{nil}
+
+#
 # This macro defines a %%post script for a kernel package and its devel package.
 #	%%kernel_variant_post [-v <subpackage>] [-r <replace>]
 # More text can follow to go at the end of this variant's %%post.
@@ -4288,6 +4321,7 @@ fi\
 %{expand:%%kernel_modules_partner_post %{?-v*}}\
 %endif\
 %{expand:%%kernel_variant_posttrans %{?-v*:-v %{-v*}}}\
+%{expand:%%kernel_variant_verify %{?-v*:-v %{-v*}}}\
 %{expand:%%post %{?-v*:%{-v*}-}core}\
 %{-r:\
 if [ `uname -i` == "x86_64" -o `uname -i` == "i386" ] &&\
