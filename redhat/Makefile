@@ -44,8 +44,10 @@ ifndef RHDISTDATADIR
   RHDISTDATADIR=${REDHAT}/self-test/data
 endif
 
-RPMBUILD:=$(shell if [ -x "/usr/bin/rpmbuild" ]; then echo rpmbuild; \
-                  else echo rpm; fi)
+RPMBUILD:=rpmbuild
+ifeq ($(shell command -v $(RPMBUILD)),)
+  $(error $(RPMBUILD) not found in PATH)
+endif
 
 MACH:=$(shell uname -m)
 SPECKVERSION:=$(shell $(GIT) show $(HEAD):Makefile | sed -ne '/^VERSION\ =\ /{s///;p;q}')
