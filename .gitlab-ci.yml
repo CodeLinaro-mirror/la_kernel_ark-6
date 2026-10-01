@@ -187,6 +187,11 @@ workflow:
     - *only-cki-gating-head
     - *on-success
 
+.manual_on_mr:
+  rules:
+    - *only-os-build-mr
+    - *manual-on-mr
+
 .merge_ark_latest:
   variables:
     merge_branch: ark-latest
@@ -351,21 +356,21 @@ rawhide_16k_debug_merge_request:
   extends: [.merge_request, .trigger_rawhide, .no_tests, .merge_ark_latest, .manual_for_bot,
             .rawhide_16k_debug]
 
-# rawhide_clang_merge_request:
-#   extends: [.merge_request, .trigger_rawhide, .no_tests, .merge_ark_latest, .manual_for_bot,
-#             .rawhide_clang_up]
+rawhide_clang_merge_request:
+  extends: [.merge_request, .trigger_rawhide, .no_tests, .merge_ark_latest, .manual_on_mr,
+            .rawhide_clang_up]
 
-# rawhide_clang_debug_merge_request:
-#   extends: [.merge_request, .trigger_rawhide, .no_tests, .merge_ark_latest, .manual_for_bot,
-#             .rawhide_clang_up_debug]
+rawhide_clang_debug_merge_request:
+  extends: [.merge_request, .trigger_rawhide, .no_tests, .merge_ark_latest, .manual_on_mr,
+            .rawhide_clang_up_debug]
 
-# rawhide_clanglto_merge_request:
-#   extends: [.merge_request, .trigger_rawhide, .no_tests, .merge_ark_latest, .manual_for_bot,
-#             .rawhide_clanglto_up]
+rawhide_clanglto_merge_request:
+  extends: [.merge_request, .trigger_rawhide, .no_tests, .merge_ark_latest, .manual_on_mr,
+            .rawhide_clanglto_up]
 
-# rawhide_clanglto_debug_merge_request:
-#   extends: [.merge_request, .trigger_rawhide, .no_tests, .merge_ark_latest, .manual_for_bot,
-#             .rawhide_clanglto_up_debug]
+rawhide_clanglto_debug_merge_request:
+  extends: [.merge_request, .trigger_rawhide, .no_tests, .merge_ark_latest, .manual_on_mr,
+            .rawhide_clanglto_up_debug]
 
 # Rawhide baselines
 rawhide_baseline:
@@ -446,13 +451,21 @@ eln_debug_merge_request:
   extends: [.merge_request, .trigger_eln, .no_tests, .merge_ark_latest, .manual_for_bot,
             .eln_up_debug]
 
-# eln_clang_merge_request:
-#   extends: [.merge_request, .trigger_eln, .no_tests, .merge_ark_latest, .manual_for_bot,
-#             .eln_clang_up]
-#
-# eln_clang_debug_merge_request:
-#   extends: [.merge_request, .trigger_eln, .no_tests, .merge_ark_latest, .manual_for_bot,
-#             .eln_clang_up_debug]
+eln_clang_merge_request:
+  extends: [.merge_request, .trigger_eln, .no_tests, .merge_ark_latest, .manual_on_mr,
+            .eln_clang_up]
+
+eln_clang_debug_merge_request:
+  extends: [.merge_request, .trigger_eln, .no_tests, .merge_ark_latest, .manual_on_mr,
+            .eln_clang_up_debug]
+
+eln_clanglto_merge_request:
+  extends: [.merge_request, .trigger_eln, .no_tests, .merge_ark_latest, .manual_on_mr,
+            .eln_clanglto_up]
+
+eln_clanglto_debug_merge_request:
+  extends: [.merge_request, .trigger_eln, .no_tests, .merge_ark_latest, .manual_on_mr,
+            .eln_clanglto_up_debug]
 
 eln_realtime_merge_request:
   extends: [.merge_request, .trigger_eln, .no_tests, .merge_ark_latest, .manual_for_bot,
