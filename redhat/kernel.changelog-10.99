@@ -1,3 +1,7 @@
+* Fri Oct 02 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc5.ce1e0223d8ad.47]
+- Linux v7.3.0-0.rc5.ce1e0223d8ad
+Resolves: 
+
 * Thu Oct 01 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc5.551c722f4080.46]
 - redhat: resolve rpmbuild via PATH and fail early if missing (Julio Faracco)
 - block: disable ublk (Jeff Moyer) [RHEL-266578]
