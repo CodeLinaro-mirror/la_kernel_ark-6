@@ -1,10 +1,14 @@
-* Sat Oct 03 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc5.e767a4ea70a3.49]
+* Sun Oct 04 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc5.6addb4f38557.50]
 - gitlab-ci: add optional clang builds to merge requests (Scott Weaver)
 - configs: add CONFIG_WARN_CONTEXT_ANALYSIS (Scott Weaver)
 - Revert "isofs: Drop support of directory entries straddling blocks" (Justin M. Forbes)
 - redhat: fix builds by disabling HYPERV_MOUSE_KUNIT_TEST (Nico Pache)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
 - automotive: enable HUGETLBFS to workaround build error (Scott Weaver)
+Resolves: 
+
+* Sun Oct 04 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc5.6addb4f38557.49]
+- Linux v7.3.0-0.rc5.6addb4f38557
 Resolves: 
 
 * Sat Oct 03 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc5.e767a4ea70a3.48]

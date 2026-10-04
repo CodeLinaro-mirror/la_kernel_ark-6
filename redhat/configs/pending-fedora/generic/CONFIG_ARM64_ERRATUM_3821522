@@ -1,0 +1,17 @@
+# ~~~
+# Symbol: ARM64_ERRATUM_3821522 [=y]
+# Type  : bool
+# Defined at arch/arm64/Kconfig:1084
+#   Prompt: Cortex-A725: 3821522: workaround for possible CNT_CYCLES increment error due to WFE/WFI
+#   Depends on: ARM64_AMU_EXTN [=y]
+#   Location:
+#     -> Kernel Features
+#       -> ARM errata workarounds via the alternatives framework
+#         -> Cortex-A725: 3821522: workaround for possible CNT_CYCLES increment error due to WFE/WFI (ARM64_ERRATUM_3821522 [=y])
+# Selects: ARM64_WORKAROUND_BROKEN_AMU_CONSTCNT [=y]
+# 
+# 
+# 
+# ~~~
+# Commit: 45f730467987 (arm64: errata: Add Cortex-A725 erratum 3821522 workaround)
+CONFIG_ARM64_ERRATUM_3821522=y
