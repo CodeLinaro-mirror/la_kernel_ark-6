@@ -1,3 +1,7 @@
+* Tue Oct 06 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc6.22430ae5d90a.51]
+- Linux v7.3.0-0.rc6.22430ae5d90a
+Resolves: 
+
 * Mon Oct 05 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc6.50]
 - fedora: updates for the 7.3 merge window (Peter Robinson)
 - redhat/genlog: exclude only the merged branch of an excluded merge (Oleksii Baranov)
