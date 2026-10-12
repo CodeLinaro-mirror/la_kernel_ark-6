@@ -1,0 +1,15 @@
+# ~~~
+# Symbol: ERRATA_SIFIVE_MAL_9092 [=y]
+# Type  : bool
+# Defined at arch/riscv/Kconfig.errata:99
+#   Prompt: Apply SiFive HLV/HLVX/HSV fence errata
+#   Depends on: ERRATA_SIFIVE [=y] && 64BIT [=y]
+#   Location:
+#     -> CPU errata selection
+#       -> Apply SiFive HLV/HLVX/HSV fence errata (ERRATA_SIFIVE_MAL_9092 [=y])
+# 
+# 
+# 
+# ~~~
+# Commit: 148ab873d819 (RISC-V: errata: Add SiFive MAL-9092 workaround)
+CONFIG_ERRATA_SIFIVE_MAL_9092=y
