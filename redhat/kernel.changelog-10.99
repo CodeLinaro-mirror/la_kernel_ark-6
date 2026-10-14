@@ -1,3 +1,7 @@
+* Wed Oct 14 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc7.4056b3c9d3c9.59]
+- Linux v7.3.0-0.rc7.4056b3c9d3c9
+Resolves: 
+
 * Tue Oct 13 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc7.58]
 - Enable AMDXDNA on RHEL x86_64. (John Wiele)
 - redhat/configs: enable CONFIG_IMA_INIT_LATE_SYNC for aarch64 (Bruno Meneguele) [RHEL-261837]
