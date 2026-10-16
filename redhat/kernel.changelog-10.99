@@ -1,3 +1,10 @@
+* Fri Oct 16 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc7.0fcb05b72344.60]
+- Turn on POWERCTRL_GENERIC for RHEL aarch64 (Justin M. Forbes)
+- Finalize 7.3 configs for Fedora (Justin M. Forbes)
+- redhat/configs: enable additional fedora riscv64 options (Jason Montleon)
+- Linux v7.3.0-0.rc7.0fcb05b72344
+Resolves: 
+
 * Wed Oct 14 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.3.0-0.rc7.4056b3c9d3c9.59]
 - Linux v7.3.0-0.rc7.4056b3c9d3c9
 Resolves: 
