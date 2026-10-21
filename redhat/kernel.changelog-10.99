@@ -1,3 +1,8 @@
+* Wed Oct 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.a804c5742bff.2]
+- Trim changelog for 7.4 rebase (Justin M. Forbes)
+- Linux v7.4.0-0.rc0.a804c5742bff
+Resolves: 
+
 * Tue Oct 20 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.f47d223627f8.1]
 - Reset RHEL_RELEASE for 7.4 series (Justin M. Forbes)
 - redhat: fix builds by disabling HYPERV_MOUSE_KUNIT_TEST (Nico Pache)
