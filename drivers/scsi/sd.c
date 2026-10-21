@@ -182,8 +182,6 @@ static void sd_config_discard(struct scsi_disk *sdkp, struct queue_limits *lim,
 	lim->max_hw_discard_sectors = max_blocks *
 		(logical_block_size >> SECTOR_SHIFT);
 }
->>>>>>> linux-6.18.y
-
 static void sd_set_flush_flag(struct scsi_disk *sdkp,
 		struct queue_limits *lim)
 {
