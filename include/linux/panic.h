@@ -88,8 +88,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
 #define TAINT_RANDSTRUCT		17
 #define TAINT_TEST			18
 #define TAINT_FWCTL			19
+#define TAINT_FORCED_BIND		20
 /* Start of Red Hat-specific taint flags */
-#define TAINT_20			20
 #define TAINT_21			21
 #define TAINT_22			22
 #define TAINT_23			23
