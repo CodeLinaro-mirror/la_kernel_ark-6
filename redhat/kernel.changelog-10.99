@@ -1,3 +1,8 @@
+* Thu Oct 22 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.7be4bc52fd9e.3]
+- Fix up a mismatch for Fedora (Justin M. Forbes)
+- Linux v7.4.0-0.rc0.7be4bc52fd9e
+Resolves: 
+
 * Wed Oct 21 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.a804c5742bff.2]
 - Trim changelog for 7.4 rebase (Justin M. Forbes)
 - Linux v7.4.0-0.rc0.a804c5742bff
