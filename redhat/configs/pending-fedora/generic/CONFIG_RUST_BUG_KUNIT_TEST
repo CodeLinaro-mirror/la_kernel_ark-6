@@ -1,0 +1,18 @@
+# ~~~
+# Symbol: RUST_BUG_KUNIT_TEST [=y]
+# Type  : bool
+# Defined at rust/kernel/Kconfig.test:86
+#   Prompt: KUnit tests for the Rust BUG/WARN functionality
+#   Depends on: RUST_KUNIT_TESTS [=y] && BUG [=y]
+#   Visible if: RUST_KUNIT_TESTS [=y] && BUG [=y] && !KUNIT_ALL_TESTS [=m]
+#   Location:
+#     -> General setup
+#       -> Rust support (RUST [=y])
+#         -> Rust KUnit tests (RUST_KUNIT_TESTS [=y])
+#           -> KUnit tests for the Rust BUG/WARN functionality (RUST_BUG_KUNIT_TEST [=y])
+# 
+# 
+# 
+# ~~~
+# Commit: cd56a1c858ff (rust: bug: add a KUnit test for warn_on!)
+CONFIG_RUST_BUG_KUNIT_TEST=y
