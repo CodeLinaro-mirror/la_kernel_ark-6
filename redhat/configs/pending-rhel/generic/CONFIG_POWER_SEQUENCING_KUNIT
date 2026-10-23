@@ -1,0 +1,16 @@
+# ~~~
+# Symbol: POWER_SEQUENCING_KUNIT [=m]
+# Type  : tristate
+# Defined at drivers/power/sequencing/Kconfig:59
+#   Prompt: Build power sequencing KUnit test cases
+#   Depends on: POWER_SEQUENCING [=y] && KUNIT [=m]
+#   Location:
+#     -> Device Drivers
+#       -> Power Sequencing support (POWER_SEQUENCING [=y])
+#         -> Build power sequencing KUnit test cases (POWER_SEQUENCING_KUNIT [=m])
+# 
+# 
+# 
+# ~~~
+# Commit: c42e50314a76 (power: sequencing: add kunit test cases)
+CONFIG_POWER_SEQUENCING_KUNIT=m
