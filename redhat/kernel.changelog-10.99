@@ -1,3 +1,7 @@
+* Fri Oct 23 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.734bef548a96.5]
+- Linux v7.4.0-0.rc0.734bef548a96
+Resolves: 
+
 * Fri Oct 23 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.7be4bc52fd9e.4]
 - redhat/genlog: remove bugzilla tickets from the changelog (Oleksii Baranov)
 Resolves: 
