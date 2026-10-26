@@ -33,8 +33,7 @@ LINUX_NEXT_REPO_URL="git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-ne
 LINUX_NEXT_REMOTE_NAME="linux-next"
 LINUX_NEXT_BRANCH="master"
 LINUX_UPSTREAM_BRANCH="master"
-# See .gitlab-ci.yml (this remote has push defined)
-KERNEL_ARK_REMOTE_NAME="gitlab"
+KERNEL_ARK_REMOTE_NAME="origin"
 # shellcheck disable=SC2034
 KERNEL_ARK_MAIN_BRANCH="os-build"
 KERNEL_ARK_NEXT_BRANCH="os-build-next"
