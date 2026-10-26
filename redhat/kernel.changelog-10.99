@@ -1,3 +1,8 @@
+* Mon Oct 26 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.2.13-0]
+- net: skbuff: propagate shared-frag marker in skb_zerocopy() (Zizhen Liu)
+- Linux v7.2.13
+Resolves: 
+
 * Wed Oct 21 2026 Augusto Caringi <acaringi@redhat.com> [7.2.12-0]
 - ALSA: hda/realtek: Fix cold-boot headset misdetection on Acer Aspire A515-57G (Oleksandr Kovalov)
 - Turn on EROFS_FS_PAGE_CACHE_SHARE for Fedora (Justin M. Forbes)
