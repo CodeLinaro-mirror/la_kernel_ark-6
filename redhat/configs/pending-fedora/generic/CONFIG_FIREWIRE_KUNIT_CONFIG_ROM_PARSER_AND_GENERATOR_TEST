@@ -1,0 +1,18 @@
+# ~~~
+# Symbol: FIREWIRE_KUNIT_CONFIG_ROM_PARSER_AND_GENERATOR_TEST [=m]
+# Type  : tristate
+# Defined at drivers/firewire/Kconfig:99
+#   Prompt: KUnit tests for config ROM parser and generator
+#   Depends on: (PCI [=y] || COMPILE_TEST [=n]) && FIREWIRE [=m] && KUNIT [=m]
+#   Visible if: (PCI [=y] || COMPILE_TEST [=n]) && FIREWIRE [=m] && KUNIT [=m] && !KUNIT_ALL_TESTS [=m]
+#   Location:
+#     -> Device Drivers
+#       -> IEEE 1394 (FireWire) support
+#         -> FireWire driver stack (FIREWIRE [=m])
+#           -> KUnit tests for config ROM parser and generator (FIREWIRE_KUNIT_CONFIG_ROM_PARSER_AND_GENERATOR_TEST [=m])
+# 
+# 
+# 
+# ~~~
+# Commit: 428ef9ca3854 (firewire: core: add KUnit test skeleton for config ROM parser and generator)
+CONFIG_FIREWIRE_KUNIT_CONFIG_ROM_PARSER_AND_GENERATOR_TEST=m
