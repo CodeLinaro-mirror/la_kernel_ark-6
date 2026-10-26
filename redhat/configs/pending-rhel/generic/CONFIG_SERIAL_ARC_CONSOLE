@@ -1,0 +1,20 @@
+# ~~~
+# Symbol: SERIAL_ARC_CONSOLE [=n]
+# Type  : bool
+# Defined at drivers/tty/serial/Kconfig:1274
+#   Prompt: Console on ARC UART
+#   Depends on: TTY [=y] && HAS_IOMEM [=y] && SERIAL_ARC [=y]=y [=y]
+#   Location:
+#     -> Device Drivers
+#       -> Character devices
+#         -> Enable TTY (TTY [=y])
+#           -> Serial drivers
+#             -> ARC UART driver support (SERIAL_ARC [=y])
+#               -> Console on ARC UART (SERIAL_ARC_CONSOLE [=n])
+# Selects: SERIAL_CORE_CONSOLE [=n] && SERIAL_EARLYCON [=n]
+# 
+# 
+# 
+# ~~~
+# Commit: 2ac4ad2a1468 (serial/arc-uart: Add new driver)
+# CONFIG_SERIAL_ARC_CONSOLE is not set
