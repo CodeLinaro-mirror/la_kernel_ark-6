@@ -19,7 +19,6 @@
 #ifndef __RH_MESSAGES_H
 #define __RH_MESSAGES_H
 
-#include <linux/version.h>
 #include <linux/pci.h>
 
 #define DEV_DESC_LEN 256
