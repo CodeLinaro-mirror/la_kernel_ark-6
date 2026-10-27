@@ -1,6 +1,12 @@
-* Mon Oct 26 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.6b4b543fa187.8]
+* Tue Oct 27 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.d135ab453a74.9]
 - Reapply "drm/pagemap: Guard HPAGE_PMD_ORDER use with CONFIG_ARCH_ENABLE_THP_MIGRATION" (Oleksii Baranov)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
+Resolves: 
+
+* Tue Oct 27 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.d135ab453a74.8]
+- rh_messages.h: remove linux/version.h (Scott Weaver)
+- Add initial config for DEBUG_INFO_BTF_INLINE (Justin M. Forbes)
+- Linux v7.4.0-0.rc0.d135ab453a74
 Resolves: 
 
 * Mon Oct 26 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.6b4b543fa187.7]
