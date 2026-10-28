@@ -1,3 +1,14 @@
+* Wed Oct 28 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.65ba8f34ec88.9]
+- redhat/configs: enable CONFIG_CPU_IDLE and the TEO governor on s390x (Jan Polensky)
+- Revert "redhat: ark-merge-driver: initial commit" (Scott Weaver)
+- Revert "redhat: prepare-commit-msg: initial commit" (Scott Weaver)
+- Revert "redhat: ark-linux-next.sh: initial commit" (Scott Weaver)
+- Revert "ark-linux-next: check for git hooks directory" (Scott Weaver)
+- Revert "merge-linux-next: use gitlab remote" (Scott Weaver)
+- redhat/kernel.spec: verify installed kernel image matches boot copy (Charles Haithcock)
+- Linux v7.4.0-0.rc0.65ba8f34ec88
+Resolves: 
+
 * Tue Oct 27 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc0.d135ab453a74.8]
 - rh_messages.h: remove linux/version.h (Scott Weaver)
 - Add initial config for DEBUG_INFO_BTF_INLINE (Justin M. Forbes)
