@@ -1,0 +1,16 @@
+# ~~~
+# Symbol: EVENT_TRACING_TEST [=m]
+# Type  : tristate
+# Defined at kernel/trace/Kconfig:154
+#   Prompt: Test for event tracing
+#   Depends on: EVENT_TRACING [=y] && KUNIT [=m]
+#   Visible if: EVENT_TRACING [=y] && KUNIT [=m] && !KUNIT_ALL_TESTS [=m]
+#   Location:
+#     -> Kernel hacking
+#       -> Test for event tracing (EVENT_TRACING_TEST [=m])
+# 
+# 
+# 
+# ~~~
+# Commit: cc879c2b6cd8 (tracing: Add a test for ftrace_parse_event_string())
+CONFIG_EVENT_TRACING_TEST=m
