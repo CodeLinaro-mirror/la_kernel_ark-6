@@ -1,3 +1,7 @@
+* Fri Oct 30 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.60-0]
+- Linux v6.18.60
+Resolves: 
+
 * Mon Oct 26 2026 Justin M. Forbes <jforbes@fedoraproject.org> [6.18.59-0]
 - Fix up merge for sd.c (Justin M. Forbes)
 - Linux v6.18.59
