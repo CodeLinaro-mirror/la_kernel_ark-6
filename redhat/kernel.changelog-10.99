@@ -1,3 +1,7 @@
+* Sun Nov 01 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.2.15-0]
+- Linux v7.2.15
+Resolves: 
+
 * Fri Oct 30 2026 Augusto Caringi <acaringi@redhat.com> [7.2.14-0]
 - media: cvs: Default selection to VIDEO_INTEL_IPU6 (Sakari Ailus)
 - media: cvs: Drop comments on sub-device operations (Sakari Ailus)
