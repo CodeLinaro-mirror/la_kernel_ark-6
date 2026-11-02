@@ -825,17 +825,16 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
 	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
 	TAINT_FLAG(TEST,			'N', ' '),
 	TAINT_FLAG(FWCTL,			'J', ' '),
-	TAINT_FLAG(FORCED_BIND,			'Y', ' '),
+	TAINT_FLAG(20,				'?', '-'),
 	TAINT_FLAG(21,				'?', '-'),
 	TAINT_FLAG(22,				'?', '-'),
 	TAINT_FLAG(23,				'?', '-'),
 	TAINT_FLAG(24,				'?', '-'),
-	TAINT_FLAG(25,				'?', '-'),
 	TAINT_FLAG(PARTNER_SUPPORTED,		'p', ' '),
 	TAINT_FLAG(SUPPORT_REMOVED,		'h', ' '),
+	TAINT_FLAG(RESERVED27,			'?', '-'),
 	TAINT_FLAG(RESERVED28,			'?', '-'),
 	TAINT_FLAG(RESERVED29,			'?', '-'),
-	TAINT_FLAG(RESERVED30,			'?', '-'),
 	TAINT_FLAG(UNPRIVILEGED_BPF,		'u', ' '),
 };
 
@@ -873,9 +872,9 @@ static void print_tainted_seq(struct seq_buf *s, bool verbose)
  * exact size is allocated dynamically; the initial buffer remains
  * as a fallback if allocation fails.
  *
- * The verbose taint string currently requires up to 344 characters.
+ * The verbose taint string currently requires up to 327 characters.
  */
-#define INIT_TAINT_BUF_MAX 370
+#define INIT_TAINT_BUF_MAX 350
 
 static char init_taint_buf[INIT_TAINT_BUF_MAX] __initdata;
 static char *taint_buf __refdata = init_taint_buf;
