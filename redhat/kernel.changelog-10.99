@@ -1,7 +1,23 @@
-* Mon Nov 02 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.13]
+* Wed Nov 04 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.05441d697f7f.14]
 - Reapply "drm/pagemap: Guard HPAGE_PMD_ORDER use with CONFIG_ARCH_ENABLE_THP_MIGRATION" (Oleksii Baranov)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
 Resolves: 
+
+* Wed Nov 04 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.05441d697f7f.13]
+- redhat: kernel.spec: cache module provides to avoid per-file forks (Jan Stancek)
+- redhat/configs: disable MMC_TOSHIBA_PCI (Eric Chanudet) [RHEL-266569]
+- redhat/configs: disable MMC_VIA_SDMMC (Eric Chanudet) [RHEL-266571]
+- redhat/configs: disable MMC_ARMMMCI (Eric Chanudet) [RHEL-266566]
+- redhat/configs: disable MMC_CB710 (Eric Chanudet) [RHEL-266565]
+- redhat/configs: disable MMC_TIFM_SD (Eric Chanudet) [RHEL-266568]
+- redhat/configs: remove MMC_VUB300 (Eric Chanudet) [RHEL-266572]
+- redhat/configs: disable MMC_SDHCI_OF_ESDHC (Eric Chanudet) [RHEL-266567]
+- redhat: kernel.spec: skip elfdeps for kselftests object files (Jan Stancek)
+- redhat: kernel.spec: skip script.req for kselftests (Jan Stancek)
+- gitlab-ci: enable ccache save on selected baselines (Tales da Aparecida)
+- redhat/configs: Enable CONFIG_VIDEOBUF2_DMA_CONTIG for arm/aarch64 builds (Nirmala Dalvi)
+- Linux v7.4.0-0.rc1.05441d697f7f
+Resolves: RHEL-266565, RHEL-266566, RHEL-266567, RHEL-266568, RHEL-266569, RHEL-266571, RHEL-266572
 
 * Mon Nov 02 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.12]
 - Fix up some mismatches for 7.4 aarch64 (Justin M. Forbes)
