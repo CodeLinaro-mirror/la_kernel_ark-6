@@ -1,6 +1,36 @@
-* Wed Nov 04 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.05441d697f7f.14]
+* Thu Nov 05 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.05441d697f7f.15]
 - Reapply "drm/pagemap: Guard HPAGE_PMD_ORDER use with CONFIG_ARCH_ENABLE_THP_MIGRATION" (Oleksii Baranov)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
+Resolves: 
+
+* Thu Nov 05 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.05441d697f7f.14]
+- redhat: kernel.spec: tolerate missing kmap data when no base kernel is built (Jan Stancek)
+- redhat: fix the stale pkg_release comment in the kernel-headers spec (Jan Stancek)
+- redhat: drop the pkg_release alias of specrelease (Jan Stancek)
+- redhat: drop the nopatches alias of with_vanilla (Jan Stancek)
+- redhat: drop the use_vdso and _use_vdso aliases of with_vdso_install (Jan Stancek)
+- redhat: drop the with_sparse build option (Jan Stancek)
+- redhat: drop the i686 remnants that no build can reach (Jan Stancek)
+- redhat: drop the vdso ldconfig machinery (Jan Stancek)
+- redhat: drop the 2013-2015 dependency floors and RHEL 6/7-era obsoletes (Jan Stancek)
+- redhat: use one spelling for the version in versioned requires (Jan Stancek)
+- redhat: drop the BuildRequires nothing in the build uses (Jan Stancek)
+- redhat: drop the duplicate python3-docutils BuildRequires (Jan Stancek)
+- redhat: drop the ancient BuildConflicts and the rpm-build BuildRequires (Jan Stancek)
+- redhat: drop the unused per-variant Conflicts/Obsoletes/Provides hooks (Jan Stancek)
+- redhat: drop the ldconfig scriptlets of kernel-tools-libs (Jan Stancek)
+- redhat: drop the chmod +x on scripts the tarball already ships executable (Jan Stancek)
+- redhat: drop the rtla symlink fixup after install (Jan Stancek)
+- redhat: drop the perf examples cleanup (Jan Stancek)
+- redhat: drop NO_STRLCPY from the perf build flags (Jan Stancek)
+- redhat: drop the libtraceevent leftovers from the perf build (Jan Stancek)
+- redhat: drop the hardlink-temporary cleanup from the devel %%post (Jan Stancek)
+- redhat: drop the unused System.map copy in the buildroot root (Jan Stancek)
+- redhat: drop the stale linker-script copies from the devel tree (Jan Stancek)
+- redhat: drop the Module.markers copy from the devel tree (Jan Stancek)
+- Fix up some Fedora configs for 7.4 (Justin M. Forbes)
+- Fedora: Updates for 7.4 (Peter Robinson)
+- fedora: replace the staging rtl8723bs driver with rtw88 (Peter Robinson)
 Resolves: 
 
 * Wed Nov 04 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.05441d697f7f.13]

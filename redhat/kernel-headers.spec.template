@@ -7,7 +7,7 @@
 %define specversion %%SPECVERSION%%
 %define tarfile_release %%SPECTARFILE_RELEASE%%
 # This is needed to do merge window version magic
-# This allows pkg_release to have configurable %%{?dist} tag
+# The Release tag, including the configurable %%{?dist} tag
 %define specrelease %%SPECRELEASE%%
 
 # This package doesn't contain any binary, thus no debuginfo package is needed
