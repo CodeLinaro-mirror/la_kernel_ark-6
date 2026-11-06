@@ -1,0 +1,26 @@
+From 8955394a9c2170ebce022997ed9f4c1604d2a6fb Mon Sep 17 00:00:00 2001
+From: "Justin M. Forbes" <jforbes@fedoraproject.org>
+Date: Fri, 6 Nov 2026 09:04:15 -0700
+Subject: [PATCH] Default af_alg_restrict to unrestricted for F44 and older
+
+Signed-off-by: Justin M. Forbes <jforbes@fedoraproject.org>
+---
+ crypto/af_alg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/crypto/af_alg.c b/crypto/af_alg.c
+index ab84c4488a15..6329a02a51a4 100644
+--- a/crypto/af_alg.c
++++ b/crypto/af_alg.c
+@@ -29,7 +29,7 @@
+ #include <keys/trusted-type.h>
+ #include <keys/encrypted-type.h>
+ 
+-static int af_alg_restrict = 1;
++static int af_alg_restrict = 0;
+ 
+ static const struct ctl_table af_alg_table[] = {
+ 	{
+-- 
+2.56.0
+
