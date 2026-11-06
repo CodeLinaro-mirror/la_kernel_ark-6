@@ -28,11 +28,12 @@ CURRENTHEAD=$( git rev-parse --short HEAD )
 
 for release in $( cat redhat/release_targets );  do 
 	case "$release" in
-	46) build=30$releasenum
+	45) build=30$releasenum
 	    ;;
-	45) build=20$releasenum
+	44) build=20$releasenum
+	    ApplyPatches=1
 	    ;;
-	44) build=10$releasenum
+	43) build=10$releasenum
 	    ApplyPatches=1
 	    ;;
 	esac
