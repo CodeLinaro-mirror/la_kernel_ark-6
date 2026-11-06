@@ -1,3 +1,33 @@
+* Fri Nov 06 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.3.2-0]
+- Switch to changing the default for af_alg_restrict on F44 (Justin M. Forbes)
+- Add Fedora 43 back as a release target (Justin M. Forbes)
+- Fix up some RHEL configs so that things build (Justin M. Forbes)
+- fedora: aarch64: Enable RPi5 RTC driver (Peter Robinson)
+- rtc: Add Raspberry Pi 5 RTC driver (Sander Speetjens)
+- drm/vc4: Set DRM DMA device directly from HVS and V3D (Daniel Drake)
+- arm: dts: bcm2711: Add emc2301 to the CM4 IO board (Peter Robinson)
+- arm: dts: bcm2711: Add wakeup and alias to cm4 rtc (Peter Robinson)
+- fedora: add new configs for RPi drivers (Peter Robinson)
+- arm64: dts: broadcom: bcm2712: Add GPU IOMMU and IOMMU cache nodes (Daniel Drake)
+- arm64: dts: broadcom: rpi-5: Add RP1 PWM node (Stanimir Varbanov)
+- arm64: dts: broadcom: bcm2712-rpi-5-b: add spi0 interface (Gregor Herburger)
+- arm64: dts: broadcom: bcm2712: Add USB OTG port (Peter Robinson)
+- arm64: dts: broadcom: bcm2712: Add thermal monitor (Peter Robinson)
+- arm64: dts: broadcom: bcm2712: add arm PMU (Peter Robinson)
+- arm64: dts: broadcom: rp1: add spi controller (Gregor Herburger)
+- arm64: dts: broadcom: bcm2712-d-rpi-5-b: add compatible (Gregor Herburger)
+- dt-bindings: arm: bcm2835: Add 2712-d0 Stepping (Gregor Herburger)
+- arm64: dts: broadcom: bcm2712: adjust display status (Peter Robinson)
+- pwm: rp1: Add RP1 PWM controller driver (Naushir Patuck)
+- dt-bindings: pwm: Add Raspberry Pi RP1 PWM controller (Naushir Patuck)
+- iommu: Add Broadcom BCM2712 IOMMU driver (Daniel Drake)
+- iommu/generic_pt: Add Broadcom BCM2712 page table format (Daniel Drake)
+- dt-bindings: display: brcm,bcm2835-hvs: Document iommus property (Daniel Drake)
+- dt-bindings: iommu: Add Broadcom BCM2712 IOMMU (Daniel Drake)
+- iommu_pt: Fix test_pgsize_boundary() failure on narrow-OA formats (Daniel Drake)
+- Linux v7.3.2
+Resolves: 
+
 * Fri Oct 30 2026 Justin M. Forbes <jforbes@fedoraproject.org> [7.3.1-0]
 - Initial setup for stable Fedora release (Justin M. Forbes)
 - Allow hmac(sha512) for unpriviledged users (Justin M. Forbes)
