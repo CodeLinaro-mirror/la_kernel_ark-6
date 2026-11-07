@@ -1,6 +1,10 @@
-* Fri Nov 06 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.f66469d9905b.16]
+* Sat Nov 07 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.d48723711bae.17]
 - Reapply "drm/pagemap: Guard HPAGE_PMD_ORDER use with CONFIG_ARCH_ENABLE_THP_MIGRATION" (Oleksii Baranov)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
+Resolves: 
+
+* Sat Nov 07 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.d48723711bae.16]
+- Linux v7.4.0-0.rc1.d48723711bae
 Resolves: 
 
 * Fri Nov 06 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.f66469d9905b.15]
