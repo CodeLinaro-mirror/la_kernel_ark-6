@@ -1,6 +1,18 @@
-* Sat Nov 07 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.d48723711bae.17]
+* Sun Nov 08 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.fa4ad798f6f6.18]
 - Reapply "drm/pagemap: Guard HPAGE_PMD_ORDER use with CONFIG_ARCH_ENABLE_THP_MIGRATION" (Oleksii Baranov)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
+Resolves: 
+
+* Sun Nov 08 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.fa4ad798f6f6.17]
+- redhat: spec: fix tools_variant detection (Nico Pache)
+- mptsas, mptscsih, mptbase: disable the drivers (Tomas Henzl)
+- mptspi: disable the driver (Tomas Henzl)
+- hpsa: disable the driver (Tomas Henzl)
+- aacraid: disable the driver (Tomas Henzl)
+- redhat/configs: Enable Printk Ringbuffer KUNIT tests (Derek Barbosa)
+- redhat/configs: Enable some automotive configs (Derek Barbosa)
+- redhat/configs: Enable 8250_NI (Derek Barbosa)
+- Linux v7.4.0-0.rc1.fa4ad798f6f6
 Resolves: 
 
 * Sat Nov 07 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc1.d48723711bae.16]

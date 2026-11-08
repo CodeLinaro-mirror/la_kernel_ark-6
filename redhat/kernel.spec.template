@@ -3223,6 +3223,17 @@ BuildKernel %make_target %kernel_image %{with_vdso_install}
 if [ -z "$DevelDir" ]; then
     %{log_msg "Initialize userspace tools build environment"}
     InitBuildVars %{?tools_variant}
+    # The CI build-tools stage may normalize the variant kernel-devel path
+    # to the base path (e.g. +debug → base).  If the variant DevelDir does
+    # not exist, fall back to the base path so Module.symvers, vmlinux.h,
+    # and vmlinux can still be found.
+    if [ ! -d "$DevelDir" ]; then
+        _base_devel="/usr/src/kernels/%{KVERREL}"
+        if [ -d "$_base_devel" ]; then
+            %{log_msg "DevelDir '$DevelDir' not found, falling back to '$_base_devel'"}
+            DevelDir="$_base_devel"
+        fi
+    fi
     # Some tests build also modules, and need Module.symvers
     if ! [[ -e Module.symvers ]] && [[ -f $DevelDir/Module.symvers ]]; then
         %{log_msg "Found Module.symvers in DevelDir, copying to ."}
