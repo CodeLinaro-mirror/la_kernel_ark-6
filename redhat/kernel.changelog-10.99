@@ -1,7 +1,21 @@
-* Mon Nov 09 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc2.19]
+* Tue Nov 10 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc2.b3dfbde62cf1.20]
 - Reapply "drm/pagemap: Guard HPAGE_PMD_ORDER use with CONFIG_ARCH_ENABLE_THP_MIGRATION" (Oleksii Baranov)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
 Resolves: 
+
+* Tue Nov 10 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc2.b3dfbde62cf1.19]
+- redhat/configs: riscv: Misc fixes for K3 and DP1000 (Jennifer Berringer)
+- redhat/configs: enable tc modules required by tc-testing selftests (Ivan Vecera)
+- redhat/configs: automotive: enable NXP i.MX platform support (Vinicius Zein) [RHEL-254743]
+- redhat: BPF_STRICT_BUILD (Nico Pache)
+- redhat: selftests: correct build flags (Nico Pache)
+- redhat: selftests: seperate out the shared selftests flags (Nico Pache)
+- redhat: selftests: handle nsfs and openat2 dir move (Nico Pache)
+- redhat: selftests: add libasan as a build dependencies (Nico Pache)
+- redhat: selftests: install selftest builds in a loop (Nico Pache)
+- fedora: updates for 7.4-rc2 (Peter Robinson)
+- Linux v7.4.0-0.rc2.b3dfbde62cf1
+Resolves: RHEL-254743
 
 * Mon Nov 09 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc2.18]
 - Linux v7.4.0-0.rc2
