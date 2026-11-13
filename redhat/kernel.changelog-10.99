@@ -1,6 +1,16 @@
-* Thu Nov 12 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc2.9d66f26fefac.22]
+* Fri Nov 13 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc2.7e1392a42ea2.23]
 - Reapply "drm/pagemap: Guard HPAGE_PMD_ORDER use with CONFIG_ARCH_ENABLE_THP_MIGRATION" (Oleksii Baranov)
 - sched: move stack_canary to the start of the randomizable region (Scott Weaver)
+Resolves: 
+
+* Fri Nov 13 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc2.7e1392a42ea2.22]
+- redhat: Bump SBAT generation on the UKI (Vitaly Kuznetsov) {CVE-2026-121876}
+- redhat: Tighten the default image policy in the UKI (Vitaly Kuznetsov) {CVE-2026-121876}
+- redhat: Disable emergency console by default in the UKI (Vitaly Kuznetsov) {CVE-2026-121876}
+- redhat: Move UKI cmdline to a separate file (Vitaly Kuznetsov) {CVE-2026-121876}
+- redhat/configs: Enable CONFIG_SPI_SPIDEV for arm/aarch64 (Nirmala Dalvi)
+- redhat/configs: automotive: basic enablement for Toradex Verdin iMX8M Plus (Jared Kangas)
+- Linux v7.4.0-0.rc2.7e1392a42ea2
 Resolves: 
 
 * Thu Nov 12 2026 Fedora Kernel Team <kernel-team@fedoraproject.org> [7.4.0-0.rc2.9d66f26fefac.21]

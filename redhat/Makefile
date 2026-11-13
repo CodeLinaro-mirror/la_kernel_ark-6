@@ -808,6 +808,7 @@ sources-rh: $(TARBALL) $(KABI_TARBALL) $(KABIDW_TARBALL) generate-testpatch-tmp 
 		uki-addons.sbat.template \
 		dtbloader.sbat.template \
 		dracut-virt.conf \
+		uki.cmdline \
 		$(SOURCES)/
 	@changelog_glob="$(SPECPACKAGE_NAME).changelog-$(RHEL_MAJOR).*[0-9]"; \
 	cat $$(ls -1 $$changelog_glob | sort -V -r) \
